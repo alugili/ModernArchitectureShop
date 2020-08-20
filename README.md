@@ -22,7 +22,7 @@ All APIs are REST & HTTP & gRPC based.
 
 **Tech Stacks**
 
-<img src="./docs/images/logos/media/image1.png" width="50">  <img src="./docs/docs/images/logos/media/image4.png" width="50"> <img src="./docs/images/logos/media/image5.png" width="50"> <img src="./docs/images/logos/media/image6.png" width="50"> <img src="./docs/images/logos/media/image7.png" width="50"> <img src="./docs/images/logos/media/image8.png" width="50"> <img src="./docs/images/logos/media/image9.png" width="50"> <img src="./docs/images/logos/media/image10.png" width="50">
+<img src="./docs/images/logos/media/image1.png" width="50">  <img src="./docs/images/logos/media/image4.png" width="50"> <img src="./docs/images/logos/media/image5.png" width="50"> <img src="./docs/images/logos/media/image6.png" width="50"> <img src="./docs/images/logos/media/image7.png" width="50"> <img src="./docs/images/logos/media/image8.png" width="50"> <img src="./docs/images/logos/media/image9.jpeg" width="50"> <img src="./docs/images/logos/media/image10.png" width="50">
 
 Demo
 ----
@@ -191,12 +191,20 @@ Clean Architecture Circle Diagram from Uncle bob book
 ModernArchitectureShop architecture
 -----------------------------------
 
-![](./docs/images/readme/media/image1.png)
+<p align="center">
+  <img src="/docs/images/readme/media/image1.png>
+</p>
 
-Architecture Overview
-![](./docs/images/readme/media/image7.png)
+<p align="center">
+  <br>Architecture Overview<br>
+<img src="/docs/images/readme/media/image7.png>
+</p>
 
-Design Flow Overview
+<p align="center">
+  <br>Design Flow Overview<br>
+<img src="/docs/images/readme/media/image8.png>
+</p>
+
 Each domain service divided into four parts:
 
 ![](./docs/images/readme/media/image8.png)
