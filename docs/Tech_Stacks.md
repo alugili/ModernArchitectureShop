@@ -1,14 +1,6 @@
 Tech Stacks
 
-<img src="./images/logos/media/image1.png" width="20">
-![](./images/logos/media/image3.png)
-![](./images/logos/media/image4.png)
-![](./images/logos/media/image5.png)
-![](./images/logos/media/image6.png)
-![](./images/logos/media/image7.png)
-![](./images/logos/media/image8.png)
-![](./images/logos/media/image9.jpeg)
-![](./images/logos/media/image10.png)
+<img src="./images/logos/media/image1.png" width="50">  <img src="./images/logos/media/image4.png" width="50"> <img src="./images/logos/media/image5.png" width="50"> <img src="./images/logos/media/image6.png" width="50"> <img src="./images/logos/media/image7.png" width="50"> <img src="./images/logos/media/image8.png" width="50"> <img src="./images/logos/media/image9.png" width="50">  <img src="./images/logos/media/image10.png" width="50">
 
 \- Dapr
 
