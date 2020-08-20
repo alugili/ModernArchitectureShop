@@ -1,0 +1,62 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: modern-architecture-shop
+registry: kimcu
+extensions:
+  - name: zipkin
+
+  - name: dapr
+    log-level: debug
+    config: modernarchitectureshop-dapr-config
+
+  - name: seq
+
+services:
+  - name: identityserver
+    project: src/Identity/IdentityServerAspNetIdentity.csproj
+        buildProperties:
+      - name: Configuration
+        value: Release
+    env:
+      - name: ASPNETCORE__ENVIRONMENT
+        value: "Production"
+
+  - name: basketapi
+    project: src/Basket/ModernArchitectureShop.BasketApi/ModernArchitectureShop.BasketApi.csproj
+    replicas: 1
+    buildProperties:
+      - name: Configuration
+        value: Release
+    env:
+      - name: ASPNETCORE__ENVIRONMENT
+        value: "Production"
+
+  - name: storeapi
+    project: src/Store/ModernArchitectureShop.StoreApi/ModernArchitectureShop.InventoryApi.csproj
+    replicas: 1
+    buildProperties:
+      - name: Configuration
+        value: Release
+    env:
+      - name: ASPNETCORE__ENVIRONMENT
+        value: "Production"
+
+  - name: blazorui
+    project: src/UI/ModernArchitectureShop.BlazorUI.csproj
+        project: src/Identity/IdentityServerAspNetIdentity.csproj
+        buildProperties:
+      - name: Configuration
+        value: Release
+    env:
+      - name: ASPNETCORE__ENVIRONMENT
+        value: "Production"
+
+  - name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    bindings:
+      - port: 1433
+        connectionString: Data Source=${host},${port};User Id=sa;Password=${env:SA_PASSWORD};MultipleActiveResultSets=True

@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+    modernarchitectureshop-catalog:
+        image: modernarchitectureshop-basketapi:dev
+        build:
+            context: .
+            dockerfile: src/Basket/ModernArchitectureShop.BasketApi/Dockerfile
+
+    modernarchitectureshop-inventory:
+        image: modernarchitectureshop-inventoryapi:dev
+        build:
+            context: .
+            dockerfile: src/Store/ModernArchitectureShop.StoreApi/Dockerfile
+
+    modernarchitectureshop-blazorui:
+        image: modernarchitectureshop-blazorui:dev
+        build:
+            context: .
+            dockerfile: src/UI/Dockerfile

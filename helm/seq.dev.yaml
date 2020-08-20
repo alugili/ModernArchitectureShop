@@ -1,0 +1,34 @@
+## https://github.com/helm/charts/blob/master/stable/seq/values.yaml
+
+
+fullnameOverride: seq
+
+image:
+    repository: datalust/seq
+    tag: latest
+
+persistence:
+  enabled: false
+auth:
+  enabled: false
+
+acceptEULA: "Y"
+
+ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  
+ui:
+    ingress:
+        enabled: true
+        path: /
+        hosts:
+            - seq.mydomain.com
+ingestion:
+    ingress:
+        enabled: true
+        path: /
+        hosts:
+            - ingestion.seq.mydomain.com
+
+

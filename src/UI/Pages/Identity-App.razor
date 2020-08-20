@@ -1,0 +1,27 @@
+@page "/identityapp"
+
+@using ModernArchitectureShop.BlazorUI.Services
+@inject IdentityService IdentityService
+
+<h1>User Claims from APP</h1>
+
+<p>These are the user claims that were presented to the Application</p>
+
+
+@if (_userClaimsJson == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <pre> @_userClaimsJson </pre>
+}
+
+@code {
+    private string _userClaimsJson;
+
+    protected override async Task OnInitializedAsync()
+    {
+         _userClaimsJson = await IdentityService.GetAPPUserClaimsJson();
+    }
+}

@@ -1,0 +1,112 @@
+@page "/item"
+@page "/item/{Page:int}"
+@using Microsoft.AspNetCore.Http
+@using ModernArchitectureShop.BlazorUI.Models
+@using ModernArchitectureShop.BlazorUI.Services
+@using Newtonsoft.Json
+@inject NavigationManager NavigationManager
+@inject BasketProductService BasketProductService
+@inject IHttpContextAccessor HttpContextAccessor
+
+<h6 style="color: red">@_errorMessage</h6>
+
+@if (_itemsModel.TotalOfItems <= 0)
+{
+    <div class="text-center">
+    <h6 style="color: blue">"Basket is empty! Please add some Products to bay.</h6>
+  </div>
+}
+else
+{
+  <div class="row mt-4">
+    @foreach (var item in _itemsModel.Items)
+    {
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <div class="media">
+              <span style="margin:5px">
+              <img src="@item?.ImageUrl" class="mr-3" alt="..." width="50" height="50">
+              </span>
+              <div class="media-body">
+                <h5 class="mt-0">@item?.Name</h5>
+                <div>Category: @item?.Code</div>
+                <div>Location: Todo</div>
+                <div>Price: <span class="font-weight-bold" style="color: red;">$@item?.Price.ToString("0.##")</span></div>
+                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
+                  <div>Available: <span class="font-weight-bold" style="color: green;">Todo</span></div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="/item/1" aria-label="First">
+            <span aria-hidden="true">&laquo</span>
+          </a>
+        </li>
+        @for (var i = 1; i <= Math.Round((double) _itemsModel.TotalOfItems / PageSize); i++)
+        {
+          <li class="page-item">
+            <a class="page-link" href="/item/@i">@i</a>
+          </li>
+        }
+        <li class="page-item">
+          <a class="page-link" href="/item/@Math.Round((double) _itemsModel.TotalOfItems / PageSize)" aria-label="Last">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+}
+
+@code {
+
+    [Parameter]
+    public int Page { get; set; } = 1;
+
+    private const int PageSize = 9;
+    private string _errorMessage;
+
+    ItemsModel _itemsModel = new ItemsModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+      _errorMessage =string.Empty;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+      var response = await BasketProductService.GetItemsAsync(ProcessUrl());
+
+      if (response.StatusCode == (int) System.Net.HttpStatusCode.OK)
+      {
+        _itemsModel = JsonConvert.DeserializeObject<ItemsModel>(response.Content);
+      }
+      else
+      {
+        _errorMessage = $"Error: {response.Error}";
+        _itemsModel = new ItemsModel();
+      }
+    }
+
+  private string ProcessUrl()
+  {
+      // todo
+      if (Page == 0)
+      Page =1;
+
+        var url = $"api/items?PageIndex={Page}&PageSize={PageSize}&Username={HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value}";
+        return url;
+  }
+}

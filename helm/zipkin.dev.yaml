@@ -1,0 +1,51 @@
+## https://github.com/carlosjgp/open-charts/blob/master/charts/zipkin/values.yaml
+
+replicaCount: 1
+
+image:
+  repository: openzipkin/zipkin
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 9411
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 100Mi
+  limits:
+    cpu: 300m
+    memory: 150Mi
+
+collector:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - host: zipkin.mydomain.com #collector.zipkin.mydomain.com
+        paths: [ / ]
+  service:
+    type: ClusterIP
+    port: 9411
+
+
+ui:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - host: zipkin.mydomain.com
+        paths: [ /zipkin ]
+
+  service:
+    type: ClusterIP
+    port: 8080
+  
+

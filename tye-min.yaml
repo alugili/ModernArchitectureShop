@@ -1,0 +1,41 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: modern-architecture-shop
+
+services:
+- name: zipkin
+  image: openzipkin/zipkin
+  bindings:
+    - port: 9411
+      containerPort: 9411
+      protocol: http
+
+- name: seq
+  image: datalust/seq
+  env:
+    - name: ACCEPT_EULA
+      value: "Y"
+  bindings:
+    - name: ui
+      port: 5341
+      protocol: http
+      containerPort: 80
+
+- name: sqlserver
+  image: mcr.microsoft.com/mssql/server:2017-latest
+  env:
+    - name: SA_PASSWORD
+      value: "P@ssw0rd"
+    - name: ACCEPT_EULA
+      value: "Y"
+  bindings:
+    - port: 1433
+    
+- name: redis
+  image: redis
+  bindings:
+    - port: 6379

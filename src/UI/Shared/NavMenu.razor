@@ -1,0 +1,68 @@
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorUI</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+
+        <AuthorizeView>
+            <Authorized>
+              <li class="nav-item px-3">
+                <NavLink class="nav-link"
+                         href="/" Match="NavLinkMatch.All">
+                  <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+              </li>
+              <li class="nav-item px-3">
+                <NavLink class="nav-link" href="products">
+                  <span class="oi oi-list-rich" aria-hidden="true"></span> Products
+                </NavLink>
+              </li>
+              <li class="nav-item px-3">
+                <NavLink class="nav-link" href="item">
+                  <span class="oi oi-list-rich" aria-hidden="true"></span> Basket
+                </NavLink>
+              </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="identityapp">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> APP Identity
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="identityapi">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> API Identity
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link"
+                             href="/LogoutIDP">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
+                        (@context.User.Claims.FirstOrDefault(c => c.Type == "name")?.Value)
+                    </NavLink>
+                </li>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="nav-link"
+                         href="LoginIDP">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
+                </NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+   
+      
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

@@ -1,0 +1,42 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: modern-architecture-shop
+extensions:
+  - name: zipkin
+
+  - name: dapr
+    log-level: debug
+    config: modernarchitectureshop-dapr-config
+
+services:
+  - name: identityserver
+    project: src/Identity/IdentityServerAspNetIdentity.csproj
+
+  - name: basketapi
+    project: src/Basket/ModernArchitectureShop.BasketApi/ModernArchitectureShop.BasketApi.csproj
+
+  - name: storeapi
+    project: src/Store/ModernArchitectureShop.StoreApi/ModernArchitectureShop.StoreApi.csproj
+
+  - name: blazorui
+    project: src/UI/ModernArchitectureShop.BlazorUI.csproj
+ 
+  - name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    env:
+      - name: SA_PASSWORD
+        value: "P@ssw0rd"
+      - name: ACCEPT_EULA
+        value: "Y"
+    bindings:
+      - port: 1433
+
+  - name: redis
+    image: redis
+    bindings:
+      - port: 6379
+
