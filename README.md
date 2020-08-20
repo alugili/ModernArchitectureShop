@@ -26,11 +26,9 @@ All APIs are REST & HTTP & gRPC based.
 Demo
 ----
 
-![](./docs/images/readme/media/image1.png)
-
-![](./docs/images/readme/media/image2.png)
-
-![](./docs/images/readme/media/image3.png)
+<img src="./docs/images/readme/media/image1.png" width="600"> 
+<img src="./docs/images/readme/media/image2.png" width="600"> 
+<img src="./docs/images/readme/media/image3.png" width="600"> 
 
 
 
@@ -80,7 +78,7 @@ This service represents the Store. The current implementation is very minimal; W
 
 API routes:
 
-```cs
+```
 /api/products GET All products
 ```
 
@@ -102,7 +100,7 @@ provides a basket service to the Store.
 
 API routes:
 
-```cs
+```
 /api/item/{itemJson} Post a new item and store it in the user basket
 /api/item/{Id} Delete the item with the given Id from the basket
 /api/items Get all items from the basket for the logged-in user
@@ -200,17 +198,17 @@ Each domain service divided into four parts:
 
 ![](./docs/images/readme/media/image8.png)
 
-.Domain
+.Domain</br>
 It contains only the POCOs and the related domain events.
 
-.Application
+.Application</br>
 It contains the Uses Cases, Interfaces for the infrastructure, and other
 business logic stuff.
 
-.Infrastructure
+.Infrastructure</br>
 It contains Infrastructure stuff like databases etc.
 
-.Api
+.Api</br>
 The WebAPI stuff.
 
 Note!
@@ -225,14 +223,14 @@ services, and I have added the HTTP clients to the services.
 
 #### HTTP Clients
 
-IdentityService.cs
+IdentityService.cs</br>
 Is responsible for the login/logout
 
-ProductService.cs
+ProductService.cs</br>
 Retrieves all products from the Store and display them the
 Products.razor
 
-BasketProductService.cs
+BasketProductService.cs</br>
 It manages the basket, for example, adding or removing items to/from the
 basket.
 
@@ -309,7 +307,7 @@ protected override async Task OnParametersSetAsync()
 The response above contains the products and the count. Finally, the
 products are displayed, as shown below.
 
-```cs
+```
 <div class="row mt-4">
 
 @foreach (var product in _productsModel.Products)
