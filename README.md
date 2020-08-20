@@ -22,16 +22,16 @@ All APIs are REST & HTTP & gRPC based.
 
 **Tech Stacks**
 
-<img src="./images/logos/media/image1.png" width="50">  <img src="./images/logos/media/image4.png" width="50"> <img src="./images/logos/media/image5.png" width="50"> <img src="./images/logos/media/image6.png" width="50"> <img src="./images/logos/media/image7.png" width="50"> <img src="./images/logos/media/image8.png" width="50"> <img src="./images/logos/media/image9.png" width="50"> <img src="./images/logos/media/image10.png" width="50">
+<img src="./docs/images/logos/media/image1.png" width="50">  <img src="./docs/docs/images/logos/media/image4.png" width="50"> <img src="./docs/images/logos/media/image5.png" width="50"> <img src="./docs/images/logos/media/image6.png" width="50"> <img src="./docs/images/logos/media/image7.png" width="50"> <img src="./docs/images/logos/media/image8.png" width="50"> <img src="./docs/images/logos/media/image9.png" width="50"> <img src="./docs/images/logos/media/image10.png" width="50">
 
 Demo
 ----
 
-![](./images/readme/media/image1.png)
+![](./docs/images/readme/media/image1.png)
 
-![](./images/readme/media/image2.png)
+![](./docs/images/readme/media/image2.png)
 
-![](./images/readme/media/image3.png)
+![](./docs/images/readme/media/image3.png)
 
 
 
@@ -154,9 +154,9 @@ Clean Architecture
 Clean Architecture is the key to Loosely-Coupled-Application. It allows
 you completely to decouple the application from the infrastructure.
 
-![](./images/readme/media/image4.jpeg)
+![](./docs/images/readme/media/image4.jpeg)
 
-![](./images/readme/media/image5.png)
+![](./docs/images/readme/media/image5.png)
 
 **Clean Architecture Separates**
 
@@ -165,9 +165,9 @@ you completely to decouple the application from the infrastructure.
 -   Use Cases
 -   Domain
 
-![https://fullstackmark.com/img/posts/11/clean-architecture-circle-diagram.jpg](./images/readme/media/image6.jpeg)
+![Clean-Architecture-Circle_Diagram.jpg](./docs/images/readme/media/image6.jpeg)
 
-Clean Architecture core concept from Uncle bob book
+Clean Architecture Circle Diagram from Uncle bob book
 
 ### Benefits
 
@@ -191,15 +191,15 @@ Clean Architecture core concept from Uncle bob book
 ModernArchitectureShop architecture
 -----------------------------------
 
-![](./images/readme/media/image1.png)
+![](./docs/images/readme/media/image1.png)
 
 Architecture Overview
-![](./images/readme/media/image7.png)
+![](./docs/images/readme/media/image7.png)
 
 Design Flow Overview
 Each domain service divided into four parts:
 
-![](./images/readme/media/image8.png)
+![](./docs/images/readme/media/image8.png)
 
 .Domain
 It contains only the POCOs and the related domain events.
@@ -260,7 +260,7 @@ objects. 
 
 As shown below, the GetProductsHanlder called from the mediator.
 
-![](./images/readme/media/image9.png)
+![](./docs/images/readme/media/image9.png)
 
 ```cs
 public async Task<GetProductsCommandResponse>
@@ -398,8 +398,8 @@ the infrastructure, and I will extend the project.
 
 Tye Dashboard
 
-![](./images/readme/media/image10.png)
+![](./docs/images/readme/media/image10.png)
 
 Zipkin
 
-![](./images/readme/media/image11.png)
+![](./docs/images/readme/media/image11.png)
