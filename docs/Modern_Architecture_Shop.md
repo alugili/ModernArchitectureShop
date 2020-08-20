@@ -34,27 +34,18 @@ This project is related to a series of C\#Corner articles:
 
 -   Modern Architecture Shop (Clean Architecture and Microservices),
     Part I (Done)
-
-This article is about the current application architecture and what we
-can do to make the project architecture clean.
+    This article is about the current application architecture and what we can do to make the project architecture clean.
 
 -   Modern Architecture Shop (Clean Architecture in the Microservices,
     DDD), Part II (Future)
-
-This article shows you how to separate the infrastructure from the
-application. In other words, make the infrastructure dependent on the
-application.
+    This article shows you how to separate the infrastructure from the application. In other words, make the infrastructure dependent on the application.
 
 -   Modern Architecture Shop Fixing the tech problems (Future-article)
-
-Logging/Debugging/Testing is essential to create a successful: Zipkin,
-Serilog, Seq in our shop.
-
-And extending the services, Payment Services, and more UI.
+    Logging/Debugging/Testing is essential to create a successful: Zipkin, Serilog, Seq in our shop.
+    And extending the services, Payment Services, and more UI.
 
 -   Modern Architecture Shop Dapr Pure (Future)
-
-In this article, we will use Dapr in-depth.
+    In this article, we will use Dapr in-depth.
 
 The final goal of this project is to make a clean microservices
 application that can be deployed to the Kubernetes platform and run on
@@ -137,7 +128,6 @@ registered users can use the Shop to place orders etc.
 The service generates the bearer token.
 
 Users - Dapr Interaction
-
 State: todo
 
 ### BlazorUI-Frontend
@@ -182,11 +172,11 @@ Clean Architecture core concept from Uncle bob book
 ### Clean architecture can solve below-listed problems
 
 -   Decisions are taken too early
--   It\'s hard to change,
--   It\'s centered around frameworks
--   It\'s centered around the database
+-   It's hard to change,
+-   It's centered around frameworks
+-   It's centered around the database
 -   We focus on technical aspects 
--   It\'s hard to find things
+-   It's hard to find things
 -   Business logic is spread everywhere
 -   Heavy tests
 
@@ -249,11 +239,11 @@ ProductsController.cs loads the products from the store service and
 forward them to the BlazorUI as follows:
 
 ```cs
-public async Task\<IActionResult\> GetProducts(\[FromQuery\]
+public async Task<IActionResult> GetProducts([FromQuery]
 GetProductsCommand command)
 {
-var result = await \_mediator.Send(command);
-return Ok(result);
+  var result = await _mediator.Send(command);
+  return Ok(result);
 }
 ```
 
@@ -265,10 +255,10 @@ As shown below, the GetProductsHanlder called from the mediator.
 ![](./images/readme/media/image9.png)
 
 ```cs
-public async Task\<GetProductsCommandResponse\>
+public async Task<GetProductsCommandResponse>
 Handle(GetProductsCommand command, CancellationToken cancellationToken)
 {
-  var query = \_dbContext.Set\<Product\>();
+  var query = _dbContext.Set<Product>();
 
   var totalOfProducts = await query.CountAsync(cancellationToken);
   var products = await query.AsNoTracking()
@@ -299,11 +289,11 @@ protected override async Task OnParametersSetAsync()
 
   if (response.StatusCode == (int) System.Net.HttpStatusCode.OK)
   {
-    _productsModel =JsonConvert.DeserializeObject\<ProductsModel\>(response.Content);
+    _productsModel =JsonConvert.DeserializeObject<ProductsModel>(response.Content);
   }
   else
   {
-    _errorMessage = \$\"Error: {response.Error}\";
+    _errorMessage = $"Error: {response.Error}";
     _productsModel = new ProductsModel();
   }
 }
@@ -313,9 +303,9 @@ The response above contains the products and the count. Finally, the
 products are displayed, as shown below.
 
 ```cs
-\<div class=\"row mt-4\"\>
+<div class="row mt-4">
 
-\@foreach (var product in \_productsModel.Products)
+@foreach (var product in _productsModel.Products)
 
 { .....
 ```
@@ -331,45 +321,29 @@ ItemsController retrieves items from the database.
 Again, I have used here MediatR:
 
 ```cs
-\\Application\\UsesCases\\ AddItemHandler
+\\Application\\UsesCases\\AddItemHandler
 
-public async Task\<ItemDto\> Handle(AddItemCommand command,
-CancellationToken cancellationToken)
-
+public async Task<ItemDto> Handle(AddItemCommand command, CancellationToken cancellationToken)
 {
+  var itemFromCommand = _mapper.Map<Item>(command);
+  var items = _dbContext.Set<Item>();
 
-var itemFromCommand = \_mapper.Map\<Item\>(command);
+  var itemFromDb = await items.SingleOrDefaultAsync(x => x.ItemId ==  command.ItemId, cancellationToken: cancellationToken);
 
-var items = \_dbContext.Set\<Item\>();
+  if (itemFromDb != null)
+  {
+    _mapper.Map(itemFromCommand, itemFromDb);
+    items.Update(itemFromDb);
+  }
+  else
+  {
+    await _dbContext.Items.AddAsync(itemFromCommand, cancellationToken);
+  }
 
-var itemFromDb = await items.SingleOrDefaultAsync(x =\> x.ItemId ==
-command.ItemId, cancellationToken: cancellationToken);
+  await _dbContext.SaveChangesAsync(cancellationToken);
+  await _itemCreatedNotificationHandler.Handle(new ItemCreatedMessage(), cancellationToken);
 
-if (itemFromDb != null)
-
-{
-
-\_mapper.Map(itemFromCommand, itemFromDb);
-
-items.Update(itemFromDb);
-
-}
-
-else
-
-{
-
-await \_dbContext.Items.AddAsync(itemFromCommand, cancellationToken);
-
-}
-
-await \_dbContext.SaveChangesAsync(cancellationToken);
-
-await \_itemCreatedNotificationHandler.Handle(new ItemCreatedMessage(),
-cancellationToken);
-
-return \_mapper.Map\<ItemDto\>(itemFromCommand);
-
+  return \_mapper.Map\<ItemDto\>(itemFromCommand);
 }
 ```
 
@@ -380,42 +354,26 @@ for example, to update the reserved items.
 ```cs
 \\Application\\UsesCases\\GetItemsHandler
 
-public async Task\<GetItemsCommandResponse\> Handle(GetItemsCommand
-command, CancellationToken cancellationToken)
-
+public async Task<GetItemsCommandResponse> Handle(GetItemsCommand command, CancellationToken cancellationToken)
 {
+  var query = \_dbContext.Set\<Item\>();
 
-var query = \_dbContext.Set\<Item\>();
+  var totalOfItems = await query.Where(i => i.Username == command.Username).CountAsync(cancellationToken);
+  var items = await query.AsNoTracking()
+    .OrderBy(x => x.Code)
+    .Skip((command.PageIndex - 1) \* command.PageSize)
+    .Take(command.PageSize)
+    .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
+    .Where(i => i.Username == command.Username)
+    .ToListAsync(cancellationToken);
 
-var totalOfItems = await query.Where(i =\> i.Username ==
-command.Username).CountAsync(cancellationToken);
+  var result = new GetItemsCommandResponse
+  {
+    Items = items,
+    TotalOfItems = totalOfItems,
+  };
 
-var items = await query.AsNoTracking()
-
-.OrderBy(x =\> x.Code)
-
-.Skip((command.PageIndex - 1) \* command.PageSize)
-
-.Take(command.PageSize)
-
-.ProjectTo\<ItemDto\>(\_mapper.ConfigurationProvider)
-
-.Where(i =\> i.Username == command.Username)
-
-.ToListAsync(cancellationToken);
-
-var result = new GetItemsCommandResponse
-
-{
-
-Items = items,
-
-TotalOfItems = totalOfItems,
-
-};
-
-return result;
-
+ return result;
 }
 ```
 
