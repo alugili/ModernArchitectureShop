@@ -16,8 +16,7 @@ simple demo showcase, but in the context of a real working application,
 you have to take some other design decisions which fit better to your
 functional and non-functional requirements.
 
-The backend microservices are written in C\# (however, it\'s worth
-noting that Dapr is language independent), and the frontend is a Blazor.
+The backend microservices are written in C# (however, it's worth noting that Dapr is language independent), and the frontend is a Blazor.
 All APIs are REST & HTTP & gRPC based.
 
 **Tech Stacks**
@@ -77,11 +76,7 @@ making the development process more comfortable.
 
 ### Store Service
 
-This service represents the Store. The current implementation is very
-minimal
-
-With this service, you can add/remove/update products to/from/in any
-store or add/remove a new store.
+This service represents the Store. The current implementation is very minimal; With this service, you can add/remove/update products to/from/in any store or add/remove a new store.
 
 API routes:
 
@@ -154,9 +149,10 @@ Clean Architecture
 Clean Architecture is the key to Loosely-Coupled-Application. It allows
 you completely to decouple the application from the infrastructure.
 
-![](./docs/images/readme/media/image4.jpeg)
-
-![](./docs/images/readme/media/image5.png)
+<p align="center">
+  <br>Loosely-Coupled-Application<br>
+<img src="./docs/images/readme/media/image5.png" width="70"> <img src="./docs/images/readme/media/image4.jpeg" Width="200">
+</p>
 
 **Clean Architecture Separates**
 
@@ -192,17 +188,12 @@ ModernArchitectureShop architecture
 -----------------------------------
 
 <p align="center">
-  <img src="/docs/images/readme/media/image1.png>
+  <img src="./docs/images/readme/media/image1.png">
 </p>
 
 <p align="center">
   <br>Architecture Overview<br>
-<img src="/docs/images/readme/media/image7.png>
-</p>
-
-<p align="center">
-  <br>Design Flow Overview<br>
-<img src="/docs/images/readme/media/image8.png>
+<img src="./docs/images/readme/media/image7.png">
 </p>
 
 Each domain service divided into four parts:
@@ -278,12 +269,12 @@ Handle(GetProductsCommand command, CancellationToken cancellationToken)
 
   var totalOfProducts = await query.CountAsync(cancellationToken);
   var products = await query.AsNoTracking()
-    .OrderBy(x =\> x.Code)
+    .OrderBy(x => x.Code)
     .Skip((command.PageIndex - 1) \* command.PageSize)
     .Take(command.PageSize)
-    .Include(x =\> x.ProductStores)
-    .ThenInclude(x =\> x.Store)
-    .ProjectTo\<ProductDto\>(\_mapper.ConfigurationProvider)
+    .Include(x => x.ProductStores)
+    .ThenInclude(x => x.Store)
+    .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
     .ToListAsync(cancellationToken);
 
    var result = new GetProductsCommandResponse
@@ -359,7 +350,7 @@ public async Task<ItemDto> Handle(AddItemCommand command, CancellationToken canc
   await _dbContext.SaveChangesAsync(cancellationToken);
   await _itemCreatedNotificationHandler.Handle(new ItemCreatedMessage(), cancellationToken);
 
-  return \_mapper.Map\<ItemDto\>(itemFromCommand);
+  return _mapper.Map<ItemDto>(itemFromCommand);
 }
 ```
 
@@ -372,7 +363,7 @@ for example, to update the reserved items.
 
 public async Task<GetItemsCommandResponse> Handle(GetItemsCommand command, CancellationToken cancellationToken)
 {
-  var query = \_dbContext.Set\<Item\>();
+  var query = _dbContext.Set<Item>();
 
   var totalOfItems = await query.Where(i => i.Username == command.Username).CountAsync(cancellationToken);
   var items = await query.AsNoTracking()
