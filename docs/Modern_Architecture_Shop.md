@@ -20,6 +20,10 @@ The backend microservices are written in C\# (however, it\'s worth
 noting that Dapr is language independent), and the frontend is a Blazor.
 All APIs are REST & HTTP & gRPC based.
 
+**Tech Stacks**
+
+<img src="./images/logos/media/image1.png" width="50">  <img src="./images/logos/media/image4.png" width="50"> <img src="./images/logos/media/image5.png" width="50"> <img src="./images/logos/media/image6.png" width="50"> <img src="./images/logos/media/image7.png" width="50"> <img src="./images/logos/media/image8.png" width="50"> <img src="./images/logos/media/image9.png" width="50"> <img src="./images/logos/media/image10.png" width="50">
+
 Demo
 ----
 
@@ -29,15 +33,19 @@ Demo
 
 ![](./images/readme/media/image3.png)
 
+
+
+## [Getting Started](https://github.com/alugili/ModernArchitectureShop/blob/master/docs/Getting_Started.md) 
+
+
+
 This project is related to a series of C\#Corner articles: 
 ----------------------------------------------------------
 
--   Modern Architecture Shop (Clean Architecture and Microservices),
-    Part I (Done)
+-   Modern Architecture Shop (Clean Architecture and Microservices), Part I (Done)
     This article is about the current application architecture and what we can do to make the project architecture clean.
 
--   Modern Architecture Shop (Clean Architecture in the Microservices,
-    DDD), Part II (Future)
+-   Modern Architecture Shop (Clean Architecture in the Microservices, DDD), Part II (Future)
     This article shows you how to separate the infrastructure from the application. In other words, make the infrastructure dependent on the application.
 
 -   Modern Architecture Shop Fixing the tech problems (Future-article)
@@ -51,8 +59,7 @@ The final goal of this project is to make a clean microservices
 application that can be deployed to the Kubernetes platform and run on
 Dapr runtime with and without Tye options.
 
-The first showcase is using Dapr in a very simple way (No: State
-Management, Actors, etc.).
+The first showcase is using Dapr in a very simple way (No: State Management, Actors, etc.).
 
 Obviously, this means we have to do everything by ourselves, for
 example, if you add a product to the basket, then you have to send a
@@ -84,7 +91,7 @@ API routes:
 
 The service contains all products. Each registered user can add/remove
 items to/from his shopping cart(Basket Service). Admin users can add
-/remove the products (still in progress) from the stores.
+/remove products (still in progress) to/from the stores.
 
 Store - Dapr Interaction
 
@@ -128,6 +135,7 @@ registered users can use the Shop to place orders etc.
 The service generates the bearer token.
 
 Users - Dapr Interaction
+
 State: todo
 
 ### BlazorUI-Frontend
