@@ -23,14 +23,11 @@ All APIs are REST & HTTP & gRPC based.
 Demo
 ----
 
-![](./images/readme/media/image1.png){width="6.3in"
-height="3.8097222222222222in"}
+![](./images/readme/media/image1.png)
 
-![](./images/readme/media/image2.png){width="6.3in"
-height="3.379861111111111in"}
+![](./images/readme/media/image2.png)
 
-![](./images/readme/media/image3.png){width="6.3in"
-height="3.379861111111111in"}
+![](./images/readme/media/image3.png)
 
 This project is related to a series of C\#Corner articles: 
 ----------------------------------------------------------
@@ -90,7 +87,9 @@ store or add/remove a new store.
 
 API routes:
 
+```cs
 /api/products GET All products
+```
 
 The service contains all products. Each registered user can add/remove
 items to/from his shopping cart(Basket Service). Admin users can add
@@ -100,11 +99,8 @@ Store - Dapr Interaction
 
 Pub/Sub. Subscribes to the store-queue topic to receive new notification
 from the basket service.
-
 State. Stores: next version
-
 Actor: next version
-
 Bindings: next version
 
 ### Basket service
@@ -113,11 +109,11 @@ provides a basket service to the Store.
 
 API routes:
 
+```cs
 /api/item/{itemJson} Post a new item and store it in the user basket
-
 /api/item/{Id} Delete the item with the given Id from the basket
-
 /api/items Get all items from the basket for the logged-in user
+```
 
 The service is responsible for maintaining the users\' shopping carts
 and persisting them. Submitting a cart will validate the cart contents
@@ -126,15 +122,11 @@ further processing.
 
 Cart - Dapr Interaction
 
-Pub/Sub. The basket service pushes shopping carts entities to the
+Pub/Sub: The basket service pushes shopping carts entities to the
 store-queue topic and to the payment topic to complete the order.
-
 State. Stores: next version
-
 Actor: next version
-
 Bindings: next version
-
 Service Invocation: next version
 
 ### Users Management Service
@@ -164,93 +156,67 @@ Clean Architecture
 Clean Architecture is the key to Loosely-Coupled-Application. It allows
 you completely to decouple the application from the infrastructure.
 
-![](./images/readme/media/image4.jpeg){width="2.8805555555555555in"
-height="2.8805555555555555in"}
+![](./images/readme/media/image4.jpeg)
 
-![](./images/readme/media/image5.png){width="0.6347222222222222in"
-height="0.4097222222222222in"}
+![](./images/readme/media/image5.png)
 
 **Clean Architecture Separates**
 
 -   User Interface
-
 -   Database
-
 -   Use Cases
-
 -   Domain
 
-![https://fullstackmark.com/img/posts/11/clean-architecture-circle-diagram.jpg](./images/readme/media/image6.jpeg){width="4.098838582677165in"
-height="3.0104166666666665in"}
+![https://fullstackmark.com/img/posts/11/clean-architecture-circle-diagram.jpg](./images/readme/media/image6.jpeg)
 
 Clean Architecture core concept from Uncle bob book
 
 ### Benefits
 
 -   Independent of Database
-
 -   Independent of Frameworks
-
 -   Effective testable
-
 -   Independent of any external agency
-
 -   All business logic is in use cases
 
 ### Clean architecture can solve below-listed problems
 
 -   Decisions are taken too early
-
 -   It\'s hard to change,
-
 -   It\'s centered around frameworks
-
 -   It\'s centered around the database
-
 -   We focus on technical aspects 
-
 -   It\'s hard to find things
-
 -   Business logic is spread everywhere
-
 -   Heavy tests
 
 ModernArchitectureShop architecture
 -----------------------------------
 
-![](./images/readme/media/image1.png){width="6.3in"
-height="3.8097222222222222in"}
+![](./images/readme/media/image1.png)
 
 Architecture Overview
-
-![](./images/readme/media/image7.png){width="6.3in" height="3.54375in"}
+![](./images/readme/media/image7.png)
 
 Design Flow Overview
-
 Each domain service divided into four parts:
 
-![](./images/readme/media/image8.png){width="3.96875in"
-height="3.1458333333333335in"}
+![](./images/readme/media/image8.png)
 
 .Domain
-
 It contains only the POCOs and the related domain events.
 
 .Application
-
 It contains the Uses Cases, Interfaces for the infrastructure, and other
 business logic stuff.
 
 .Infrastructure
-
 It contains Infrastructure stuff like databases etc.
 
 .Api
-
 The WebAPI stuff.
 
 Note!
-
 StoreApi and the BasketApi assemblies are mixing the Infrastructure and
 the WebAPI and the Application Logic. In the next version, I will
 separate them according to the clean architecture principles.
@@ -263,16 +229,13 @@ services, and I have added the HTTP clients to the services.
 #### HTTP Clients
 
 IdentityService.cs
-
 Is responsible for the login/logout
 
 ProductService.cs
-
 Retrieves all products from the Store and display them the
 Products.razor
 
 BasketProductService.cs
-
 It manages the basket, for example, adding or removing items to/from the
 basket.
 
@@ -285,101 +248,77 @@ The WebApi for the Store.
 ProductsController.cs loads the products from the store service and
 forward them to the BlazorUI as follows:
 
+```cs
 public async Task\<IActionResult\> GetProducts(\[FromQuery\]
 GetProductsCommand command)
-
 {
-
 var result = await \_mediator.Send(command);
-
 return Ok(result);
-
 }
+```
 
 The MediatR design pattern is used to reduce the dependencies between
 objects. 
 
 As shown below, the GetProductsHanlder called from the mediator.
 
-![](./images/readme/media/image9.png){width="3.8645833333333335in"
-height="3.40625in"}
+![](./images/readme/media/image9.png)
 
+```cs
 public async Task\<GetProductsCommandResponse\>
 Handle(GetProductsCommand command, CancellationToken cancellationToken)
-
 {
+  var query = \_dbContext.Set\<Product\>();
 
-var query = \_dbContext.Set\<Product\>();
+  var totalOfProducts = await query.CountAsync(cancellationToken);
+  var products = await query.AsNoTracking()
+    .OrderBy(x =\> x.Code)
+    .Skip((command.PageIndex - 1) \* command.PageSize)
+    .Take(command.PageSize)
+    .Include(x =\> x.ProductStores)
+    .ThenInclude(x =\> x.Store)
+    .ProjectTo\<ProductDto\>(\_mapper.ConfigurationProvider)
+    .ToListAsync(cancellationToken);
 
-var totalOfProducts = await query.CountAsync(cancellationToken);
+   var result = new GetProductsCommandResponse
+   {
+    Products = products,
+    TotalOfProducts = totalOfProducts
+   };
 
-var products = await query.AsNoTracking()
-
-.OrderBy(x =\> x.Code)
-
-.Skip((command.PageIndex - 1) \* command.PageSize)
-
-.Take(command.PageSize)
-
-.Include(x =\> x.ProductStores)
-
-.ThenInclude(x =\> x.Store)
-
-.ProjectTo\<ProductDto\>(\_mapper.ConfigurationProvider)
-
-.ToListAsync(cancellationToken);
-
-var result = new GetProductsCommandResponse
-
-{
-
-Products = products,
-
-TotalOfProducts = totalOfProducts
-
-};
-
-return result;
-
+  return result;
 }
+```
 
 The data is displayed in the products.razor as follows:
 
+```cs
 protected override async Task OnParametersSetAsync()
-
 {
+  var response = await ProductService.GetProductsAsync(ProcessUrl());
 
-var response = await ProductService.GetProductsAsync(ProcessUrl());
-
-if (response.StatusCode == (int) System.Net.HttpStatusCode.OK)
-
-{
-
-\_productsModel =
-JsonConvert.DeserializeObject\<ProductsModel\>(response.Content);
-
+  if (response.StatusCode == (int) System.Net.HttpStatusCode.OK)
+  {
+    _productsModel =JsonConvert.DeserializeObject\<ProductsModel\>(response.Content);
+  }
+  else
+  {
+    _errorMessage = \$\"Error: {response.Error}\";
+    _productsModel = new ProductsModel();
+  }
 }
-
-else
-
-{
-
-\_errorMessage = \$\"Error: {response.Error}\";
-
-\_productsModel = new ProductsModel();
-
-}
-
-}
+```
 
 The response above contains the products and the count. Finally, the
 products are displayed, as shown below.
 
+```cs
 \<div class=\"row mt-4\"\>
 
 \@foreach (var product in \_productsModel.Products)
 
 { .....
+```
 
 ### ModernArchitectureShop.BasketApi
 
@@ -391,6 +330,7 @@ ItemsController retrieves items from the database.
 
 Again, I have used here MediatR:
 
+```cs
 \\Application\\UsesCases\\ AddItemHandler
 
 public async Task\<ItemDto\> Handle(AddItemCommand command,
@@ -431,11 +371,13 @@ cancellationToken);
 return \_mapper.Map\<ItemDto\>(itemFromCommand);
 
 }
+```
 
 Once the items are added to the database, the ItemCreatedMessage.cs
 (Dapr) message is being published to the Store. We need this message,
 for example, to update the reserved items.
 
+```cs
 \\Application\\UsesCases\\GetItemsHandler
 
 public async Task\<GetItemsCommandResponse\> Handle(GetItemsCommand
@@ -475,6 +417,7 @@ TotalOfItems = totalOfItems,
 return result;
 
 }
+```
 
 The above items are loaded and return it to the BlazorUI so that it can
 display them.
@@ -489,10 +432,8 @@ the infrastructure, and I will extend the project.
 
 Tye Dashboard
 
-![](./images/readme/media/image10.png){width="6.3in"
-height="3.379861111111111in"}
+![](./images/readme/media/image10.png)
 
 Zipkin
 
-![](./images/readme/media/image11.png){width="6.3in"
-height="3.379861111111111in"}
+![](./images/readme/media/image11.png)
