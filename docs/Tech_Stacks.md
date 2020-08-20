@@ -1,6 +1,6 @@
 Tech Stacks
 
-<img src="./images/logos/media/image1.png" width="10")
+<img src="./images/logos/media/image1.png" width="20">
 ![](./images/logos/media/image3.png)
 ![](./images/logos/media/image4.png)
 ![](./images/logos/media/image5.png)
