@@ -1,20 +1,12 @@
 ModernArchitectureShop
 ======================
 
-Modern Architecture Shop is a clean-lightweight.NET microservices
-application, showcasing the use of [Dapr](https://dapr.io/) to build
-microservices-based applications. It is a simple online shop with all
-the core components that make up such a system, for example, a frontend
-for users authentication, product catalog, and basket and payment
+Modern Architecture Shop is a clean-lightweight.NET microservices application, showcasing the use of [Dapr](https://dapr.io/) to build microservices-based applications. It is a simple online shop with all the core components that make up such a system, for example, a frontend for users authentication, product catalog, and basket and payment
 processing, etc.
 
-[Dapr](https://dapr.io/) is an event-driven, portable runtime for
-building microservices on edge and cloud. This project intended to show
-how you can make a clean microservices application with Dapr. The
-project design decisions, balancing between realism and a
-simple demo showcase, but in the context of a real working application,
-you have to take some other design decisions which fit better to your
-functional and non-functional requirements.
+[Dapr](https://dapr.io/) is an event-driven, portable runtime for building microservices on edge and cloud. This project intended to show how you can make a clean microservices application with Dapr. 
+
+The project design decisions, balancing between realism and a simple demo showcase, but in the context of a real working application, you have to take some other design decisions which fit better to your functional and non-functional requirements.
 
 The backend microservices are written in C# (however, it's worth noting that Dapr is language independent), and the frontend is a Blazor.
 All APIs are REST & HTTP & gRPC based.
@@ -52,25 +44,15 @@ This project is related to a series of C\#Corner articles:
 -   Modern Architecture Shop Dapr Pure (Future)
     In this article, we will use Dapr in-depth.
 
-The final goal of this project is to make a clean microservices
-application that can be deployed to the Kubernetes platform and run on
-Dapr runtime with and without Tye options.
+The final goal of this project is to make a clean microservices application that can be deployed to the Kubernetes platform and run on Dapr runtime with and without Tye options.
 
 The first showcase is using Dapr in a very simple way (No: State Management, Actors, etc.).
 
-Obviously, this means we have to do everything by ourselves, for
-example, if you add a product to the basket, then you have to send a
-domain event which can be procced in the store service and make the
-product as reserved.
+Obviously, this means we have to do everything by ourselves, for example, if you add a product to the basket, then you have to send a domain event which can be procced in the store service and make the product as reserved.
 
-Also, you have to send the data as an aggregate(Transaction), and if any
-error is occurring during the data processing, then you have to roll
-back the data.
+Also, you have to send the data as an aggregate(Transaction), and if any error is occurring during the data processing, then you have to roll back the data.
 
-Finally, I will implement the same services with Dapr(State Management,
-Actors, Communication, etc.). After that, you can compare the two
-solutions, and I will show you how Dapr can simplify the problems and
-making the development process more comfortable.
+Finally, I will implement the same services with Dapr(State Management, Actors, Communication, etc.). After that, you can compare the two solutions, and I will show you how Dapr can simplify the problems and making the development process more comfortable.
 
 ### Store Service
 
@@ -82,14 +64,11 @@ API routes:
 /api/products GET All products
 ```
 
-The service contains all products. Each registered user can add/remove
-items to/from his shopping cart(Basket Service). Admin users can add
-/remove products (still in progress) to/from the stores.
+The service contains all products. Each registered user can add/remove items to/from his shopping cart(Basket Service). Admin users can add/remove products (still in progress) to/from the stores.
 
 Store - Dapr Interaction
 
-Pub/Sub. Subscribes to the store-queue topic to receive new notification
-from the basket service.
+Pub/Sub: Subscribes to the store-queue topic to receive new notification from the basket service.
 State. Stores: next version
 Actor: next version
 Bindings: next version
@@ -106,10 +85,7 @@ API routes:
 /api/items Get all items from the basket for the logged-in user
 ```
 
-The service is responsible for maintaining the users\' shopping carts
-and persisting them. Submitting a cart will validate the cart contents
-and turn it into an order item, which is sent to the Payment service for
-further processing.
+The service is responsible for maintaining the user's shopping carts and persisting them. Submitting a cart will validate the cart contents and turn it into an order item, which is sent to the Payment service for further processing.
 
 Cart - Dapr Interaction
 
@@ -122,8 +98,7 @@ Service Invocation: next version
 
 ### Users Management Service
 
-provides a simple user management service to the Modern Store. Only
-registered users can use the Shop to place orders etc.
+provides a simple user management service to the Modern Store. Only registered users can use the Shop to place orders etc.
 
 The service generates the bearer token.
 
@@ -133,9 +108,7 @@ State: todo
 
 ### BlazorUI-Frontend
 
-This is the application user interface offering direct user interaction
-with the system and is responsible for managing the shop. It is
-programmed in Blazor, and all data is fetched via a REST API endpoint.
+This is the application user interface offering direct user interaction with the system and is responsible for managing the shop. It is programmed in Blazor, and all data is fetched via a REST API endpoint.
 
 ### Frontend host
 
@@ -144,8 +117,7 @@ Blazor Server.
 Clean Architecture
 ------------------
 
-Clean Architecture is the key to Loosely-Coupled-Application. It allows
-you completely to decouple the application from the infrastructure.
+Clean Architecture is the key to Loosely-Coupled-Application. It allows you completely to decouple the application from the infrastructure.
 
 <p align="center">
   <br>Loosely-Coupled-Application<br>
@@ -159,9 +131,10 @@ you completely to decouple the application from the infrastructure.
 -   Use Cases
 -   Domain
 
-![Clean-Architecture-Circle_Diagram.jpg](./docs/images/readme/media/image6.jpeg)
-
-Clean Architecture Circle Diagram from Uncle bob book
+<p align="center">
+  <br>Clean Architecture Circle Diagram from Uncle bob book<br>
+<img src="./docs/images/readme/media/image6.jpeg" width="600"> 
+</p>
 
 ### Benefits
 
@@ -186,12 +159,12 @@ ModernArchitectureShop architecture
 -----------------------------------
 
 <p align="center">
-  <img src="./docs/images/readme/media/image1.png">
+  <img src="./docs/images/readme/media/image1.png" width="600">
 </p>
 
 <p align="center">
   <br>Architecture Overview<br>
-<img src="./docs/images/readme/media/image7.png">
+<img src="./docs/images/readme/media/image7.png" width="600">
 </p>
 
 Each domain service divided into four parts:
@@ -211,15 +184,12 @@ It contains Infrastructure stuff like databases etc.
 .Api</br>
 The WebAPI stuff.
 
-Note!
-StoreApi and the BasketApi assemblies are mixing the Infrastructure and
-the WebAPI and the Application Logic. In the next version, I will
-separate them according to the clean architecture principles.
+*Note!*<br>
+StoreApi and the BasketApi assemblies are mixing the Infrastructure and the WebAPI and the Application Logic. In the next version, I will separate them according to the clean architecture principles.
 
 ### ModernArchitectureShop.BlazorUI Service
 
-In the ModernArchitectureShop.BlazorUI.Startup.cs I have registered all
-services, and I have added the HTTP clients to the services.
+In the ModernArchitectureShop.BlazorUI.Startup.cs I have registered all services, and I have added the HTTP clients to the services.
 
 #### HTTP Clients
 
@@ -240,8 +210,7 @@ The WebApi for the Store.
 
 #### Controllers
 
-ProductsController.cs loads the products from the store service and
-forward them to the BlazorUI as follows:
+ProductsController.cs loads the products from the store service and forward them to the BlazorUI as follows:
 
 ```cs
 public async Task<IActionResult> GetProducts([FromQuery]
@@ -252,8 +221,7 @@ GetProductsCommand command)
 }
 ```
 
-The MediatR design pattern is used to reduce the dependencies between
-objects. 
+The MediatR design pattern is used to reduce the dependencies between objects. 
 
 As shown below, the GetProductsHanlder called from the mediator.
 
@@ -304,8 +272,7 @@ protected override async Task OnParametersSetAsync()
 }
 ```
 
-The response above contains the products and the count. Finally, the
-products are displayed, as shown below.
+The response above contains the products and the count. Finally, the products are displayed, as shown below.
 
 ```
 <div class="row mt-4">
@@ -352,9 +319,7 @@ public async Task<ItemDto> Handle(AddItemCommand command, CancellationToken canc
 }
 ```
 
-Once the items are added to the database, the ItemCreatedMessage.cs
-(Dapr) message is being published to the Store. We need this message,
-for example, to update the reserved items.
+Once the items are added to the database, the ItemCreatedMessage.cs (Dapr) message is being published to the Store. We need this message, for example, to update the reserved items.
 
 ```cs
 \\Application\\UsesCases\\GetItemsHandler
@@ -388,15 +353,12 @@ display them.
 Summary
 -------
 
-ModernArchitectureShop is a modern light microservices application. We
-have seen that the current implementation is not ideal, and it needs
-some cleanups. In the next article, I will decouple the application from
-the infrastructure, and I will extend the project.
+ModernArchitectureShop is a modern light microservices application. We have seen that the current implementation is not ideal, and it needs some cleanups. In the next article, I will decouple the application from the infrastructure, and I will extend the project.
 
-Tye Dashboard
+***Tye Dashboard
 
-![](./docs/images/readme/media/image10.png)
+<img src="./docs/images/readme/media/image10.png" width="600">
 
 Zipkin
 
-![](./docs/images/readme/media/image11.png)
+<img src="./docs/images/readme/media/image11.png" width="600">
