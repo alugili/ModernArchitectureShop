@@ -13,7 +13,7 @@ All APIs are REST & HTTP & gRPC based.
 
 **Tech Stacks**
 
-<img src="./docs/images/logos/media/image1.png" width="50">  <img src="./docs/images/logos/media/image4.png" width="50"> <img src="./docs/images/logos/media/image5.png" width="50"> <img src="./docs/images/logos/media/image6.png" width="50"> <img src="./docs/images/logos/media/image7.png" width="50"> <img src="./docs/images/logos/media/image8.png" width="50"> <img src="./docs/images/logos/media/image9.jpeg" width="50"> <img src="./docs/images/logos/media/image10.png" width="50">
+<img src="./docs/images/logos/media/image3.png" width="50"> <img src="./docs/images/logos/media/image1.png" width="50">  <img src="./docs/images/logos/media/image4.png" width="50"> <img src="./docs/images/logos/media/image5.png" width="50"> <img src="./docs/images/logos/media/image6.png" width="50"> <img src="./docs/images/logos/media/image7.png" width="50"> <img src="./docs/images/logos/media/image8.png" width="50"> <img src="./docs/images/logos/media/image9.jpeg" width="50"> <img src="./docs/images/logos/media/image10.png" width="50">
 
 Demo
 ----
@@ -355,7 +355,7 @@ Summary
 
 ModernArchitectureShop is a modern light microservices application. We have seen that the current implementation is not ideal, and it needs some cleanups. In the next article, I will decouple the application from the infrastructure, and I will extend the project.
 
-***Tye Dashboard
+***Tye Dashboard***
 
 <img src="./docs/images/readme/media/image10.png" width="600">
 
