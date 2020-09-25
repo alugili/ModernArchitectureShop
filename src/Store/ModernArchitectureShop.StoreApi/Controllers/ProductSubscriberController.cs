@@ -14,7 +14,7 @@ namespace ModernArchitectureShop.StoreApi.Controllers
     [Route("api/[controller]")]
     public class ProductSubscriberController : ControllerBase
     {
-        [Topic("ProductCreated")]
+        [Topic("ProductCreated", "ProductCreated")]
         [HttpPost("ProductCreated")]
         public async Task SubcribeProductCreated(CreateProductCommand command, [FromServices] IMediator mediator)
         {
@@ -30,7 +30,7 @@ namespace ModernArchitectureShop.StoreApi.Controllers
         //    await mediator.Send(command);
         //}
 
-        [Topic("ProductDeleted")]
+        [Topic("ProductDeleted", "ProductDeleted")]
         [HttpPost("ProductDeleted")]
         public async Task SubcribeProductDeleted(
                      DeleteProductCommand command,

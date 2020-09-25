@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -73,7 +73,7 @@ namespace IdentityServer4.Quickstart.UI
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
-            var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
+            AuthorizationRequest context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
             // the user clicked the "cancel" button
             if (button != "login")
