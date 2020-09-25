@@ -5,7 +5,7 @@
 Docker for desktop
 
 [Install Dapr
-0.9](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-cli)
+0.10](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-cli)
 
 [Install Tye
 0.4](https://github.com/dotnet/tye/blob/master/docs/getting_started.md)
