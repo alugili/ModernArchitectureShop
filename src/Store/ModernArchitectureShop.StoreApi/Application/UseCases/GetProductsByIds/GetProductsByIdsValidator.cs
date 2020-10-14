@@ -7,7 +7,7 @@ namespace ModernArchitectureShop.StoreApi.Application.UseCases.GetProductsByIds
         public GetProductsByIdsValidator()
         {
             RuleFor(x => x.ProductIds)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty();
         }

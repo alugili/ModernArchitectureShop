@@ -8,7 +8,7 @@ namespace ModernArchitectureShop.StoreApi.Application.UseCases.DeleteProduct
         public DeleteProductRequestValidator()
         {
             RuleFor(x => x.ProductId)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEqual(Guid.Empty);
 

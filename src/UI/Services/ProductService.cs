@@ -1,8 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -51,12 +49,9 @@ namespace ModernArchitectureShop.BlazorUI.Services
                 };
             }
 
-            var rawJson = await response.Content.ReadAsStringAsync();
-            var parsedJson = JToken.Parse(rawJson);
-
             return new ServiceResult<string>
             {
-                Content = parsedJson.ToString(Formatting.Indented),
+                Content =  await response.Content.ReadAsStringAsync(),
                 StatusCode = (int)response.StatusCode,
                 Error = string.Empty
             };

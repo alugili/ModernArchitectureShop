@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ModernArchitectureShop.BlazorUI.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ModernArchitectureShop.BlazorUI.Services
 {
@@ -39,7 +38,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
             HttpResponseMessage response;
             try
             {
-                var json = JsonConvert.SerializeObject(itemModel);
+                var json = JsonSerializer.Serialize(itemModel);
 
                 //Needed to setup the body of the request
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -114,12 +113,9 @@ namespace ModernArchitectureShop.BlazorUI.Services
                 };
             }
 
-            var rawJson = await response.Content.ReadAsStringAsync();
-            var parsedJson = JToken.Parse(rawJson);
-
             return new ServiceResult<string>
             {
-                Content = parsedJson.ToString(Formatting.Indented),
+                Content = await response.Content.ReadAsStringAsync(),
                 StatusCode = (int)response.StatusCode,
                 Error = string.Empty
             };

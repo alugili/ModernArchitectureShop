@@ -1,0 +1,51 @@
+﻿
+/*payment forms*/
+#payment-form-container {
+    width: 480px;
+    margin: 20px auto;
+}
+
+
+/*.field {
+    background: transparent;
+    font-weight: 300;
+    border: 0;
+    color: white;
+    outline: none;
+    cursor: text;
+    display: block;
+    width: 100%;
+    line-height: 32px;
+    padding-bottom: 3px;
+    transition: opacity 200ms ease-in-out;
+}
+
+    .field::-webkit-input-placeholder {
+        color: #8898AA;
+    }
+
+    .field::-moz-placeholder {
+        color: #8898AA;
+    }
+
+    /* IE doesn't show placeholders when empty+focused */
+    .field:-ms-input-placeholder {
+        color: #424770;
+    }
+
+    .field.is-empty:not(.is-focused) {
+        opacity: 0;
+    }
+
+
+ .has-error input {
+    border-width: 2px;
+}
+
+.validation.text-danger:after {
+    content: 'Validation failed';
+}
+
+.validation.text-success:after {
+    content: 'Validation passed';
+}*/

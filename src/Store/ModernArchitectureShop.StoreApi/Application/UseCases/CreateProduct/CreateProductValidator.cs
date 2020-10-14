@@ -8,12 +8,12 @@ namespace ModernArchitectureShop.StoreApi.Application.UseCases.CreateProduct
         public CreateProductValidator()
         {
             RuleFor(x => x.ProductId)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEqual(Guid.Empty);
 
             RuleFor(x => x.Code)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty();
         }

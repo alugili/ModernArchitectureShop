@@ -8,11 +8,11 @@ namespace ModernArchitectureShop.StoreApi.Application.UseCases.AddOrUpdateProduc
         public AddOrUpdateProductStoreValidator()
         {
             RuleFor(x => x.ProductId)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull().NotEqual(Guid.Empty);
 
             RuleFor(x => x.StoreId)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull().NotEqual(Guid.Empty);
         }
     }

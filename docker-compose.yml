@@ -1,5 +1,9 @@
 version: "3.7"
 
+networks:
+  frontend:
+  backend:
+
 services:
 
     modernarchitectureshop-catalog:
@@ -7,15 +11,29 @@ services:
         build:
             context: .
             dockerfile: src/Basket/ModernArchitectureShop.BasketApi/Dockerfile
+        ports:
+        - "55030:443"
 
-    modernarchitectureshop-inventory:
-        image: modernarchitectureshop-inventoryapi:dev
+    modernarchitectureshop-store:
+        image: modernarchitectureshop-storeapi:dev
         build:
             context: .
             dockerfile: src/Store/ModernArchitectureShop.StoreApi/Dockerfile
+        ports:
+        - "55020:443"
 
     modernarchitectureshop-blazorui:
         image: modernarchitectureshop-blazorui:dev
         build:
             context: .
             dockerfile: src/UI/Dockerfile
+        ports:
+        - "55010:443"
+
+    modernarchitectureshop-identityserver:
+       image: modernarchitectureshop-identityserver:dev
+       build:
+            context: .
+            dockerfile: src\Identity\Dockerfile
+       ports:
+       - "50000:443"

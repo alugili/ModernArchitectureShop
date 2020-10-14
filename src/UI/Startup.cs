@@ -1,4 +1,5 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.IdentityModel.Logging;
 using ModernArchitectureShop.BlazorUI.Services;
 
 namespace ModernArchitectureShop.BlazorUI
@@ -27,6 +28,14 @@ namespace ModernArchitectureShop.BlazorUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var storeApiURL = Configuration.GetValue<string>("STORE_URL");
@@ -50,22 +59,23 @@ namespace ModernArchitectureShop.BlazorUI
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
 
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
             services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme,
-                options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = Configuration.GetValue<string>("IDENTITY_AUTHORITY");
-                    options.RequireHttpsMetadata = false;
                     options.ClientId = "BlazorUI";
                     options.ClientSecret = "secret";
-                    options.UsePkce = true;
+
+
                     options.ResponseType = "code";
-                    options.SaveTokens = true;
+
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("email");
@@ -74,9 +84,9 @@ namespace ModernArchitectureShop.BlazorUI
                     //Scope for accessing API
                     options.Scope.Add(storeApiName); //invalid scope for client
                     options.Scope.Add(basketApiName); //invalid scope for client
+                    options.UsePkce = true;
+                    options.SaveTokens = true;
                 });
-
-            services.AddAuthorization();
 
             services.AddHttpClient<ProductService, ProductService>(client =>
             {
@@ -88,10 +98,12 @@ namespace ModernArchitectureShop.BlazorUI
                 client.BaseAddress = new Uri(basketApiURL);
             });
 
-            services.AddHttpClient<IdentityService, IdentityService>(client =>
-            {
-                client.BaseAddress = new Uri(Configuration.GetValue<string>("IDENTITY_AUTHORITY"));
-            });
+            services.AddSingleton<BlazorServerAuthStateCache>();
+            services.AddScoped<AuthenticationStateProvider, BlazorServerAuthState>();
+            services.AddScoped<IdentityService, IdentityService>();
+
+            // Todo only for test
+            IdentityModelEventSource.ShowPII = true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,7 +121,7 @@ namespace ModernArchitectureShop.BlazorUI
 
             app.UseStaticFiles();
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();

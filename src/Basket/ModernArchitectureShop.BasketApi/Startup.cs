@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.OpenApi.Models;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers;
 using ModernArchitectureShop.BasketApi.Infrastructure.Persistence;
@@ -34,20 +36,8 @@ namespace ModernArchitectureShop.BasketApi
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = Configuration.GetValue<string>("IDENTITY_AUTHORITY");
-                    options.RequireHttpsMetadata = Configuration.GetValue<bool>("IDENTITY_REQUIREHTTPSMETADATA");
                     options.Audience = Configuration.GetValue<string>("IDENTITY_AUDIENCE");
                 });
-
-            services.AddCors(options =>
-            {
-                // this defines a CORS policy called "default"
-                options.AddPolicy("default", policy =>
-                {
-                    policy.WithOrigins(Configuration.GetValue<string>("BLAZOR_UI"))
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                 .AddCustomRequestValidation()
@@ -63,6 +53,28 @@ namespace ModernArchitectureShop.BasketApi
             services
                  .AddTransient<ItemCreatedNotificationHandler>()
                  .AddTransient<DaprStoresGateway>();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "ModernArchitectureShop HTTP Basket Api",
+                    Version = "v1",
+                    Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
+                });
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                        builder.WithOrigins(Configuration.GetValue<string>("BLAZOR_UI"))
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
+            // Todo only for test
+            IdentityModelEventSource.ShowPII = true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,12 +84,25 @@ namespace ModernArchitectureShop.BasketApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseCors("default");
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseHttpsRedirection();
+
+
+            app.UseSwagger().UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ModernArchitectureShop.BasketApi V1");
+            });
+
+            app.UseCors("CorsPolicy");
 
             app.UseStaticFiles()
                 .UseCloudEvents()

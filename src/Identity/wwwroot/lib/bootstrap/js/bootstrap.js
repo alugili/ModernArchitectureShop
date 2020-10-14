@@ -1323,7 +1323,7 @@ if (typeof jQuery === 'undefined') {
     }
 
     this.options.selector ?
-      (_options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
+      (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
       this.fixTitle()
   }
 
@@ -1348,7 +1348,7 @@ if (typeof jQuery === 'undefined') {
     var options  = {}
     var defaults = this.getDefaults()
 
-    _options && $.each(_options, function (key, value) {
+    this._options && $.each(this._options, function (key, value) {
       if (defaults[key] != value) options[key] = value
     })
 
