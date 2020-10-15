@@ -6,10 +6,10 @@ start-process powershell.exe -argument `
     -NoExit
     -command dapr run `
       --app-id identityserver `
-      --app-port 5000 `
+      --app-port 50000 `
       --log-level debug `
       dotnet run dotnet `
-        -- -p src\Identity\IdentityServerAspNetIdentity.csproj'
+        -- -p src\Identity\IdentityServer.csproj'
 Start-Sleep -Seconds 2
 
 # Store Api

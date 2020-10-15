@@ -34,6 +34,7 @@ namespace ModernArchitectureShop.StoreApi
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
+                    options.RequireHttpsMetadata = Configuration.GetValue<bool>("IDENTITY_REQUIREHTTPSMETADATA");
                     options.Authority = Configuration.GetValue<string>("IDENTITY_AUTHORITY");
                     options.Audience = Configuration.GetValue<string>("IDENTITY_AUDIENCE");
                 });
@@ -83,10 +84,10 @@ namespace ModernArchitectureShop.StoreApi
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();

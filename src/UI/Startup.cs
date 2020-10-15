@@ -10,6 +10,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.IdentityModel.Logging;
 using ModernArchitectureShop.BlazorUI.Services;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 namespace ModernArchitectureShop.BlazorUI
 {
@@ -22,6 +23,8 @@ namespace ModernArchitectureShop.BlazorUI
 
         public IConfiguration Configuration { get; }
 
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -32,8 +35,8 @@ namespace ModernArchitectureShop.BlazorUI
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
                 builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
             }));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -65,6 +68,7 @@ namespace ModernArchitectureShop.BlazorUI
                 {
                     options.DefaultScheme = "Cookies";
                     options.DefaultChallengeScheme = "oidc";
+
                 })
                 .AddCookie("Cookies")
                 .AddOpenIdConnect("oidc", options =>
@@ -72,7 +76,7 @@ namespace ModernArchitectureShop.BlazorUI
                     options.Authority = Configuration.GetValue<string>("IDENTITY_AUTHORITY");
                     options.ClientId = "BlazorUI";
                     options.ClientSecret = "secret";
-
+                    options.RequireHttpsMetadata = false;
 
                     options.ResponseType = "code";
 
@@ -86,6 +90,7 @@ namespace ModernArchitectureShop.BlazorUI
                     options.Scope.Add(basketApiName); //invalid scope for client
                     options.UsePkce = true;
                     options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
                 });
 
             services.AddHttpClient<ProductService, ProductService>(client =>
@@ -102,6 +107,24 @@ namespace ModernArchitectureShop.BlazorUI
             services.AddScoped<AuthenticationStateProvider, BlazorServerAuthState>();
             services.AddScoped<IdentityService, IdentityService>();
 
+
+            // problem with login identityserver 4 a workaround
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+
+                options.OnAppendCookie = cookieContext => CheckSameSite(cookieContext.CookieOptions);
+
+                void CheckSameSite(CookieOptions cookieOptions)
+                {
+                    if (cookieOptions.SameSite == SameSiteMode.None)
+                    {
+                        {
+                            cookieOptions.SameSite = SameSiteMode.Unspecified;
+                        }
+                    }
+                }
+            });
+
             // Todo only for test
             IdentityModelEventSource.ShowPII = true;
         }
@@ -116,16 +139,20 @@ namespace ModernArchitectureShop.BlazorUI
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             app.UseStaticFiles();
 
-            app.UseHttpsRedirection();
+            app.UseCookiePolicy();
+
+            //app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors("AllowAll");
 
             app.UseEndpoints(endpoints =>
             {
@@ -133,5 +160,7 @@ namespace ModernArchitectureShop.BlazorUI
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
+
+
     }
 }

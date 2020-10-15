@@ -39,10 +39,10 @@ namespace IdentityServer
                         RequireConsent = false,
 
                         // where to redirect to after login
-                        RedirectUris = {"https://localhost:55010/signin-oidc"},
+                        RedirectUris = {"http://localhost:5010/signin-oidc"},
 
                         // where to redirect to after logout
-                        PostLogoutRedirectUris = {"https://localhost:55010/signout-callback-oidc"},
+                        PostLogoutRedirectUris = {"http://localhost:5010/signout-callback-oidc"},
 
                         // allowed scopes - include Api Resources and Identity Resources that may be accessed by this client
                         AllowedScopes =
