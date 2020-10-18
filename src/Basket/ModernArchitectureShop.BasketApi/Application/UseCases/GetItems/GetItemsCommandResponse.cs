@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dto;
 
-namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetProducts
+namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetItems
 {
     public class GetItemsCommandResponse
     {

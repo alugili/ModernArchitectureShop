@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetProducts
+namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetItems
 {
     public class GetItemsValidator : AbstractValidator<GetItemsCommand>
     {

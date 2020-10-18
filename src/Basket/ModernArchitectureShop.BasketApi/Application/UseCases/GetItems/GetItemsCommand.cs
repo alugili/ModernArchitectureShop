@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetProducts
+namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetItems
 {
     public class GetItemsCommand : IRequest<GetItemsCommandResponse>
     {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Dapr.Client;
 using Dapr.Client.Http;
 using Microsoft.Extensions.Logging;
-using ModernArchitectureShop.BasketApi.Application.UseCases.GetProducts;
+using ModernArchitectureShop.BasketApi.Application.UseCases.GetItems;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways.UseCases.GetProducts;
 
 namespace ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways
@@ -37,7 +37,7 @@ namespace ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways
                      CancellationToken cancellationToken = default)
                                     => await _daprClient.InvokeMethodAsync<GetItemsCommand, GetItemsCommandResponse>
                                          (StoreAppId,
-                                        "api/product/",
+                                        "api/dapr/items/",
                                           command,
                                           HttpExtension,
                                           cancellationToken);
@@ -48,7 +48,7 @@ namespace ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways
                     CancellationToken cancellationToken = default)
                                     => await _daprClient.InvokeMethodAsync<GetProductsByIdsRequest, GetProductsByIdsResponse>
                                         (StoreAppId,
-                                        "api/product/get-by-ids", request,
+                                        "api/dapr/items/get-by-ids", request,
                                         HttpExtension,
                                         cancellationToken);
     }

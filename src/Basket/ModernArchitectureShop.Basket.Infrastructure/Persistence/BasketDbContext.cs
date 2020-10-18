@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ModernArchitectureShop.Basket.Domain;
 
-namespace ModernArchitectureShop.BasketApi.Infrastructure.Persistence
+namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
 {
     public class BasketDbContext : DbContext
     {

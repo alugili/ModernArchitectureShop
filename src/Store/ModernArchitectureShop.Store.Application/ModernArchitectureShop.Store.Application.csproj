@@ -5,4 +5,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModernArchitectureShop.Store.Domain\ModernArchitectureShop.Store.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

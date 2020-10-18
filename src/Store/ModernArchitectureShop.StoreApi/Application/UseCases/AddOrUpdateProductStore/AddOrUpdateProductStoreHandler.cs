@@ -3,48 +3,40 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using ModernArchitectureShop.Store.Domain;
-using ModernArchitectureShop.StoreApi.Infrastructure.Persistence;
+using ModernArchitectureShop.Store.Application.Persistence;
 
 namespace ModernArchitectureShop.StoreApi.Application.UseCases.AddOrUpdateProductStore
 {
     public class AddOrUpdateProductStoreHandler : IRequestHandler<AddOrdUpdateProductStoreCommand, AddOrUpdateProductStoreResponse>
     {
-        private readonly StoreDbContext _dbContext;
+        private readonly IStoreRepository _storeRepository;
+        private readonly IProductRepository _productRepository;
 
-        public AddOrUpdateProductStoreHandler(StoreDbContext dbContext)
+        public AddOrUpdateProductStoreHandler(IStoreRepository storeRepository, IProductRepository productRepository)
         {
-            _dbContext = dbContext;
+            _storeRepository = storeRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<AddOrUpdateProductStoreResponse> Handle(AddOrdUpdateProductStoreCommand command, CancellationToken cancellationToken)
         {
-            var storeQuery = _dbContext.Set<Store.Domain.Store>();
-
-            var store = await storeQuery.SingleOrDefaultAsync(x => x.StoreId == command.StoreId, cancellationToken);
+            var store = await _storeRepository.GetAsync(command.StoreId, cancellationToken);
 
             if (store == null)
             {
-                throw new NotImplementedException($"Could not find ProductStores-{command.StoreId}.");
+                throw new NullReferenceException($"The store with Id ({command.StoreId}) is not found!");
             }
 
-            var product = await _dbContext.Set<Product>()
-                .SingleOrDefaultAsync(x => x.ProductId == command.ProductId, cancellationToken);
+            var product = await _productRepository.GetAsync(command.ProductId, cancellationToken);
 
             if (product == null)
             {
-                throw new NotImplementedException($"Could not find Products-{command.ProductId}");
+                throw new NotImplementedException($"Could not find the Product-({command.ProductId})");
             }
 
-            var productStore = store.ProductStores.SingleOrDefault(x => x.Product == product);
+            var quantityAllStores = product.ProductStores.Sum(x => x.Quantity);
 
-            if (productStore == null)
-            {
-                productStore = new ProductStore();
-            }
-
-            storeQuery.Update(store);
+            // update Product todo!
 
             return new AddOrUpdateProductStoreResponse
             {
@@ -52,8 +44,8 @@ namespace ModernArchitectureShop.StoreApi.Application.UseCases.AddOrUpdateProduc
                 StoreId = store.StoreId,
                 Code = product.Code,
                 StoreName = store.Name,
-                Quantity = productStore.Quantity,
-                CanPurchase = productStore.CanPurchase
+                Quantity = quantityAllStores,
+                CanPurchase = quantityAllStores > 0
             };
         }
 

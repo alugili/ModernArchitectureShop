@@ -7,12 +7,12 @@ namespace ModernArchitectureShop.BasketApi.Application.UseCases.AddItem
         public AddItemValidator()
         {
             RuleFor(request => request.ItemId)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty();
 
             RuleFor(request => request.StoreId)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .NotNull();
             //.NotEmpty();Todo
         }

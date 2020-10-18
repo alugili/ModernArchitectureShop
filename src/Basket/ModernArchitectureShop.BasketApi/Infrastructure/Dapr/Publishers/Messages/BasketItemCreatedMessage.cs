@@ -3,7 +3,7 @@ using ModernArchitectureShop.Basket.Domain;
 
 namespace ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers.Messages
 {
-    public class ItemUpdatedMessage : Item, INotification
+    public class BasketItemCreatedMessage : Item, INotification
     {
     }
 }

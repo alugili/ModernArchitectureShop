@@ -1,48 +1,53 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Dapr.Client;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using ModernArchitectureShop.Basket.Application.Persistence;
 using ModernArchitectureShop.Basket.Domain;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers.Messages;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dto;
-using ModernArchitectureShop.BasketApi.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.BasketApi.Application.UseCases.AddItem
 {
     public class AddItemHandler : IRequestHandler<AddItemCommand, ItemDto>
     {
-        private readonly BasketDbContext _dbContext;
+        private readonly DaprClient _daprClient;
+        private readonly IItemRepository _itemRepository;
         private readonly IMapper _mapper;
-        private readonly ItemCreatedNotificationHandler _itemCreatedNotificationHandler;
+        private readonly BasketItemNotificationHandler _basketItemNotificationHandler;
 
-        public AddItemHandler(BasketDbContext dbContext, IMapper mapper, ItemCreatedNotificationHandler itemCreatedNotificationHandler)
+        public AddItemHandler(DaprClient daprClient, IItemRepository itemRepository, IMapper mapper,
+            BasketItemNotificationHandler basketItemNotificationHandler)
         {
-            _dbContext = dbContext;
+            _daprClient = daprClient;
+            _itemRepository = itemRepository;
             _mapper = mapper;
-            _itemCreatedNotificationHandler = itemCreatedNotificationHandler;
+            _basketItemNotificationHandler = basketItemNotificationHandler;
         }
 
         public async Task<ItemDto> Handle(AddItemCommand command, CancellationToken cancellationToken)
         {
             var itemFromCommand = _mapper.Map<Item>(command);
 
-            var items = _dbContext.Set<Item>();
-            var itemFromDb = await items.SingleOrDefaultAsync(x => x.ItemId == command.ItemId, cancellationToken: cancellationToken);
+            // Just for demo to show that Dapr Store working!
+            var oldItem = await _daprClient.GetStateAsync<Item>("default", itemFromCommand.ItemId.ToString(), cancellationToken: cancellationToken);
+
+            var itemFromDb = await _itemRepository.GetAsync(itemFromCommand.ItemId, cancellationToken);
+
             if (itemFromDb != null)
             {
                 _mapper.Map(itemFromCommand, itemFromDb);
-                items.Update(itemFromDb);
+                _itemRepository.Update(itemFromDb);
             }
             else
             {
-                await _dbContext.Items.AddAsync(itemFromCommand, cancellationToken);
+                await _itemRepository.AddAsync(itemFromCommand, cancellationToken);
             }
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            await _itemCreatedNotificationHandler.Handle(new ItemCreatedMessage(), cancellationToken);
+            await _itemRepository.SaveChangesAsync(cancellationToken);
+            await _basketItemNotificationHandler.Handle(new BasketItemCreatedMessage(), cancellationToken);
 
             return _mapper.Map<ItemDto>(itemFromCommand);
         }

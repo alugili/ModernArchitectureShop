@@ -1,25 +1,22 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using ModernArchitectureShop.StoreApi.Infrastructure.Persistence;
+using ModernArchitectureShop.Store.Application.Persistence;
 
 namespace ModernArchitectureShop.StoreApi.Application.UseCases.DeleteProduct
 {
     public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, bool>
     {
-        private readonly StoreDbContext _dbContext;
+        private readonly IProductRepository _productRepository;
 
-        public DeleteProductHandler(StoreDbContext dbContext) => _dbContext = dbContext;
+        public DeleteProductHandler(IProductRepository productRepository) => _productRepository = productRepository;
 
         public async Task<bool> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
         {
-            var product = await _dbContext.Products.FirstAsync(x => x.ProductId == command.ProductId);
+            var product = await _productRepository.GetAsync(command.ProductId, cancellationToken);
+            await _productRepository.RemoveAsync(product.ProductId, cancellationToken);
 
-            _dbContext.Products.Remove(product);
-
-
-            var deletedCount = await _dbContext.SaveChangesAsync(cancellationToken);
+            var deletedCount = await _productRepository.SaveChangesAsync(cancellationToken);
 
             return deletedCount > 0;
         }

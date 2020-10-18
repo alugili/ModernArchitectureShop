@@ -1,7 +1,6 @@
 using System.Reflection;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,11 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
+using ModernArchitectureShop.Basket.Application.Persistence;
+using ModernArchitectureShop.Basket.Infrastructure.Persistence;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers;
-using ModernArchitectureShop.BasketApi.Infrastructure.Persistence;
 using ModernArchitectureShop.BasketApi.ServiceCollection;
-
 
 namespace ModernArchitectureShop.BasketApi
 {
@@ -47,12 +46,15 @@ namespace ModernArchitectureShop.BasketApi
 
             services
                 .AddHttpContextAccessor()
-                .AddMediatR(Assembly.GetExecutingAssembly())
-                .AddDbContext<BasketDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+                .AddMediatR(Assembly.GetExecutingAssembly());
+
+            // Entity Framework Core is only in the infrastructure.
+            services.AddCustomDbContext(Configuration.GetConnectionString("SqlConnection"));
+
+            services.AddTransient<IItemRepository, ItemRepository>();
 
             services
-                 .AddTransient<ItemCreatedNotificationHandler>()
+                 .AddTransient<BasketItemNotificationHandler>()
                  .AddTransient<DaprStoresGateway>();
 
             services.AddSwaggerGen(options =>
@@ -64,6 +66,7 @@ namespace ModernArchitectureShop.BasketApi
                     Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
                 });
             });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -111,7 +114,6 @@ namespace ModernArchitectureShop.BasketApi
                     endpoints.MapControllers();
                     endpoints.MapSubscribeHandler();
                 });
-
         }
     }
 }

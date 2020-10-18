@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ModernArchitectureShop.Store.Domain;
 
-namespace ModernArchitectureShop.StoreApi.Infrastructure.Persistence
+namespace ModernArchitectureShop.Store.Infrastructure.Persistence
 {
-    public sealed class
-        SeedDataGenerator
+    public sealed class SeedDataGenerator
     {
-        internal static (ICollection<Product>, ICollection<Store.Domain.Store>, ICollection<ProductStore>) GenerateSeed()
+        internal static (ICollection<Product>, ICollection<Domain.Store>, ICollection<ProductStore>)
+            GenerateSeed()
         {
             var products = new Collection<Product>();
             var stores = new Collection<Store.Domain.Store>();

@@ -4,9 +4,15 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>ModernArchitectureShop.Basket.Application</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ModernArchitectureShop.Basket.Domain\ModernArchitectureShop.Basket.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\" />
   </ItemGroup>
 
 </Project>

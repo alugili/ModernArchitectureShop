@@ -1,28 +1,28 @@
 using System;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModernArchitectureShop.Store.Application.Persistence;
 
 namespace ModernArchitectureShop.StoreApi.Infrastructure.Persistence
 {
     public static class DatabaseExtensions
     {
-        public static IHost CreateDatabase<T>(this IHost webHost) where T : DbContext
+        public static IHost CreateDatabase<T>(this IHost webHost) where T : IStoreRepository
         {
             using (var scope = webHost.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
 
+                var services = scope.ServiceProvider;
                 try
                 {
-                    var db = services.GetRequiredService<T>();
-                    db.Database.EnsureCreated();
+                    var itemRepository = services.GetRequiredService<T>();
+                    itemRepository.CreateDatabase();
                 }
 
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    var logger = services.GetRequiredService<ILogger<BlazorUI.Program>>();
                     logger.LogError(ex, ex.StackTrace);
                 }
             }

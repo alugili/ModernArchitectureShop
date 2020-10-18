@@ -59,6 +59,5 @@ namespace IdentityServer
                         AllowOfflineAccess = true,
                     }
             };
-
     }
 }

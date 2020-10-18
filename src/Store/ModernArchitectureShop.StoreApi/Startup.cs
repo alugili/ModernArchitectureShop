@@ -4,16 +4,14 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
-using ModernArchitectureShop.StoreApi.Infrastructure.Persistence;
+using ModernArchitectureShop.Store.Application.Persistence;
+using ModernArchitectureShop.Store.Infrastructure.Persistence;
 using ModernArchitectureShop.StoreApi.ServiceCollection;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ModernArchitectureShop.StoreApi
 {
@@ -47,9 +45,14 @@ namespace ModernArchitectureShop.StoreApi
 
             services
                 .AddHttpContextAccessor()
-                .AddMediatR(Assembly.GetExecutingAssembly())
-                .AddDbContext<StoreDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+                .AddMediatR(Assembly.GetExecutingAssembly());
+
+            // Entity Framework Core is only in the infrastructure.
+            services.AddCustomDbContext(Configuration.GetConnectionString("SqlConnection"));
+
+            services.AddTransient<IStoreRepository, StoreRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+
 
             services.AddSwaggerGen(options =>
             {

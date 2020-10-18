@@ -5,7 +5,7 @@ metadata:
 spec:
   type: state.redis
   metadata:
-  - name: storestate
+  - name: redisHost
     value: localhost:6379
   - name: redisPassword
     value: ""

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ModernArchitectureShop.Store.Domain;
 
-namespace ModernArchitectureShop.StoreApi.Infrastructure.Persistence
+namespace ModernArchitectureShop.Store.Infrastructure.Persistence
 {
     public sealed class StoreDbContext : DbContext
     {

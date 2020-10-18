@@ -17,13 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Infrastructure\Persistence\Seed\**" />
-    <Content Remove="Infrastructure\Persistence\Seed\**" />
-    <EmbeddedResource Remove="Infrastructure\Persistence\Seed\**" />
-    <None Remove="Infrastructure\Persistence\Seed\**" />
-  </ItemGroup>
-
-  <ItemGroup>
        <PackageReference Include="Grpc.Tools" Version="2.33.0-pre1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -51,7 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ModernArchitectureShop.Store.Application\ModernArchitectureShop.Store.Application.csproj" />
     <ProjectReference Include="..\ModernArchitectureShop.Store.Domain\ModernArchitectureShop.Store.Domain.csproj" />
+    <ProjectReference Include="..\ModernArchitectureShop.Store.Infrastructure\ModernArchitectureShop.Store.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,50 +1,33 @@
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using ModernArchitectureShop.Basket.Domain;
-using ModernArchitectureShop.BasketApi.Application.UseCases.GetProducts;
-using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways;
+using ModernArchitectureShop.Basket.Application.Persistence;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dto;
-using ModernArchitectureShop.BasketApi.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.BasketApi.Application.UseCases.GetItems
 {
     internal class GetItemsHandler : IRequestHandler<GetItemsCommand, GetItemsCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly BasketDbContext _dbContext;
+        private readonly IItemRepository _itemRepository;
 
-        public GetItemsHandler(BasketDbContext dbContext, IMapper mapper, DaprStoresGateway storesGateway)
+        public GetItemsHandler(IItemRepository itemRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _itemRepository = itemRepository;
             _mapper = mapper;
         }
 
         public async Task<GetItemsCommandResponse> Handle(GetItemsCommand command, CancellationToken cancellationToken)
         {
-            var query = _dbContext.Set<Item>();
+            var items = await _itemRepository.GetAsync(command.Username, command.PageIndex, command.PageSize, cancellationToken);
 
-            var totalOfItems = await query.Where(i => i.Username == command.Username).CountAsync(cancellationToken);
-
-            var items = await query.AsNoTracking()
-                .OrderBy(x => x.Code)
-                .Skip((command.PageIndex - 1) * command.PageSize)
-                .Take(command.PageSize)
-                .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
-                .Where(i => i.Username == command.Username)
-                .ToListAsync(cancellationToken);
-
-            var result = new GetItemsCommandResponse
+            return new GetItemsCommandResponse
             {
-                Items = items,
-                TotalOfItems = totalOfItems,
+                Items = _mapper.Map<List<ItemDto>>(items),
+                TotalOfItems = await _itemRepository.TotalCountAsync(command.Username, cancellationToken)
             };
-
-            return result;
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ModernArchitectureShop.BasketApi.Application.UseCases.GetProducts;
+using ModernArchitectureShop.BasketApi.Application.UseCases.GetItems;
 
 namespace ModernArchitectureShop.BasketApi.Controllers
 {

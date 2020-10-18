@@ -1,9 +1,10 @@
+using System;
 using MediatR;
-using ModernArchitectureShop.Basket.Domain;
 
 namespace ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers.Messages
 {
-    public class ItemCreatedMessage : Item, INotification
+    public class BasketItemDeletedMessage : INotification
     {
+        public  Guid ItemId { get; set; }
     }
 }
