@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -41,7 +38,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
         /// Gets user claims from the current httpcontext
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetAPPUserClaimsJson()
+        public async Task<string> GetAppUserClaimsJson()
         {
             var authState = await _authState.GetAuthenticationStateAsync();
 

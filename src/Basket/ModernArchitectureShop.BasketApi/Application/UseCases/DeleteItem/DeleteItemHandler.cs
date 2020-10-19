@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using ModernArchitectureShop.Basket.Application.Persistence;
+using ModernArchitectureShop.Basket.Domain;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers;
 using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers.Messages;
 
@@ -20,7 +21,7 @@ namespace ModernArchitectureShop.BasketApi.Application.UseCases.DeleteItem
 
         public async Task<bool> Handle(DeleteItemCommand command, CancellationToken cancellationToken)
         {
-            await _itemRepository.RemoveAsync(command.ItemId, cancellationToken);
+            _itemRepository.Remove(new Item { ItemId = command.ItemId });
 
             var result = await _itemRepository.SaveChangesAsync(cancellationToken);
 

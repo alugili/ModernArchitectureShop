@@ -54,39 +54,38 @@ else
         <div class="card mb-4 shadow-sm">
             <div class="card-body">
                 <div class="media">
-                    <span style="margin: 5px">
-                        <img src="@product?.ImageUrl" alt="..." width="50" height="50">
-                    </span>
                     <div class="media-body">
+                        <div>
+                            <img src="@product?.ImageUrl" alt="..." width="120" height="60" style="float:right">
+                        </div>
                         <h5 class="mt-0">@product?.Name</h5>
                         <div>Category: @product?.Code</div>
                         <div>Location: Todo</div>
                         <div>Price: <span class="font-weight-bold" style="color: red;">$@product?.Price.ToString("0.##")</span></div>
                         <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
-                            <div>Available: <span class="font-weight-bold" style="color: blue;">@product.ProductStores.FirstOrDefault().Quantity</span></div>
+                            <div>Available: <span class="font-weight-bold" style="color: blue;">@product?.ProductStores.FirstOrDefault()?.Quantity</span></div>
+
                             <div class="btn-group">
                                 <button class="button" @onclick="@(async () =>
-                                                                             {
-                                                                               var config = new MapperConfiguration(
-                                                                                 cfg =>
                                                                                  {
-                                                                                   cfg.CreateMap<ProductModel, ItemModel>()
-                                                                                     .ForMember(
-                                                                                       x => x.ItemId,
-                                                                                       map => map.MapFrom(o => o.ProductId)
-                                                                                     );
-                                                                                 });
+                                                                                   var config = new MapperConfiguration(
+                                                                                     cfg =>
+                                                                                     {
+                                                                                       cfg.CreateMap<ProductModel, ItemModel>()
+                                                                                         .ForMember(
+                                                                                           x => x.ItemId,
+                                                                                           map => map.MapFrom(o => o.ProductId)
+                                                                                         );
+                                                                                     });
 
-                                                                               var mapper = new Mapper(config);
-                                                                               var itemModel = mapper.Map<ItemModel>(product);
-                                                                               itemModel.Username = _username;
-                                                                               itemModel.StoreId = Guid.Empty;
-                                                                               await AddProductToBasketAsync(itemModel);
-                                                                             })">
+                                                                                   var mapper = new Mapper(config);
+                                                                                   var itemModel = mapper.Map<ItemModel>(product);
+                                                                                   itemModel.Username = _username;
+                                                                                   itemModel.StoreId = Guid.Empty;
+                                                                                   await AddProductToBasketAsync(itemModel);
+                                                                                 })">
                                     ➕
                                 </button>
-
-                                <button class="button" @onclick="@(async () => await RemoveProductFromBasketAsync(product.ProductId))">❌</button>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
@@ -153,7 +152,7 @@ else
 
         if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
         {
-            _productsModel = JsonSerializer.Deserialize<ProductsModel>(response.Content,new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            _productsModel = JsonSerializer.Deserialize<ProductsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         else
         {
@@ -173,16 +172,6 @@ else
         }
     }
 
-    async Task RemoveProductFromBasketAsync(Guid id)
-    {
-        var response = await BasketProductService.RemoveItemAsync($"api/item/{id}");
-
-        if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
-        {
-            _errorMessage = $"Error: {response.Error}";
-            _productsModel = new ProductsModel();
-        }
-    }
 
     private string ProcessUrl()
     {

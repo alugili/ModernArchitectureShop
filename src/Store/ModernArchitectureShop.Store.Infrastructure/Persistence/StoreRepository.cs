@@ -23,6 +23,17 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
             _storeDbContext.Database.EnsureCreated();
         }
 
+        public void Remove(Domain.Store store)
+        {
+            _stores.Remove(store);
+        }
+
+        public void Update(Domain.Store store)
+        {
+            _stores.Update(store);
+        }
+
+
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return await _storeDbContext.SaveChangesAsync(cancellationToken);
@@ -36,16 +47,6 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
         public async ValueTask AddAsync(Domain.Store store, CancellationToken cancellationToken)
         {
             await _stores.AddAsync(store, cancellationToken);
-        }
-
-        public async ValueTask RemoveAsync(Guid id, CancellationToken cancellationToken)
-        {
-            await _stores.SingleAsync(x => x.StoreId == id, cancellationToken: cancellationToken);
-        }
-
-        public void Update(Domain.Store store)
-        {
-            _stores.Update(store);
         }
 
         public async ValueTask<int> CountAsync(CancellationToken cancellationToken)

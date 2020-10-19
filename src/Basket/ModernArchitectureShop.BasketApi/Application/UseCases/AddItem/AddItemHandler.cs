@@ -32,7 +32,7 @@ namespace ModernArchitectureShop.BasketApi.Application.UseCases.AddItem
             var itemFromCommand = _mapper.Map<Item>(command);
 
             // Just for demo to show that Dapr Store working!
-            var oldItem = await _daprClient.GetStateAsync<Item>("default", itemFromCommand.ItemId.ToString(), cancellationToken: cancellationToken);
+            //var oldItem = await _daprClient.GetStateAsync<Item>("default", itemFromCommand.ItemId.ToString(), cancellationToken: cancellationToken);
 
             var itemFromDb = await _itemRepository.GetAsync(itemFromCommand.ItemId, cancellationToken);
 

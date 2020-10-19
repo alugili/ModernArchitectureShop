@@ -20,6 +20,16 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
             _products = _storeDbContext.Set<Product>();
         }
 
+        public void Remove(Product product)
+        {
+            _products.Remove(product);
+        }
+
+        public void Update(Product product)
+        {
+            _products.Update(product);
+        }
+
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return await _storeDbContext.SaveChangesAsync(cancellationToken);
@@ -34,16 +44,6 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
         public async ValueTask AddAsync(Product product, CancellationToken cancellationToken)
         {
             await _products.AddAsync(product, cancellationToken);
-        }
-
-        public async ValueTask RemoveAsync(Guid id, CancellationToken cancellationToken)
-        {
-            await _products.SingleAsync(x => x.ProductId == id, cancellationToken: cancellationToken);
-        }
-
-        public void Update(Product product)
-        {
-            _products.Update(product);
         }
 
         public async ValueTask<int> CountAsync(CancellationToken cancellationToken)

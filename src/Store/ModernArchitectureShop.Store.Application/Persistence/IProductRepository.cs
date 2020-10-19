@@ -9,15 +9,15 @@ namespace ModernArchitectureShop.Store.Application.Persistence
 {
     public interface IProductRepository
     {
+        void Remove(Product product);
+
+        void Update(Product store);
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
-        ValueTask<Domain.Product?> GetAsync(Guid id, CancellationToken cancellationToken);
+        ValueTask<Product?> GetAsync(Guid id, CancellationToken cancellationToken);
 
-        ValueTask AddAsync(Domain.Product store, CancellationToken cancellationToken);
-
-        ValueTask RemoveAsync(Guid id, CancellationToken cancellationToken);
-
-        void Update(Domain.Product store);
+        ValueTask AddAsync(Product store, CancellationToken cancellationToken);
 
         ValueTask<int> CountAsync(CancellationToken cancellationToken);
 

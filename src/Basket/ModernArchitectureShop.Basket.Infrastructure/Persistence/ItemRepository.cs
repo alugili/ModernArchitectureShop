@@ -40,9 +40,9 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
             await _items.AddAsync(item, cancellationToken);
         }
 
-        public async ValueTask RemoveAsync(Guid id, CancellationToken cancellationToken)
+        public void Remove(Item item)
         {
-            await _items.SingleAsync(x => x.ItemId == id, cancellationToken: cancellationToken);
+             _items.Remove(item);
         }
 
         public void Update(Item item)

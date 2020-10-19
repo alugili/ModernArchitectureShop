@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using ModernArchitectureShop.Store.Application.Persistence;
+using ModernArchitectureShop.Store.Domain;
 
 namespace ModernArchitectureShop.StoreApi.Application.UseCases.DeleteProduct
 {
@@ -14,7 +15,7 @@ namespace ModernArchitectureShop.StoreApi.Application.UseCases.DeleteProduct
         public async Task<bool> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetAsync(command.ProductId, cancellationToken);
-            await _productRepository.RemoveAsync(product.ProductId, cancellationToken);
+            _productRepository.Remove(new Product { ProductId = product.ProductId });
 
             var deletedCount = await _productRepository.SaveChangesAsync(cancellationToken);
 

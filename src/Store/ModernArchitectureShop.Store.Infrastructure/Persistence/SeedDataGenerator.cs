@@ -23,7 +23,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
                         Code = $"11{i}",
                         Name = $"Products-{i}",
                         Price = 3.14 * i,
-                        ImageUrl = "http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/48/Basket-icon.png"
+                        ImageUrl = "/images/MyProduct.png"
                     });
 
                 stores.Add(

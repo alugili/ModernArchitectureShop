@@ -7,6 +7,32 @@
 @inject BasketProductService BasketProductService
 @inject AuthenticationStateProvider AuthState
 
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .button {
+      cursor: pointer;
+      outline: none;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      margin: 3px;
+      -ms-border-radius: 7px;
+      border-radius: 7px;
+      box-shadow: 0 5px #999;
+    }
+
+    .button:hover {background-color: #3e8e41}
+
+    .button:active {
+      background-color: #3e8e41;
+      box-shadow: 0 3px #666;
+      -ms-transform: translateY(4px);
+      -webkit-transform: translateY(4px);
+      transform: translateY(4px);
+    }
+  </style>
+</head>
 
 <h6 style="color: red">@_errorMessage</h6>
 
@@ -25,16 +51,27 @@ else
         <div class="card mb-4 shadow-sm">
             <div class="card-body">
                 <div class="media">
-                    <span style="margin:5px">
-                        <img src="@item?.ImageUrl" class="mr-3" alt="..." width="50" height="50">
-                    </span>
                     <div class="media-body">
+                        <div>
+                            <img src="@item?.ImageUrl" alt="..." width="120" height="60" style="float:right">
+                        </div>
                         <h5 class="mt-0">@item?.Name</h5>
                         <div>Category: @item?.Code</div>
                         <div>Location: Todo</div>
                         <div>Price: <span class="font-weight-bold" style="color: red;">$@item?.Price.ToString("0.##")</span></div>
                         <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
                             <div>Available: <span class="font-weight-bold" style="color: green;">Todo</span></div>
+                        </div>
+
+                        <div>
+                            <button class="button" @onclick="@(async () => {
+                                                                            if (item != null)
+                                                                               {
+                                                                                  await RemoveProductFromBasketAsync(item);
+                                                                               }
+                                                                             })">
+                                ❌
+                            </button>
                         </div>
                         <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
                         </div>
@@ -102,6 +139,20 @@ else
             _itemsModel = JsonSerializer.Deserialize<ItemsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         else
+        {
+            _errorMessage = $"Error: {response.Error}";
+            _itemsModel = new ItemsModel();
+        }
+    }
+
+    private async Task RemoveProductFromBasketAsync(ItemModel itemModel)
+    {
+        var id = itemModel.ItemId;
+      _itemsModel.Items.Remove(itemModel);
+
+        var response = await BasketProductService.RemoveItemAsync($"api/item/{id}");
+
+        if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
         {
             _errorMessage = $"Error: {response.Error}";
             _itemsModel = new ItemsModel();

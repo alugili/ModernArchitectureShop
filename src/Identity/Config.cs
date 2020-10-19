@@ -17,7 +17,6 @@ namespace IdentityServer
                     new IdentityResources.Email(),
             };
 
-
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {

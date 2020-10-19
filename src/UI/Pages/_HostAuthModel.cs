@@ -47,11 +47,19 @@ namespace ModernArchitectureShop.BlazorUI
             var authProps = new AuthenticationProperties
             {
                 IsPersistent = true,
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddHours(15),
-                ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(30),
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
                 RedirectUri = Url.Content("~/")
             };
             return Challenge(authProps, "oidc");
+        }
+
+        public async Task OnGetRegsiter()
+        {
+            System.Diagnostics.Debug.WriteLine("\n_Host OnGetRegsiter");
+            var authProps = new AuthenticationProperties
+            {
+                RedirectUri = Url.Content("~/")
+            };
         }
 
         public async Task OnGetLogout()

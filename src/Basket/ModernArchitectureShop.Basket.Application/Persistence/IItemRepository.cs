@@ -10,15 +10,15 @@ namespace ModernArchitectureShop.Basket.Application.Persistence
     {
         void CreateDatabase();
 
+        void Remove(Item item);
+
+        void Update(Item itemI);
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         ValueTask<Item?> GetAsync(Guid id, CancellationToken cancellationToken);
 
         ValueTask AddAsync(Item item, CancellationToken cancellationToken);
-
-        ValueTask RemoveAsync(Guid id, CancellationToken cancellationToken);
-
-        void Update(Item itemI);
 
         ValueTask<ICollection<Item>> GetAsync(string username,
                                               int pageIndex, int pageSize,
