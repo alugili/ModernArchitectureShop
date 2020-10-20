@@ -28,8 +28,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Dapr.AspNetCore" Version="0.11.0-preview02" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-    <PackageReference Include="FluentValidation" Version="9.3.0-preview2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0-preview2" />
+    <PackageReference Include="FluentValidation" Version="9.3.0-preview3" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0-preview3" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
