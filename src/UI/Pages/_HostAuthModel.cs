@@ -60,6 +60,9 @@ namespace ModernArchitectureShop.BlazorUI
             {
                 RedirectUri = Url.Content("~/")
             };
+
+            // GoTo Register Link  HTTPS://localhost:50000/Identity/Account/Register
+            // MoreInfo: https://stackoverflow.com/questions/62949740/how-to-customize-identityserver-views-in-blazor
         }
 
         public async Task OnGetLogout()
