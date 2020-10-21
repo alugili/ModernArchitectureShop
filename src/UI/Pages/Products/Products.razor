@@ -10,63 +10,75 @@
 @inject AuthenticationStateProvider AuthState
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .button {
-        cursor: pointer;
-        outline: none;
-        color: #fff;
-        background-color: #4CAF50;
-        border: none;
-        margin: 3px;
-        -ms-border-radius: 7px;
-        border-radius: 7px;
-        box-shadow: 0 5px #999;
-        }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .button {
+      cursor: pointer;
+      outline: none;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      margin: 3px;
+      -ms-border-radius: 7px;
+      border-radius: 7px;
+      box-shadow: 0 5px #999;
+    }
 
-        .button:hover {background-color: #3e8e41}
+      .button:hover {
+        background-color: #3e8e41
+      }
 
-        .button:active {
+      .button:active {
         background-color: #3e8e41;
         box-shadow: 0 3px #666;
         -ms-transform: translateY(4px);
         -webkit-transform: translateY(4px);
         transform: translateY(4px);
-        }
-    </style>
+      }
+  </style>
 </head>
 
 <h6 style="color: red">@_errorMessage</h6>
+
+<div class="clearfix">
+  <div class="float-right">
+    <input type="text" value="" @onchange="@Search" class="form-control" placeholder="search..." />
+  </div>
+</div>
+
+@{
+  System.Diagnostics.Debug.Assert(_productsModel != null, nameof(_productsModel) + " != null");
+}
 @if (_productsModel.TotalOfProducts == 0)
 {
-<div class="text-center">
+  <div class="text-center">
     <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading...</span>
+      <span class="sr-only">Loading...</span>
     </div>
-</div>
+  </div>
 }
 else
 {
-<div class="row mt-4">
+  <div class="row mt-4">
     @foreach (var product in _productsModel.Products)
-        {
-    <div class="col-md-4">
+    {
+      <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <div class="media">
-                    <div class="media-body">
-                        <div>
-                            <img src="@product?.ImageUrl" alt="..." width="120" height="60" style="float:right">
-                        </div>
-                        <h5 class="mt-0">@product?.Name</h5>
-                        <div>Category: @product?.Code</div>
-                        <div>Location: Todo</div>
-                        <div>Price: <span class="font-weight-bold" style="color: red;">$@product?.Price.ToString("0.##")</span></div>
-                        <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
-                            <div>Available: <span class="font-weight-bold" style="color: blue;">@product?.ProductStores.FirstOrDefault()?.Quantity</span></div>
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body">
+                <div>
+                  <img src="@product?.ImageUrl" alt="..." width="120" height="60" style="float:right">
+                </div>
+                <h5 class="mt-0">@product?.Name</h5>
+                <div>Category: @product?.Code</div>
+                <div>Location: Todo</div>
+                <div>Price: <span class="font-weight-bold" style="color: red;">$@product?.Price.ToString("0.##")</span></div>
+                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
+                  <div>Available: <span class="font-weight-bold" style="color: blue;">@product?.ProductStores.FirstOrDefault()?.Quantity</span></div>
 
-                            <div class="btn-group">
-                                <button class="button" @onclick="@(async () =>
+                  <div class="btn-group">
+                    <button class="button" @onclick="@(async () =>
                                                                                  {
                                                                                    var config = new MapperConfiguration(
                                                                                      cfg =>
@@ -84,102 +96,125 @@ else
                                                                                    itemModel.StoreId = Guid.Empty;
                                                                                    await AddProductToBasketAsync(itemModel);
                                                                                  })">
-                                    ➕
-                                </button>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
-                        </div>
-                    </div>
+                      ➕
+                    </button>
+                  </div>
                 </div>
+                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
     }
-</div>
-<div class="d-flex justify-content-center">
+  </div>
+  <div class="d-flex justify-content-center">
     <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="/products/1" aria-label="First">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            @for (var i = 1; i <= Math.Round((double)_productsModel.TotalOfProducts / _pageSize); i++)
-                {
-            <li class="page-item">
-                <a class="page-link" href="/products/@i">@i</a>
-            </li>
-            }
-            <li class="page-item">
-                <a class="page-link" href="/products/@(Math.Round((double) _productsModel.TotalOfProducts / _pageSize))" aria-label="Last">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="/products/1" aria-label="First">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        @for (var i = 1; i <= Math.Round((double)_productsModel.TotalOfProducts / _pageSize); i++)
+        {
+          <li class="page-item">
+            <a class="page-link" href="/products/@i">@i</a>
+          </li>
+        }
+        <li class="page-item">
+          <a class="page-link" href="/products/@(Math.Round((double) _productsModel.TotalOfProducts / _pageSize))" aria-label="Last">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
     </nav>
-</div>
+  </div>
 }
 
 @code {
-    [Parameter]
-    public int Page { get; set; } = 1;
+  [Parameter]
+  public int Page { get; set; } = 1;
 
-    private readonly int _pageSize = 9;
-    private string _errorMessage;
-    private string _username = "Anonymous User";
+  private readonly int _pageSize = 9;
+  private string _errorMessage = string.Empty;
+  private string _username = "Anonymous User";
 
 
-    ProductsModel _productsModel = new ProductsModel();
+  ProductsModel? _productsModel = new ProductsModel();
 
-    protected override async Task OnInitializedAsync()
+  protected override async Task OnInitializedAsync()
+  {
+    _errorMessage = string.Empty;
+
+    var state = await AuthState.GetAuthenticationStateAsync();
+    _username =
+      state.User.Claims
+        .Where(c => c.Type.Equals("name"))
+        .Select(c => c.Value)
+        .FirstOrDefault() ?? string.Empty;
+
+    await base.OnInitializedAsync();
+  }
+
+  protected override async Task OnParametersSetAsync()
+  {
+    var response = await ProductService.GetProductsAsync(ProcessUrl());
+
+    if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
     {
-        _errorMessage = string.Empty;
-
-        var state = await AuthState.GetAuthenticationStateAsync();
-        _username =
-          state.User.Claims
-            .Where(c => c.Type.Equals("name"))
-            .Select(c => c.Value)
-            .FirstOrDefault() ?? string.Empty;
-
-        await base.OnInitializedAsync();
+      _productsModel = JsonSerializer.Deserialize<ProductsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
     }
-
-    protected override async Task OnParametersSetAsync()
+    else
     {
-        var response = await ProductService.GetProductsAsync(ProcessUrl());
-
-        if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
-        {
-            _productsModel = JsonSerializer.Deserialize<ProductsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        }
-        else
-        {
-            _errorMessage = $"Error: {response.Error}";
-            _productsModel = new ProductsModel();
-        }
+      _errorMessage = $"Error: {response.Error}";
+      _productsModel = new ProductsModel();
     }
+  }
 
-    async Task AddProductToBasketAsync(ItemModel itemModel)
+  async Task AddProductToBasketAsync(ItemModel itemModel)
+  {
+    var response = await BasketProductService.AddItemAsync($"api/item/", itemModel);
+
+    if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
     {
-        var response = await BasketProductService.AddItemAsync($"api/item/", itemModel);
-
-        if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
-        {
-            _errorMessage = $"Error: {response.Error}";
-            _productsModel = new ProductsModel();
-        }
+      _errorMessage = $"Error: {response.Error}";
+      _productsModel = new ProductsModel();
     }
+  }
 
-
-    private string ProcessUrl()
+  async Task Search(ChangeEventArgs e)
+  {
+    await Task.Run(async () =>
     {
-        // todo
-        if (Page == 0)
-            Page = 1;
+      NavigationManager.NavigateTo($"/products/{Page = 1}");
+      var response = await ProductService.SearchProducts(ProcessUrl(e.Value?.ToString()));
 
-        var url = $"api/products?PageIndex={Page}&PageSize={_pageSize}";
-        return url;
-    }
+      if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+      {
+        _productsModel = JsonSerializer.Deserialize<ProductsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+      }
+      else
+      {
+        _errorMessage = $"Error: {response.Error}";
+        _productsModel = new ProductsModel();
+      }
+    });
+  }
+
+  private string ProcessUrl(string filter = "")
+  {
+    // todo
+    if (Page == 0)
+      Page = 1;
+
+    var queryFilter = filter;
+
+    if (queryFilter != string.Empty)
+      return $"api/products/search-products?Filter={filter}&PageIndex={Page}&PageSize={_pageSize}";
+
+    var url = $"api/products?PageIndex={Page}&PageSize={_pageSize}";
+    return url;
+  }
 }

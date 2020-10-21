@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModernArchitectureShop.Store.Domain\ModernArchitectureShop.Store.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\DeleteProduct\" />
+    <Folder Include="UseCases\CreateProduct\" />
+    <Folder Include="UseCases\CreateStore\" />
+    <Folder Include="UseCases\GetProducts\" />
+    <Folder Include="UseCases\NewFolder\" />
+  </ItemGroup>
+
+</Project>

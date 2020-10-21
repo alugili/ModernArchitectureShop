@@ -3,11 +3,8 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="UseCases\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ModernArchitectureShop.Store.Domain\ModernArchitectureShop.Store.Domain.csproj" />

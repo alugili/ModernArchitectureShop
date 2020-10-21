@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -18,7 +19,9 @@ namespace ModernArchitectureShop.BlazorUI
 
         public async Task<IActionResult> OnGet()
         {
-            System.Diagnostics.Debug.WriteLine($"\n_Host OnGet IsAuth? {User.Identity.IsAuthenticated}");
+            Debug.Assert(User.Identity != null, "User.Identity != null");
+
+            Debug.WriteLine($"\n_Host OnGet IsAuth? {User.Identity.IsAuthenticated}");
 
             if (User.Identity.IsAuthenticated)
             {
@@ -32,6 +35,9 @@ namespace ModernArchitectureShop.BlazorUI
                 if (sid != null && !Cache.HasSubjectId(sid))
                 {
                     var authResult = await HttpContext.AuthenticateAsync("oidc");
+
+                    Debug.Assert(authResult.Properties != null, "authResult.Properties != null");
+
                     var expiration = authResult.Properties.ExpiresUtc.Value;
                     var accessToken = await HttpContext.GetTokenAsync("access_token");
                     var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
@@ -51,18 +57,6 @@ namespace ModernArchitectureShop.BlazorUI
                 RedirectUri = Url.Content("~/")
             };
             return Challenge(authProps, "oidc");
-        }
-
-        public async Task OnGetRegsiter()
-        {
-            System.Diagnostics.Debug.WriteLine("\n_Host OnGetRegsiter");
-            var authProps = new AuthenticationProperties
-            {
-                RedirectUri = Url.Content("~/")
-            };
-
-            // GoTo Register Link  HTTPS://localhost:50000/Identity/Account/Register
-            // MoreInfo: https://stackoverflow.com/questions/62949740/how-to-customize-identityserver-views-in-blazor
         }
 
         public async Task OnGetLogout()

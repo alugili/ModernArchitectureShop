@@ -6,11 +6,11 @@ namespace ModernArchitectureShop.BlazorUI.Models
     public class ProductModel
     {
         public Guid ProductId { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
+        public string Code { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public double Price { get; set; }
-        public string ImageUrl   {get;set;}
-        public IEnumerable<ProductStoreModel> ProductStores { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
+        public IEnumerable<ProductStoreModel> ProductStores { get; set; } = new ProductStoreModel[0];
     }
 }
 

@@ -17,6 +17,9 @@
   <link href="css/site.css" rel="stylesheet" />
 </head>
 <body>
+@{
+  System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
+}
 @if (User.Identity.IsAuthenticated)
 {
   <app>

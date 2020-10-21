@@ -62,6 +62,25 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
                 .ThenInclude(x => x.Store);
         }
 
+        public IQueryable SearchProductsQuery(string filter, int pageIndex, int pageSize)
+        {
+            return _products
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(filter) || x.Code.Contains(filter))
+                .OrderBy(x => x.Code)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .Include(x => x.ProductStores)
+                .ThenInclude(x => x.Store);
+        }
+
+        public async ValueTask<int> SearchProductsCountAsync(string filter)
+        {
+            return await _products
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(filter) || x.Code.Contains(filter)).CountAsync();
+        }
+
         public IQueryable<Product> GetByIdsQuery(IEnumerable<Guid> productIds)
         {
             return _products

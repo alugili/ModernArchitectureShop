@@ -3,6 +3,7 @@
 @using System.Text.Json
 @using ModernArchitectureShop.BlazorUI.Models
 @using ModernArchitectureShop.BlazorUI.Services
+@using System.Diagnostics
 @inject NavigationManager NavigationManager
 @inject BasketProductService BasketProductService
 @inject AuthenticationStateProvider AuthState
@@ -35,6 +36,10 @@
 </head>
 
 <h6 style="color: red">@_errorMessage</h6>
+
+@{
+  Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
+}
 
 @if (_itemsModel.TotalOfItems <= 0)
 {
@@ -111,9 +116,9 @@ else
     public int Page { get; set; } = 1;
 
     private const int PageSize = 9;
-    private string _errorMessage;
+    private string _errorMessage = string.Empty;
 
-    private ItemsModel _itemsModel = new ItemsModel();
+    private ItemsModel? _itemsModel = new ItemsModel();
     private string _username = "Anonymous User";
 
     protected override async Task OnInitializedAsync()
@@ -148,6 +153,8 @@ else
     private async Task RemoveProductFromBasketAsync(ItemModel itemModel)
     {
         var id = itemModel.ItemId;
+      Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
+
       _itemsModel.Items.Remove(itemModel);
 
         var response = await BasketProductService.RemoveItemAsync($"api/item/{id}");

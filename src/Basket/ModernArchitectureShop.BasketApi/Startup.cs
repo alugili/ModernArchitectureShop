@@ -1,7 +1,3 @@
-using System.Reflection;
-using AutoMapper;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,11 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
-using ModernArchitectureShop.Basket.Application.Persistence;
-using ModernArchitectureShop.Basket.Infrastructure.Persistence;
-using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Gateways;
-using ModernArchitectureShop.BasketApi.Infrastructure.Dapr.Publishers;
-using ModernArchitectureShop.BasketApi.ServiceCollection;
+using ModernArchitectureShop.Basket.Infrastructure.ServiceCollection;
 
 namespace ModernArchitectureShop.BasketApi
 {
@@ -39,23 +31,7 @@ namespace ModernArchitectureShop.BasketApi
                     options.Audience = Configuration.GetValue<string>("IDENTITY_AUDIENCE");
                 });
 
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
-                .AddCustomRequestValidation()
-                .AddAutoMapper(Assembly.GetExecutingAssembly())
-                .AddCustomDapr();
-
-            services
-                .AddHttpContextAccessor()
-                .AddMediatR(Assembly.GetExecutingAssembly());
-
-            // Entity Framework Core is only in the infrastructure.
-            services.AddCustomDbContext(Configuration.GetConnectionString("SqlConnection"));
-
-            services.AddTransient<IItemRepository, ItemRepository>();
-
-            services
-                 .AddTransient<BasketItemNotificationHandler>()
-                 .AddTransient<DaprStoresGateway>();
+            services.AddInfrastructure(Configuration);
 
             services.AddSwaggerGen(options =>
             {

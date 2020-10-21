@@ -1,7 +1,3 @@
-using System.Reflection;
-using AutoMapper;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,9 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
-using ModernArchitectureShop.Store.Application.Persistence;
-using ModernArchitectureShop.Store.Infrastructure.Persistence;
-using ModernArchitectureShop.StoreApi.ServiceCollection;
+using ModernArchitectureShop.Store.Infrastructure.ServiceCollection;
 
 namespace ModernArchitectureShop.StoreApi
 {
@@ -37,22 +31,7 @@ namespace ModernArchitectureShop.StoreApi
                     options.Audience = Configuration.GetValue<string>("IDENTITY_AUDIENCE");
                 });
 
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
-                .AddAutoMapper(Assembly.GetExecutingAssembly())
-                .AddCustomRequestValidation()
-                .AddDomainEventDispatcher()
-                .AddCustomDapr();
-
-            services
-                .AddHttpContextAccessor()
-                .AddMediatR(Assembly.GetExecutingAssembly());
-
-            // Entity Framework Core is only in the infrastructure.
-            services.AddCustomDbContext(Configuration.GetConnectionString("SqlConnection"));
-
-            services.AddTransient<IStoreRepository, StoreRepository>();
-            services.AddTransient<IProductRepository, ProductRepository>();
-
+            services.AddInfrastructure(Configuration);
 
             services.AddSwaggerGen(options =>
             {

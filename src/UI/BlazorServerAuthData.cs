@@ -6,9 +6,9 @@ namespace ModernArchitectureShop.BlazorUI
 {
     public class BlazorServerAuthData
     {
-        public string SubjectId;
+        public string SubjectId = string.Empty;
         public DateTimeOffset Expiration;
-        public string AccessToken;
-        public string RefreshToken;
+        public string AccessToken= string.Empty;
+        public string RefreshToken= string.Empty;
     }
 }

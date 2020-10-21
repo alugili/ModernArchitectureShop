@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ModernArchitectureShop.BasketApi.Application.UseCases.GetItems;
+using ModernArchitectureShop.Basket.Infrastructure.UseCases.GetItems;
 
 namespace ModernArchitectureShop.BasketApi.Controllers
 {
@@ -12,7 +12,7 @@ namespace ModernArchitectureShop.BasketApi.Controllers
     public class ItemsController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetItemsCommand command, [FromServices] IMediator mediator)
+        public async Task<IActionResult> Get([FromQuery] GetItems command, [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Ok(result);

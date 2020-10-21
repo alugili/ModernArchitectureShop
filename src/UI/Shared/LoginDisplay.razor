@@ -1,6 +1,11 @@
 <AuthorizeView>
   <Authorized>
-    <a href="logout">Hello, @context.User.Identity.Name !</a>
+    <a href="logout">Hello,
+      @{
+        System.Diagnostics.Debug.Assert(context.User.Identity != null, "context.User.Identity != null");
+      }
+
+      @context.User.Identity.Name !</a>
     <form method="get" action="logout">
       <button type="submit" class="nav-link btn btn-link">Log out</button>
     </form>

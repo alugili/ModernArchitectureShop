@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ModernArchitectureShop.StoreApi.Application.UseCases.AddOrUpdateProductStore;
-using ModernArchitectureShop.StoreApi.Application.UseCases.CreateStore;
+using ModernArchitectureShop.Store.Infrastructure.UseCases.AddOrUpdateProductStore;
+using ModernArchitectureShop.Store.Infrastructure.UseCases.CreateStore;
 
 namespace ModernArchitectureShop.StoreApi.Controllers
 {
@@ -17,14 +17,14 @@ namespace ModernArchitectureShop.StoreApi.Controllers
         public StoreController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
-        public async Task<IActionResult> CreateStore([FromBody] CreateStoreCommand command)
+        public async Task<IActionResult> CreateStore([FromBody] CreateStore command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
         }
 
         [HttpPost("add-or-update-product")]
-        public async Task<IActionResult> AddOrUpdateProduct([FromBody] AddOrdUpdateProductStoreCommand command)
+        public async Task<IActionResult> AddOrUpdateProduct([FromBody] AddOrdUpdateProductStore command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);

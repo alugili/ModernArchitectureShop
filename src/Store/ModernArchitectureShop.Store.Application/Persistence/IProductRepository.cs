@@ -23,6 +23,10 @@ namespace ModernArchitectureShop.Store.Application.Persistence
 
         IQueryable GetProductsQuery(int pageIndex, int pageSize);
 
+        IQueryable SearchProductsQuery(string filter, int pageIndex, int pageSize);
+
+        ValueTask<int> SearchProductsCountAsync(string filter);
+
         IQueryable<Product> GetByIdsQuery(IEnumerable<Guid> commandProductIds);
     }
 }

@@ -29,6 +29,35 @@ namespace ModernArchitectureShop.BlazorUI.Services
             }
         }
 
+        public async Task<ServiceResult<string>> SearchProducts(string url)
+        {
+            await AttachAccessTokenToHeader();
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await _storeHttpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                return new ServiceResult<string>
+                {
+                    Content = null!,
+                    StatusCode = 500, // Server Error!
+                    Error = e.Message
+                };
+            }
+
+            return new ServiceResult<string>
+            {
+                Content = await response.Content.ReadAsStringAsync(),
+                StatusCode = (int)response.StatusCode,
+                Error = string.Empty
+            };
+
+        }
+
         public async Task<ServiceResult<string>> GetProductsAsync(string url)
         {
             await AttachAccessTokenToHeader();
@@ -43,7 +72,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
             {
                 return new ServiceResult<string>
                 {
-                    Content = null,
+                    Content = null!,
                     StatusCode = 500, // Server Error!
                     Error = e.Message
                 };

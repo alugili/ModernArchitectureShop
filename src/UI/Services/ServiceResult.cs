@@ -4,8 +4,8 @@ namespace ModernArchitectureShop.BlazorUI.Services
     {
         public int StatusCode { get; set; }
 
-        public string Error { get; set; }
+        public string Error { get; set; } = string.Empty;
 
-        public T Content { get; set; }
+        public T Content { get; set; } = default!;
     }
 }

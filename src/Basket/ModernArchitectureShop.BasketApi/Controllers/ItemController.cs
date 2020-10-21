@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ModernArchitectureShop.BasketApi.Application.UseCases.AddItem;
-using ModernArchitectureShop.BasketApi.Application.UseCases.DeleteItem;
+using ModernArchitectureShop.Basket.Infrastructure.UseCases.AddItem;
+using ModernArchitectureShop.Basket.Infrastructure.UseCases.DeleteItem;
 
 namespace ModernArchitectureShop.BasketApi.Controllers
 {
@@ -23,7 +23,7 @@ namespace ModernArchitectureShop.BasketApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(Guid id, [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(new DeleteItemCommand { ItemId = id });
+            var result = await mediator.Send(new DeleteItem { ItemId = id });
             return Ok(result);
         }
     }

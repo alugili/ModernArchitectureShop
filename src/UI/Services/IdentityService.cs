@@ -14,7 +14,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
         }
 
         // Get user claims json from the API get method 
-        public async Task<string> GetAPIUserClaimsJson()
+        public async Task<string> GetApiUserClaimsJson()
         {
             var authState = await _authState.GetAuthenticationStateAsync();
 

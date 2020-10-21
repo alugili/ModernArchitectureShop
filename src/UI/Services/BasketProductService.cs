@@ -50,7 +50,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
             {
                 return new ServiceResult<string>
                 {
-                    Content = null,
+                    Content = null!,
                     StatusCode = 500, // Server Error!
                     Error = e.Message
                 };
@@ -58,7 +58,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
 
             return new ServiceResult<string>
             {
-                Content = null,
+                Content = null!,
                 StatusCode = (int)response.StatusCode,
                 Error = string.Empty
             };
@@ -79,7 +79,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
             {
                 return new ServiceResult<string>
                 {
-                    Content = null,
+                    Content = null!,
                     StatusCode = 500, // Server Error!
                     Error = e.Message
                 };
@@ -87,7 +87,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
 
             return new ServiceResult<string>
             {
-                Content = null,
+                Content = null!,
                 StatusCode = (int)response.StatusCode,
                 Error = string.Empty
             };
@@ -107,7 +107,7 @@ namespace ModernArchitectureShop.BlazorUI.Services
             {
                 return new ServiceResult<string>
                 {
-                    Content = null,
+                    Content = null!,
                     StatusCode = 500, // Server Error!
                     Error = e.Message
                 };

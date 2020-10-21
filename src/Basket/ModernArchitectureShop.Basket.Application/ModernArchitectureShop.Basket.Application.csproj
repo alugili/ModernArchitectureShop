@@ -11,8 +11,4 @@
     <ProjectReference Include="..\ModernArchitectureShop.Basket.Domain\ModernArchitectureShop.Basket.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\" />
-  </ItemGroup>
-
 </Project>

@@ -30,7 +30,7 @@ namespace ModernArchitectureShop.BlazorUI
         public BlazorServerAuthData Get(string subjectId)
         {
             Cache.TryGetValue(subjectId, out var data);
-            return data;
+            return data!;
         }
 
         public void Remove(string subjectId)

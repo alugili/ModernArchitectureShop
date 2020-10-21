@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ModernArchitectureShop.StoreApi.Application.UseCases.CreateProduct;
+using ModernArchitectureShop.Store.Infrastructure.UseCases.CreateProduct;
 
 namespace ModernArchitectureShop.StoreApi.Controllers
 {
@@ -24,7 +24,7 @@ namespace ModernArchitectureShop.StoreApi.Controllers
 
         [HttpPost]
         [Topic("ProductCreated", "ProductCreated")]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct command)
         {
             _logger.LogInformation($"Received Products - {command.ProductId}");
 

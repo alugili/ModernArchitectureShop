@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using ModernArchitectureShop.Store.Application.Persistence;
-using ModernArchitectureShop.StoreApi.Infrastructure.Persistence;
+using ModernArchitectureShop.Store.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.StoreApi
 {
