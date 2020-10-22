@@ -1,3 +1,5 @@
+# [Quick Start](https://github.com/alugili/ModernArchitectureShop/wiki/QuickStart)
+
 Modern Architecture Shop
 ======================
 
