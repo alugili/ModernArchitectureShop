@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.GetItems
 {
-    public class GetItemsValidator : AbstractValidator<GetItems>
+    public class GetItemsValidator : AbstractValidator<GetItemsCommand>
     {
         public GetItemsValidator()
         {

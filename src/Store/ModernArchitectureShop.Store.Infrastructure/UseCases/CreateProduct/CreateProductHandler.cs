@@ -6,13 +6,13 @@ using ModernArchitectureShop.Store.Domain;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateProduct
 {
-    public class CreateProductHandler : IRequestHandler<CreateProduct, CreateProductCommandResponse>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductCommandResponse>
     {
         private readonly IProductRepository _productRepository;
 
         public CreateProductHandler(IProductRepository productRepository) => _productRepository = productRepository;
 
-        public async Task<CreateProductCommandResponse> Handle(CreateProduct command, CancellationToken cancellationToken)
+        public async Task<CreateProductCommandResponse> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var product = new Product { ProductId = command.ProductId, Code = command.Code, Price = command.Price, ImageUrl = command.ImageUrl };
 

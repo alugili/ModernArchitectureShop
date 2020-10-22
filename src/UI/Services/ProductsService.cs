@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ModernArchitectureShop.BlazorUI.Services
 {
-    public class ProductService
+    public class ProductsService
     {
         private readonly HttpClient _storeHttpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(HttpClient storeHttpClient, IHttpContextAccessor httpContextAccessor)
+        public ProductsService(HttpClient storeHttpClient, IHttpContextAccessor httpContextAccessor)
         {
             _storeHttpClient = storeHttpClient ?? throw new ArgumentNullException(nameof(storeHttpClient));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));

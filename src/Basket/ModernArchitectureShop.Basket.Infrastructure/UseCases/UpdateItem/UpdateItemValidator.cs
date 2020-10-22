@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.UpdateItem
 {
-    public class UpdateItemValidator : AbstractValidator<UpdateItem>
+    public class UpdateItemValidator : AbstractValidator<UpdateItemCommand>
     {
         public UpdateItemValidator()
         {

@@ -9,7 +9,7 @@ using ModernArchitectureShop.Store.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProducts
 {
-    public class GetProductsHandler : IRequestHandler<GetProducts, GetProductsCommandResponse>
+    public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProductsResponse>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProducts
             _mapper = mapper;
         }
 
-        public async Task<GetProductsCommandResponse> Handle(GetProducts command, CancellationToken cancellationToken)
+        public async Task<GetProductsResponse> Handle(GetProductsCommand command, CancellationToken cancellationToken)
         {
             var totalOfProducts = await _productRepository.CountAsync(cancellationToken);
 
@@ -29,7 +29,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProducts
                                 .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
                                 .ToListAsync(cancellationToken);
 
-            var result = new GetProductsCommandResponse
+            var result = new GetProductsResponse
             {
                 Products = products,
                 TotalOfProducts = totalOfProducts

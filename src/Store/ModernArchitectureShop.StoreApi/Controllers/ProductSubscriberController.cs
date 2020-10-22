@@ -16,7 +16,7 @@ namespace ModernArchitectureShop.StoreApi.Controllers
     {
         [Topic("ProductCreated", "ProductCreated")]
         [HttpPost("ProductCreated")]
-        public async Task SubcribeProductCreated(CreateProduct command, [FromServices] IMediator mediator)
+        public async Task SubcribeProductCreated(CreateProductCommand command, [FromServices] IMediator mediator)
         {
             await mediator.Send(command);
         }

@@ -3,7 +3,7 @@ using ModernArchitectureShop.Store.Application.UseCases.SearchProducts;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.SearchProducts
 {
-    public class SearchProducts : IRequest<SearchProductsCommandResponse>, ISearchProducts
+    public class SearchProductsCommand : IRequest<SearchProductsResponse>, ISearchProducts
     {
         public string Filter { get; set; } = string.Empty;
 

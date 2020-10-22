@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
 {
-    public class GetProductsByIdsValidator : AbstractValidator<GetProductsByIds>
+    public class GetProductsByIdsValidator : AbstractValidator<GetProductsByIdsCommand>
     {
         public GetProductsByIdsValidator()
         {

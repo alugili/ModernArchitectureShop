@@ -7,7 +7,7 @@ using ModernArchitectureShop.Store.Infrastructure.Dto;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateStore
 {
-    public class CreateStoreHandler : IRequestHandler<CreateStore, StoreDto>
+    public class CreateStoreHandler : IRequestHandler<CreateStoreCommand, StoreDto>
     {
         private readonly IStoreRepository _storeRepository;
         private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateStore
             _mapper = mapper;
         }
 
-        public async Task<StoreDto> Handle(CreateStore command, CancellationToken cancellationToken)
+        public async Task<StoreDto> Handle(CreateStoreCommand command, CancellationToken cancellationToken)
         {
             var store = new Store.Domain.Store { Name = command.Name, Location = command.Location };
             await _storeRepository.AddAsync(store, cancellationToken);

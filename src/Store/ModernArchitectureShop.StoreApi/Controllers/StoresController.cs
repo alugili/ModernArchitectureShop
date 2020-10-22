@@ -12,7 +12,7 @@ namespace ModernArchitectureShop.StoreApi.Controllers
     public class StoresController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetStores([FromQuery] GetStores command, [FromServices] IMediator mediator)
+        public async Task<IActionResult> GetStores([FromQuery] GetStoresCommand command, [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Ok(result);

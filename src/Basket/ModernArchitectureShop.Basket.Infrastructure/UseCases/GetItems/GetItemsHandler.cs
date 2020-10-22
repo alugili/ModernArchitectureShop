@@ -8,7 +8,7 @@ using ModernArchitectureShop.Basket.Infrastructure.Dto;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.GetItems
 {
-    internal class GetItemsHandler : IRequestHandler<GetItems, GetItemsCommandResponse>
+    internal class GetItemsHandler : IRequestHandler<GetItemsCommand, GetItemsCommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IItemRepository _itemRepository;
@@ -19,7 +19,7 @@ namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.GetItems
             _mapper = mapper;
         }
 
-        public async Task<GetItemsCommandResponse> Handle(GetItems command, CancellationToken cancellationToken)
+        public async Task<GetItemsCommandResponse> Handle(GetItemsCommand command, CancellationToken cancellationToken)
         {
             var items = await _itemRepository.GetAsync(command.Username, command.PageIndex, command.PageSize, cancellationToken);
 

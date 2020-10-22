@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.IdentityModel.Logging;
+using ModernArchitectureShop.BlazorUI.DaprClients;
 using ModernArchitectureShop.BlazorUI.Services;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
@@ -93,12 +94,12 @@ namespace ModernArchitectureShop.BlazorUI
                     options.GetClaimsFromUserInfoEndpoint = true;
                 });
 
-            services.AddHttpClient<ProductService, ProductService>(client =>
+            services.AddHttpClient<ProductsService>(client =>
             {
                 client.BaseAddress = new Uri(storeApiURL);
             });
 
-            services.AddHttpClient<BasketProductService, BasketProductService>(client =>
+            services.AddHttpClient<BasketsService>(client =>
             {
                 client.BaseAddress = new Uri(basketApiURL);
             });
@@ -106,7 +107,9 @@ namespace ModernArchitectureShop.BlazorUI
             services.AddSingleton<BlazorServerAuthStateCache>();
             services.AddScoped<AuthenticationStateProvider, BlazorServerAuthState>();
             services.AddScoped<IdentityService, IdentityService>();
+            services.AddScoped<ProductsDaprClient>();
 
+            services.AddCustomDapr();
 
             // problem with login identityserver 4 a workaround
             services.Configure<CookiePolicyOptions>(options =>

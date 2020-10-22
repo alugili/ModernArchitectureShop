@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateStore
 {
-    public class CreateStoreValidator : AbstractValidator<CreateStore>
+    public class CreateStoreValidator : AbstractValidator<CreateStoreCommand>
     {
         public CreateStoreValidator()
         {

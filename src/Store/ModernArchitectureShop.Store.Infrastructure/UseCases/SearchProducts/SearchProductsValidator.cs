@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.SearchProducts
 {
-    public class SearchProductsValidator : AbstractValidator<SearchProducts>
+    public class SearchProductsValidator : AbstractValidator<SearchProductsCommand>
     {
         public SearchProductsValidator()
         {

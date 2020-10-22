@@ -4,7 +4,7 @@ using ModernArchitectureShop.Store.Application.UseCases.AddOrUpdateProductStore;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.AddOrUpdateProductStore
 {
-    public class AddOrdUpdateProductStore : IRequest<AddOrUpdateProductStoreResponse>, IAddOrdUpdateProductStore
+    public class AddOrdUpdateProductStoreCommand : IRequest<AddOrUpdateProductStoreResponse>, IAddOrdUpdateProductStore
     {
         public Guid ProductId { get; set; }
         public Guid StoreId { get; set; }

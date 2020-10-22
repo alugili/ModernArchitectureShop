@@ -33,10 +33,10 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dapr.Gateways
             logger.LogInformation($"Begin to log dapr :{StoreAppId} ");
         }
 
-        public async Task<GetProductsCommandResponse> GetProducts
-                    (GetProducts command,
+        public async Task<GetProductsResponse> GetProducts
+                    (GetProductsCommand command,
                      CancellationToken cancellationToken = default)
-                                    => await _daprClient.InvokeMethodAsync<GetProducts, GetProductsCommandResponse>
+                                    => await _daprClient.InvokeMethodAsync<GetProductsCommand, GetProductsResponse>
                                          (StoreAppId,
                                         "api/dapr/products/",
                                           command,

@@ -9,7 +9,7 @@ using ModernArchitectureShop.Store.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetStores
 {
-    public class GetStoresHandler : IRequestHandler<GetStores, GetStoresResponse>
+    public class GetStoresHandler : IRequestHandler<GetStoresCommand, GetStoresResponse>
     {
         private readonly IStoreRepository _storeRepository;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetStores
             _mapper = mapper;
         }
 
-        public async Task<GetStoresResponse> Handle(GetStores command, CancellationToken cancellationToken)
+        public async Task<GetStoresResponse> Handle(GetStoresCommand command, CancellationToken cancellationToken)
         {
             var totalOfStores = await _storeRepository.CountAsync(cancellationToken);
 

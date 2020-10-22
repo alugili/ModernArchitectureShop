@@ -24,7 +24,7 @@ namespace ModernArchitectureShop.StoreApi.Controllers
 
         [HttpPost]
         [Topic("ProductCreated", "ProductCreated")]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct command)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
             _logger.LogInformation($"Received Products - {command.ProductId}");
 

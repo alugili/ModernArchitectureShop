@@ -9,12 +9,12 @@ using ModernArchitectureShop.BlazorUI.Models;
 
 namespace ModernArchitectureShop.BlazorUI.Services
 {
-    public class BasketProductService
+    public class BasketsService
     {
         private readonly HttpClient _basketHttpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BasketProductService(HttpClient basketHttpClient, IHttpContextAccessor httpContextAccessor)
+        public BasketsService(HttpClient basketHttpClient, IHttpContextAccessor httpContextAccessor)
         {
             _basketHttpClient = basketHttpClient ?? throw new ArgumentNullException(nameof(basketHttpClient));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));

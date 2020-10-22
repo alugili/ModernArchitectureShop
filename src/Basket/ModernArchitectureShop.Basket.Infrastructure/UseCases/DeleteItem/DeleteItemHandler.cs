@@ -8,7 +8,7 @@ using ModernArchitectureShop.Basket.Infrastructure.Dapr.Publishers.Messages;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.DeleteItem
 {
-    public class DeleteItemHandler : IRequestHandler<DeleteItem, bool>
+    public class DeleteItemHandler : IRequestHandler<DeleteItemCommand, bool>
     {
         private readonly IItemRepository _itemRepository;
         private readonly BasketItemNotificationHandler _basketItemNotificationHandler;
@@ -19,7 +19,7 @@ namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.DeleteItem
             _basketItemNotificationHandler = basketItemNotificationHandler;
         }
 
-        public async Task<bool> Handle(DeleteItem command, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteItemCommand command, CancellationToken cancellationToken)
         {
             _itemRepository.Remove(new Item { ItemId = command.ItemId });
 

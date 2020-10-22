@@ -8,7 +8,7 @@ using ModernArchitectureShop.Basket.Infrastructure.Dto;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.UpdateItem
 {
-    public class UpdateItemHandler : IRequestHandler<UpdateItem, ItemDto>
+    public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, ItemDto>
     {
         private readonly IItemRepository _itemRepository;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.UpdateItem
             _mapper = mapper;
         }
 
-        public async Task<ItemDto> Handle(UpdateItem command, CancellationToken cancellationToken)
+        public async Task<ItemDto> Handle(UpdateItemCommand command, CancellationToken cancellationToken)
         {
             var item = _mapper.Map<Item>(command);
 

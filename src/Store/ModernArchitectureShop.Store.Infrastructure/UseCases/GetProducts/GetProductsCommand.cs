@@ -3,7 +3,7 @@ using ModernArchitectureShop.Store.Application.UseCases.GetProducts;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProducts
 {
-    public class GetProducts : IRequest<GetProductsCommandResponse>, IGetProducts
+    public class GetProductsCommand : IRequest<GetProductsResponse>, IGetProducts
     {
         public int PageIndex { get; set; } = 1;
 

@@ -23,7 +23,7 @@ namespace ModernArchitectureShop.BasketApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(Guid id, [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(new DeleteItem { ItemId = id });
+            var result = await mediator.Send(new DeleteItemCommand { ItemId = id });
             return Ok(result);
         }
     }

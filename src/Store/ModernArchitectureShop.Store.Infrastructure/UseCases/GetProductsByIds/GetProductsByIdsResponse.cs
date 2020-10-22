@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
 {
-    public class GetProductsByIdsCommandResponse
+    public class GetProductsByIdsResponse
     {
         public IEnumerable<ProductResult> Products { get; set; } = new ProductResult[0];
 

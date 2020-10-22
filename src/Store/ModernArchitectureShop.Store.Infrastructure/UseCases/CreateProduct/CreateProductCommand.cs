@@ -4,7 +4,7 @@ using ModernArchitectureShop.Store.Application.UseCases.CreateProduct;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateProduct
 {
-    public class CreateProduct : IRequest<CreateProductCommandResponse>, ICreateProduct
+    public class CreateProductCommand : IRequest<CreateProductCommandResponse>, ICreateProduct
     {
         public Guid ProductId { get; set; }
         public string Code { get; set; } = string.Empty;

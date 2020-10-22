@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.AddOrUpdateProductStore
 {
-    public class AddOrUpdateProductStoreValidator : AbstractValidator<AddOrdUpdateProductStore>
+    public class AddOrUpdateProductStoreValidator : AbstractValidator<AddOrdUpdateProductStoreCommand>
     {
         public AddOrUpdateProductStoreValidator()
         {

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.DeleteItem
 {
-    public class DeleteProductRequestValidator : AbstractValidator<DeleteItem>
+    public class DeleteProductRequestValidator : AbstractValidator<DeleteItemCommand>
     {
         public DeleteProductRequestValidator()
         {

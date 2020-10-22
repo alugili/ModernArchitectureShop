@@ -12,7 +12,7 @@ namespace ModernArchitectureShop.BasketApi.Controllers
     public class ItemsController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetItems command, [FromServices] IMediator mediator)
+        public async Task<IActionResult> Get([FromQuery] GetItemsCommand command, [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Ok(result);

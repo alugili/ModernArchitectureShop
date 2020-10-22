@@ -17,14 +17,14 @@ namespace ModernArchitectureShop.StoreApi.Controllers
         public StoreController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
-        public async Task<IActionResult> CreateStore([FromBody] CreateStore command)
+        public async Task<IActionResult> CreateStore([FromBody] CreateStoreCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
         }
 
         [HttpPost("add-or-update-product")]
-        public async Task<IActionResult> AddOrUpdateProduct([FromBody] AddOrdUpdateProductStore command)
+        public async Task<IActionResult> AddOrUpdateProduct([FromBody] AddOrdUpdateProductStoreCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);

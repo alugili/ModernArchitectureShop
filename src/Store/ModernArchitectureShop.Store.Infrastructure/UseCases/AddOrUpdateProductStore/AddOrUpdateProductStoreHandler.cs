@@ -7,7 +7,7 @@ using ModernArchitectureShop.Store.Application.Persistence;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.AddOrUpdateProductStore
 {
-    public class AddOrUpdateProductStoreHandler : IRequestHandler<AddOrdUpdateProductStore, AddOrUpdateProductStoreResponse>
+    public class AddOrUpdateProductStoreHandler : IRequestHandler<AddOrdUpdateProductStoreCommand, AddOrUpdateProductStoreResponse>
     {
         private readonly IStoreRepository _storeRepository;
         private readonly IProductRepository _productRepository;
@@ -18,7 +18,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.AddOrUpdateProduc
             _productRepository = productRepository;
         }
 
-        public async Task<AddOrUpdateProductStoreResponse> Handle(AddOrdUpdateProductStore command, CancellationToken cancellationToken)
+        public async Task<AddOrUpdateProductStoreResponse> Handle(AddOrdUpdateProductStoreCommand command, CancellationToken cancellationToken)
         {
             var store = await _storeRepository.GetAsync(command.StoreId, cancellationToken);
 
