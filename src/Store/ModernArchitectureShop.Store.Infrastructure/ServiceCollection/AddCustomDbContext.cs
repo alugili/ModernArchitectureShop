@@ -8,7 +8,9 @@ namespace ModernArchitectureShop.Store.Infrastructure.ServiceCollection
     {
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<StoreDbContext>(
+                options => options.UseSqlServer(connectionString,
+                providerOptions => providerOptions.EnableRetryOnFailure()));
             return services;
         }
     }

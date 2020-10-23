@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>a220d187-fc72-41a3-9c4e-aaa58cafcba1</UserSecretsId>
+    <AssemblyName>ModernArchitectureShop.TyeConfiguration</AssemblyName>
+    <RootNamespace>ModernArchitectureShop.TyeConfiguration</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.Tye.Extensions.Configuration" Version="0.4.0-alpha.20371.1" />
+  </ItemGroup>
+
+</Project>

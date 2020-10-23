@@ -4,7 +4,18 @@
 # when you've given us a try, we'd love to know what you think:
 #    https://aka.ms/AA7q20u
 #
+
 name: modernarchitectureshop
+extensions:
+
+  - name: dapr
+    log-level: debug
+    config: modernarchitectureshop-dapr-config
+    components-path: ./components
+  
+  - name: seq
+    logPath: ./.logs
+
 services:
 - name: modernarchitectureshop-basketapi
   project: src/Basket/ModernArchitectureShop.BasketApi/ModernArchitectureShop.BasketApi.csproj
@@ -14,3 +25,13 @@ services:
   project: src/UI/ModernArchitectureShop.BlazorUI.csproj
 - name: identityserver
   project: src/Identity/IdentityServer.csproj
+
+- name: sqlserver
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  env:
+    - name: SA_PASSWORD
+      value: "P@ssword"
+    - name: ACCEPT_EULA
+      value: "Y"
+  bindings:
+    - port: 1433

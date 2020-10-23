@@ -1,0 +1,21 @@
+{
+  "Services": {
+    "IdentityServer": {
+      "Name": "identityserverapi",
+      "Url": "https://localhost:50000"
+    },
+    "StoreApi": {
+      "Name": "storeapi",
+      "Url": "http://localhost:5020"
+    },
+    "BasketApi": {
+      "ServiceName": "basketapi",
+      "ServiceUrl": "http://localhost:5030"
+    },
+    "BlazorUI": {
+      "ServiceName": "blazorui",
+      "ServiceUrl": "http://localhost:5010"
+    }
+  },
+  "TyeIsEnabled": true
+}

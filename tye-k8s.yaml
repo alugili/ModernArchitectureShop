@@ -17,7 +17,7 @@ extensions:
 
 services:
   - name: identityserver
-    project: src/Identity/IdentityServerAspNetIdentity.csproj
+    project: src/Identity/Identity.csproj
         buildProperties:
       - name: Configuration
         value: Release
@@ -55,8 +55,13 @@ services:
       - name: ASPNETCORE__ENVIRONMENT
         value: "Production"
 
-  - name: sqlserver
-    image: mcr.microsoft.com/mssql/server:2017-latest
+- name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    env:
+     - name: SA_PASSWORD
+       value: "P@ssw0rd"
+     - name: ACCEPT_EULA
+      value: "Y"
     bindings:
-      - port: 1433
-        connectionString: Data Source=${host},${port};User Id=sa;Password=${env:SA_PASSWORD};MultipleActiveResultSets=True
+     - port: 1433
+       connectionString: Data Source=${host},${port};User Id=sa;Password=${env:SA_PASSWORD};MultipleActiveResultSets=True

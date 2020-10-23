@@ -54,29 +54,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{7D722814-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{2F3994A6-C4E3-474B-9C8F-909AA7DAC2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Payment.Application", "src\Payment\ModernArchitectureShop.Payment.Application\ModernArchitectureShop.Payment.Application.csproj", "{056B021B-F615-4847-9C98-34D8A392C4BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Payment.Application", "src\Payment\ModernArchitectureShop.Payment.Application\ModernArchitectureShop.Payment.Application.csproj", "{056B021B-F615-4847-9C98-34D8A392C4BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Payment.Domain", "src\Payment\ModernArchitectureShop.Payment.Domain\ModernArchitectureShop.Payment.Domain.csproj", "{C05202F4-13CC-4E89-8E1E-C9120BBFD132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Payment.Domain", "src\Payment\ModernArchitectureShop.Payment.Domain\ModernArchitectureShop.Payment.Domain.csproj", "{C05202F4-13CC-4E89-8E1E-C9120BBFD132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Payment.Infrastructure", "src\Payment\ModernArchitectureShop.Payment.Infrastructure\ModernArchitectureShop.Payment.Infrastructure.csproj", "{813B23E1-22B0-4D51-93B7-5E22B94CD665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Payment.Infrastructure", "src\Payment\ModernArchitectureShop.Payment.Infrastructure\ModernArchitectureShop.Payment.Infrastructure.csproj", "{813B23E1-22B0-4D51-93B7-5E22B94CD665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Payment.Api", "src\Payment\ModernArchitectureShop.Payment.Api\ModernArchitectureShop.Payment.Api.csproj", "{99643251-DD43-4585-8BDD-B769E36D7465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Payment.Api", "src\Payment\ModernArchitectureShop.Payment.Api\ModernArchitectureShop.Payment.Api.csproj", "{99643251-DD43-4585-8BDD-B769E36D7465}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Order.Application", "src\Order\ModernArchitectureShop.Order.Application\ModernArchitectureShop.Order.Application.csproj", "{E10133F3-B445-40E8-9BF2-89EA181A4D14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Order.Application", "src\Order\ModernArchitectureShop.Order.Application\ModernArchitectureShop.Order.Application.csproj", "{E10133F3-B445-40E8-9BF2-89EA181A4D14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Order.Domain", "src\Order\ModernArchitectureShop.Order.Domain\ModernArchitectureShop.Order.Domain.csproj", "{BA7840EC-F3F0-43B4-B5BE-A9C55EDAFCB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Order.Domain", "src\Order\ModernArchitectureShop.Order.Domain\ModernArchitectureShop.Order.Domain.csproj", "{BA7840EC-F3F0-43B4-B5BE-A9C55EDAFCB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.Order.Infrastructure", "src\Order\ModernArchitectureShop.Order.Infrastructure\ModernArchitectureShop.Order.Infrastructure.csproj", "{A6E33DFB-6258-4651-BA3F-D32E80D6F9C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Order.Infrastructure", "src\Order\ModernArchitectureShop.Order.Infrastructure\ModernArchitectureShop.Order.Infrastructure.csproj", "{A6E33DFB-6258-4651-BA3F-D32E80D6F9C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.OrderApi", "src\Order\ModernArchitectureShop.OrderApi\ModernArchitectureShop.OrderApi.csproj", "{0878CDCC-2CB2-442E-8B26-82393F9B3FEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.OrderApi", "src\Order\ModernArchitectureShop.OrderApi\ModernArchitectureShop.OrderApi.csproj", "{0878CDCC-2CB2-442E-8B26-82393F9B3FEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.User.Application", "src\User\ModernArchitectureShop.User.Application\ModernArchitectureShop.User.Application.csproj", "{F4EB9092-8294-4C04-A230-9A8D025A20C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.User.Application", "src\User\ModernArchitectureShop.User.Application\ModernArchitectureShop.User.Application.csproj", "{F4EB9092-8294-4C04-A230-9A8D025A20C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.User.Domain", "src\User\ModernArchitectureShop.User.Domain\ModernArchitectureShop.User.Domain.csproj", "{F99BE8E7-655A-4B86-A90B-3D0B7212BA0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.User.Domain", "src\User\ModernArchitectureShop.User.Domain\ModernArchitectureShop.User.Domain.csproj", "{F99BE8E7-655A-4B86-A90B-3D0B7212BA0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.User.Infrastructure", "src\User\ModernArchitectureShop.User.Infrastructure\ModernArchitectureShop.User.Infrastructure.csproj", "{7CBE39C4-026E-4CA3-9437-B5DCA7C46864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.User.Infrastructure", "src\User\ModernArchitectureShop.User.Infrastructure\ModernArchitectureShop.User.Infrastructure.csproj", "{7CBE39C4-026E-4CA3-9437-B5DCA7C46864}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernArchitectureShop.User.Api", "src\User\ModernArchitectureShop.User.Api\ModernArchitectureShop.User.Api.csproj", "{4B0C5414-88D6-48F6-BB0F-B73BBCBCDCA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.User.Api", "src\User\ModernArchitectureShop.User.Api\ModernArchitectureShop.User.Api.csproj", "{4B0C5414-88D6-48F6-BB0F-B73BBCBCDCA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{117761F7-D3CB-4F00-A048-F221060158F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tye", "tye", "{4A57FD96-524C-4D12-9D5D-FE8F31623E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TyeConfiguration", "TyeConfiguration\TyeConfiguration.csproj", "{2430A20C-B400-4DFB-B2EB-CE2454BC111F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,6 +178,10 @@ Global
 		{4B0C5414-88D6-48F6-BB0F-B73BBCBCDCA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B0C5414-88D6-48F6-BB0F-B73BBCBCDCA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B0C5414-88D6-48F6-BB0F-B73BBCBCDCA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2430A20C-B400-4DFB-B2EB-CE2454BC111F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2430A20C-B400-4DFB-B2EB-CE2454BC111F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2430A20C-B400-4DFB-B2EB-CE2454BC111F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2430A20C-B400-4DFB-B2EB-CE2454BC111F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,6 +216,9 @@ Global
 		{F99BE8E7-655A-4B86-A90B-3D0B7212BA0E} = {7D722814-D252-4BCC-A949-C2D1261CA29C}
 		{7CBE39C4-026E-4CA3-9437-B5DCA7C46864} = {7D722814-D252-4BCC-A949-C2D1261CA29C}
 		{4B0C5414-88D6-48F6-BB0F-B73BBCBCDCA4} = {7D722814-D252-4BCC-A949-C2D1261CA29C}
+		{117761F7-D3CB-4F00-A048-F221060158F2} = {A4A723DA-686E-4AF3-8CF8-709E1E75C99C}
+		{4A57FD96-524C-4D12-9D5D-FE8F31623E7D} = {117761F7-D3CB-4F00-A048-F221060158F2}
+		{2430A20C-B400-4DFB-B2EB-CE2454BC111F} = {4A57FD96-524C-4D12-9D5D-FE8F31623E7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {765FF0DA-E88E-4254-9C2B-434D0AFF69C0}
