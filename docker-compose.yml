@@ -5,35 +5,30 @@ networks:
   backend:
 
 services:
+    modernarchitectureshop-identityserver:
+       image: modernarchitectureshop-identityserver:dev
+       build:
+            context: .
+            dockerfile: ./src/Identity/Dockerfile
+       ports:
+       - "443:50000"
 
-    modernarchitectureshop-catalog:
+    modernarchitectureshop-basket:
         image: modernarchitectureshop-basketapi:dev
         build:
             context: .
-            dockerfile: src/Basket/ModernArchitectureShop.BasketApi/Dockerfile
-        ports:
-        - "443:55030"
+            dockerfile: ./src/Basket/ModernArchitectureShop.BasketApi/Dockerfile
 
     modernarchitectureshop-store:
         image: modernarchitectureshop-storeapi:dev
         build:
             context: .
-            dockerfile: src/Store/ModernArchitectureShop.StoreApi/Dockerfile
-        ports:
-        - "443:55020"
+            dockerfile: ./src/Store/ModernArchitectureShop.StoreApi/Dockerfile
 
     modernarchitectureshop-blazorui:
         image: modernarchitectureshop-blazorui:dev
         build:
             context: .
-            dockerfile: src/UI/Dockerfile
+            dockerfile: ./src/UI/Dockerfile
         ports:
-        - "443:55010"
-
-    modernarchitectureshop-identityserver:
-       image: modernarchitectureshop-identityserver:dev
-       build:
-            context: .
-            dockerfile: src/Identity/Dockerfile
-       ports:
-       - "443:50000"
+        - "5010:5010"

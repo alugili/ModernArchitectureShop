@@ -13,18 +13,20 @@ extensions:
     config: modernarchitectureshop-dapr-config
     components-path: ./components
   
-  - name: seq
-    logPath: ./.logs
 
 services:
-- name: modernarchitectureshop-basketapi
-  project: src/Basket/ModernArchitectureShop.BasketApi/ModernArchitectureShop.BasketApi.csproj
-- name: modernarchitectureshop-storeapi
-  project: src/Store/ModernArchitectureShop.StoreApi/ModernArchitectureShop.StoreApi.csproj
-- name: modernarchitectureshop-blazorui
-  project: src/UI/ModernArchitectureShop.BlazorUI.csproj
 - name: identityserver
   project: src/Identity/IdentityServer.csproj
+
+- name: modernarchitectureshop-basketapi
+  project: src/Basket/ModernArchitectureShop.BasketApi/ModernArchitectureShop.BasketApi.csproj
+  
+- name: modernarchitectureshop-storeapi
+  project: src/Store/ModernArchitectureShop.StoreApi/ModernArchitectureShop.StoreApi.csproj
+
+- name: modernarchitectureshop-blazorui
+  project: src/UI/ModernArchitectureShop.BlazorUI.csproj
+
 
 - name: sqlserver
   image: mcr.microsoft.com/mssql/server:2019-latest
