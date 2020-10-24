@@ -17,22 +17,33 @@ extensions:
 services:
 - name: identityserver
   project: src/Identity/IdentityServer.csproj
+  bindings:
+    - protocol: https
+      port: 50000
 
 - name: modernarchitectureshop-basketapi
   project: src/Basket/ModernArchitectureShop.BasketApi/ModernArchitectureShop.BasketApi.csproj
+  bindings:
+    - protocol: http
+      port: 5030
   
 - name: modernarchitectureshop-storeapi
   project: src/Store/ModernArchitectureShop.StoreApi/ModernArchitectureShop.StoreApi.csproj
-
+  bindings:
+    - protocol: http
+      port: 5020
+      
 - name: modernarchitectureshop-blazorui
   project: src/UI/ModernArchitectureShop.BlazorUI.csproj
-
+  bindings:
+    - protocol: http
+      port: 5010
 
 - name: sqlserver
   image: mcr.microsoft.com/mssql/server:2019-latest
   env:
     - name: SA_PASSWORD
-      value: "P@ssword"
+      value: "P@ssw0rd"
     - name: ACCEPT_EULA
       value: "Y"
   bindings:
