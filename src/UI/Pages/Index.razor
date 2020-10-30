@@ -5,9 +5,9 @@
 
 <p>Welcome to your new app.</p>
 
-<p>
+@*<p>
   <a href="/Logout">Logout</a>
-</p>
+</p>*@
 
 @code
 {
@@ -21,7 +21,7 @@
       state.User.Claims
         .Where(c => c.Type.Equals("name"))
         .Select(c => c.Value)
-        .FirstOrDefault() ?? string.Empty;
+        .FirstOrDefault() ?? "Please Login";
 
     await base.OnInitializedAsync();
   }

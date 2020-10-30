@@ -43,6 +43,12 @@ namespace IdentityServer
                         // where to redirect to after logout
                         PostLogoutRedirectUris = {"http://localhost:5010/signout-callback-oidc"},
 
+                        //Access token life time is 1800 seconds (1/2 hour)
+                        AccessTokenLifetime = 1800,
+
+                        //Identity token life time is 1800 seconds (1/2 hour)
+                        IdentityTokenLifetime = 1800,
+
                         // allowed scopes - include Api Resources and Identity Resources that may be accessed by this client
                         AllowedScopes =
                         {

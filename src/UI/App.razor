@@ -1,25 +1,12 @@
-@inject NavigationManager NavManager
-
-<Router AppAssembly="@typeof(Program).Assembly">
-  <Found Context="routeData">
-    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-      <NotAuthorized>
-        @{ 
-          NavManager.NavigateTo("/Logout", true); 
-        }
-      </NotAuthorized>
-      <Authorizing>
-        <h1>Authentication in progress</h1>
-        <p>Only visible while authentication is in progress.</p>
-      </Authorizing>
-    </AuthorizeRouteView>
-  </Found>
-  <NotFound>
-    <CascadingAuthenticationState>
+<CascadingAuthenticationState>
+  <Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+      <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
       <LayoutView Layout="@typeof(MainLayout)">
-        <h1>Sorry</h1>
         <p>Sorry, there's nothing at this address.</p>
       </LayoutView>
-    </CascadingAuthenticationState>
-  </NotFound>
-</Router>
+    </NotFound>
+  </Router>
+</CascadingAuthenticationState>

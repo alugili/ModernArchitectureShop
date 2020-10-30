@@ -26,10 +26,11 @@
                                     <label asp-for="Username"></label>
                                     <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="Password"></label>
-                                    <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
-                                </div>
+                              <div class="form-group">
+                                <label asp-for="Password"></label>
+                                <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                              </div>
+                              <div>Username=bob , Password=bob</div>
                                 @if (Model.AllowRememberLogin)
                                 {
                                     <div class="form-group login-remember">

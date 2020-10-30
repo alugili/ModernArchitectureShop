@@ -24,15 +24,8 @@ namespace ModernArchitectureShop.BlazorUI
 
         public IConfiguration Configuration { get; }
 
-
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -86,6 +79,8 @@ namespace ModernArchitectureShop.BlazorUI
                     options.Scope.Add("email");
                     options.Scope.Add("offline_access");
 
+                    options.UseTokenLifetime = true;
+
                     //Scope for accessing API
                     options.Scope.Add(storeApiName); //invalid scope for client
                     options.Scope.Add(basketApiName); //invalid scope for client
@@ -104,29 +99,14 @@ namespace ModernArchitectureShop.BlazorUI
                 client.BaseAddress = new Uri(basketApiURL);
             });
 
-            services.AddSingleton<BlazorServerAuthStateCache>();
-            services.AddScoped<AuthenticationStateProvider, BlazorServerAuthState>();
             services.AddScoped<IdentityService, IdentityService>();
             services.AddScoped<ProductsDaprClient>();
 
             services.AddCustomDapr();
 
-            // problem with login identityserver 4 a workaround
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-
-                options.OnAppendCookie = cookieContext => CheckSameSite(cookieContext.CookieOptions);
-
-                void CheckSameSite(CookieOptions cookieOptions)
-                {
-                    if (cookieOptions.SameSite == SameSiteMode.None)
-                    {
-                        {
-                            cookieOptions.SameSite = SameSiteMode.Unspecified;
-                        }
-                    }
-                }
-            });
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
 
             // Todo only for test
             IdentityModelEventSource.ShowPII = true;
@@ -151,6 +131,12 @@ namespace ModernArchitectureShop.BlazorUI
 
             //app.UseHttpsRedirection();
             app.UseRouting();
+            
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                // workaround IdentityServer4
+                MinimumSameSitePolicy = SameSiteMode.Lax,
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

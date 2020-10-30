@@ -1,18 +1,25 @@
+@inject AuthenticationStateProvider AuthState
+
 <AuthorizeView>
   <Authorized>
-    <a href="logout">Hello,
-      @{
-        System.Diagnostics.Debug.Assert(context.User.Identity != null, "context.User.Identity != null");
-      }
-
-      @context.User.Identity.Name !</a>
-    <form method="get" action="logout">
-      <button type="submit" class="nav-link btn btn-link">Log out</button>
-    </form>
+    Hello, @_username!
   </Authorized>
-  <NotAuthorized>
-    <a href="login?redirectUri=/">Log in</a>
-  </NotAuthorized>
 </AuthorizeView>
 
-Add the LoginDisp
+@code
+{
+  private string _username = "Anonymous User";
+
+  protected override async Task OnInitializedAsync()
+  {
+    var state = await AuthState.GetAuthenticationStateAsync();
+
+    _username =
+      state.User.Claims
+        .Where(c => c.Type.Equals("name"))
+        .Select(c => c.Value)
+        .FirstOrDefault() ?? string.Empty;
+
+    await base.OnInitializedAsync();
+  }
+}
