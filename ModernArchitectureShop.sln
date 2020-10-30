@@ -44,9 +44,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "src\Identity\IdentityServer.csproj", "{7E1C3ACC-BD78-4BFB-A453-5182D86AFECF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{403B245D-9743-4C4F-8085-D94C6877E955}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{DDFAF8C7-7369-43A0-AEFD-A68CEBB67E4E}"
 EndProject
