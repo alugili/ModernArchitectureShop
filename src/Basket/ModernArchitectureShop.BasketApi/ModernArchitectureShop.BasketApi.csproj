@@ -6,8 +6,6 @@
     <Company>bassam.ml</Company>
     <Product>BasketApi</Product>
     <UserSecretsId>dbee1895-603e-45e5-80ba-1d8aaaefbf8f</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

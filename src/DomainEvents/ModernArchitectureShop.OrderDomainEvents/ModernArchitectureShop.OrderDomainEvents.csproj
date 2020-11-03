@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>ModernArchitectureShop.OrderDomainEvents</AssemblyName>
+    <RootNamespace>ModernArchitectureShop.OrderDomainEvents</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Order\ModernArchitectureShop.Order.Domain\ModernArchitectureShop.Order.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

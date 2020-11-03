@@ -10,17 +10,19 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
     public class StoreRepository : IStoreRepository
     {
         private readonly StoreDbContext _storeDbContext;
-        private readonly DbSet<Domain.Store> _stores;
+        private DbSet<Domain.Store> _stores;
 
         public StoreRepository(StoreDbContext storeDbContext)
         {
             _storeDbContext = storeDbContext;
+            _storeDbContext.Database.EnsureCreated();
             _stores = _storeDbContext.Set<Domain.Store>();
         }
 
-        public void CreateDatabase()
+        public void SeedDatabase()
         {
-            _storeDbContext.Database.EnsureCreated();
+            SeedDataGenerator.GenerateSeed(_storeDbContext);
+            _storeDbContext.SaveChanges();
         }
 
         public void Remove(Domain.Store store)
@@ -54,15 +56,12 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
             return await _stores.CountAsync(cancellationToken);
         }
 
-        public IQueryable<Domain.Store> FindStoresQuery(int pageIndex, int pageSize)
+        public IQueryable<Domain.Store> GetStoreQuery()
         {
             return _stores
-                  .AsNoTracking()
-                  .Include(x => x.ProductStores)
-                  .ThenInclude(x => x.Product)
-                  .OrderBy(x => x.Name)
-                  .Skip((pageIndex - 1) * pageSize)
-                  .Take(pageSize);
+                .AsNoTracking()
+                .Include(x => x.Products)
+                .Include(x => x.Addresses);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ModernArchitectureShop.Store.Application.Persistence
 {
     public interface IStoreRepository
     {
-        void CreateDatabase();
+        void SeedDatabase();
         void Remove(Domain.Store store);
 
         void Update(Domain.Store store);
@@ -20,6 +20,6 @@ namespace ModernArchitectureShop.Store.Application.Persistence
     
         ValueTask<int> CountAsync(CancellationToken cancellationToken);
 
-        IQueryable<Domain.Store> FindStoresQuery(int pageIndex, int pageSize);
+        IQueryable<Domain.Store> GetStoreQuery();
     }
 }

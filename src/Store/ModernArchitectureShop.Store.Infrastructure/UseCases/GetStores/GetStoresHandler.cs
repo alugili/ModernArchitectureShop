@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ModernArchitectureShop.Store.Application.Persistence;
 using ModernArchitectureShop.Store.Infrastructure.Dto;
-using ModernArchitectureShop.Store.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetStores
 {
-    public class GetStoresHandler : IRequestHandler<GetStoresCommand, GetStoresResponse>
+    public class GetStoresHandler : IRequestHandler<GetStoreCommand, GetStoreResponse>
     {
         private readonly IStoreRepository _storeRepository;
         private readonly IMapper _mapper;
@@ -20,19 +20,16 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetStores
             _mapper = mapper;
         }
 
-        public async Task<GetStoresResponse> Handle(GetStoresCommand command, CancellationToken cancellationToken)
+        public async Task<GetStoreResponse> Handle(GetStoreCommand command, CancellationToken cancellationToken)
         {
-            var totalOfStores = await _storeRepository.CountAsync(cancellationToken);
-
-            var stores = await _storeRepository
-                .FindStoresQuery(command.PageIndex, command.PageSize)
+            var store = await _storeRepository
+                .GetStoreQuery()
                 .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .SingleAsync(cancellationToken);
 
-            return new GetStoresResponse
+            return new GetStoreResponse
             {
-                Stores = stores,
-                TotalRecords = totalOfStores
+                Store = store,
             };
         }
     }

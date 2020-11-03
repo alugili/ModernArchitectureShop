@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ModernArchitectureShop.Order.Domain\ModernArchitectureShop.Order.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\AddOrder\" />
+    <Folder Include="UseCases\GetOrder\" />
+    <Folder Include="UseCases\EmailNotify\" />
+    <Folder Include="UseCases\SetStatus\" />
+    <Folder Include="UseCases\ProcessOrder\" />
+    <Folder Include="UseCases\RemoveOrder\" />
+  </ItemGroup>
+
 </Project>

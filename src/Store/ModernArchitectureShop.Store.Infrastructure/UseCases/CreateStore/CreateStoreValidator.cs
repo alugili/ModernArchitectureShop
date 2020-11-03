@@ -10,11 +10,6 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateStore
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty();
-
-            RuleFor(x => x.Location)
-                .Cascade(CascadeMode.Stop)
-                .NotNull()
-                .NotEmpty();
         }
     }
 }

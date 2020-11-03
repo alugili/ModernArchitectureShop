@@ -15,7 +15,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
             try
             {
                 var itemRepository = services.GetRequiredService<T>();
-                itemRepository.CreateDatabase();
+                itemRepository.SeedDatabase();
             }
 
             catch (Exception ex)

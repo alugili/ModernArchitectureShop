@@ -8,13 +8,5 @@
       },
       "applicationUrl": "https://localhost:50000"
     }
-    //,
-    //"Docker": {
-    //  "commandName": "Docker",
-    //  "launchBrowser": true,
-    //  "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-    //  "publishAllPorts": true,
-    //  "useSSL": true
-    //}
   }
 }

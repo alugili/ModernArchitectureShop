@@ -20,7 +20,8 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.CreateStore
 
         public async Task<StoreDto> Handle(CreateStoreCommand command, CancellationToken cancellationToken)
         {
-            var store = new Store.Domain.Store { Name = command.Name, Location = command.Location };
+            // address todo
+            var store = new Domain.Store { Name = command.Name};
             await _storeRepository.AddAsync(store, cancellationToken);
 
             return _mapper.Map<StoreDto>(store);

@@ -7,12 +7,11 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dto
     {
         public StoreMappingProfile()
         {
-            CreateMap<Store.Domain.Store, StoreDto>()
+            CreateMap<Domain.Store, StoreDto>()
                 .ForMember(dest => dest.StoreId, opt => opt.MapFrom(src => src.StoreId));
 
-            CreateMap<ProductStore, ProductStoreDto>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
-                .ForMember(dest => dest.StoreId, opt => opt.MapFrom(src => src.StoreId));
+            CreateMap<Product, ProductDto>()
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId));
         }
     }
 }

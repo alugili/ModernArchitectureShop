@@ -8,7 +8,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dto
     {
         public Guid StoreId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Location { get; set; } = string.Empty;
-        public IEnumerable<ProductStoreDto> Products { get; set; } = new Collection<ProductStoreDto>();
+        public AddressDto? Address { get; set; }
+        public IEnumerable<ProductDto> Products { get; set; } = new Collection<ProductDto>();
     }
 }

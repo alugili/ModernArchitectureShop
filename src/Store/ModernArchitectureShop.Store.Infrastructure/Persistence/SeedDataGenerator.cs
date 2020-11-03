@@ -1,50 +1,54 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using ModernArchitectureShop.Store.Domain;
 
 namespace ModernArchitectureShop.Store.Infrastructure.Persistence
 {
     public sealed class SeedDataGenerator
     {
-        internal static (ICollection<Product>, ICollection<Domain.Store>, ICollection<ProductStore>)
-            GenerateSeed()
+        internal static void GenerateSeed(StoreDbContext deStoreDbContext)
         {
-            var products = new Collection<Product>();
-            var stores = new Collection<Store.Domain.Store>();
-            var productStores = new Collection<ProductStore>();
+            if (deStoreDbContext.Stores.Any())
+            {
+                // do not seed, if the database has any data
+                return;
+            }
+
+            var store = new Domain.Store
+            {
+                StoreId = Guid.NewGuid(),
+                Name = $"Store In Germany",
+            };
+
+            var address = new Address
+            {
+                AddressId = Guid.NewGuid(),
+                City = "city",
+                State = "St",
+                StreetAddress = "Str",
+                ZipCode = "911",
+                IsMainAddress = true
+            };
+
+            store.Addresses.Add(address);
 
             for (var i = 10; i < 100; i++)
             {
-                products.Add(
-                    new Product
-                    {
-                        ProductId = new Guid($"12345678-1234-1234-1234-1234567891{i}"),
-                        Code = $"11{i}",
-                        Name = $"Products-{i}",
-                        Price = 3.14 * i,
-                        ImageUrl = "/images/MyProduct.png"
-                    });
+                var product = new Product
+                {
+                    ProductId = new Guid($"12345678-1234-1234-1234-1234567891{i}"),
+                    Code = $"11{i}",
+                    Name = $"Products-{i}",
+                    Price = 3.14 * i,
+                    ImageUrl = "/images/MyProduct.png",
+                    Quantity = 10,
+                    Store = store
+                };
 
-                stores.Add(
-                    new Store.Domain.Store
-                    {
-                        StoreId = Guid.NewGuid(),
-                        Name = $"Store{i}",
-                        Location = "Birkenfeld",
-                    });
-
-                productStores.Add(
-                    new ProductStore
-                    {
-                        CanPurchase = true,
-                        StoreId = stores[Math.Abs(i - 10)].StoreId,
-                        ProductId = products[Math.Abs(i - 10)].ProductId,
-                        Quantity = 10
-                    });
+                store.Products.Add(product);
             }
 
-            return (products, stores, productStores);
+            deStoreDbContext.Stores.Add(store);
         }
     }
 }

@@ -7,8 +7,6 @@
     <Company>bassam.ml</Company>
     <Product>StoreApi</Product>
     <UserSecretsId>484255f1-641a-44ee-af36-5f1266a80f53</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

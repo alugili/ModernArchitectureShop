@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace ModernArchitectureShop.Store.Infrastructure.Dto
 {
@@ -10,6 +9,9 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dto
         public string Code { get; set; }= string.Empty;
         public double Price { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
-        public IEnumerable<ProductStoreDto> ProductStores { get; set; } = new ProductStoreDto[0];
+        public int Quantity { get; set; }
+        public bool CanPurchase { get; set; }
+        public Guid StoreId{ get; set; }
+        public StoreDto Store { get; set; }
     }
 }

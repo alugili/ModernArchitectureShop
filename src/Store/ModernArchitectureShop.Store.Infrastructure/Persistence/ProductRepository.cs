@@ -13,11 +13,14 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
     {
         private readonly StoreDbContext _storeDbContext;
         private readonly DbSet<Product> _products;
+        private readonly DbSet<Domain.Store> _stores;
+
 
         public ProductRepository(StoreDbContext storeDbContext)
         {
             _storeDbContext = storeDbContext;
             _products = _storeDbContext.Set<Product>();
+            _stores = _storeDbContext.Set<Domain.Store>();
         }
 
         public void Remove(Product product)
@@ -37,7 +40,6 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
 
         public async ValueTask<Product?> GetAsync(Guid id, CancellationToken cancellationToken)
         {
-            _products.Include(p => p.ProductStores);
             return await _products.SingleOrDefaultAsync(x => x.ProductId == id, cancellationToken: cancellationToken);
         }
 
@@ -58,8 +60,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
                 .OrderBy(x => x.Code)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .Include(x => x.ProductStores)
-                .ThenInclude(x => x.Store);
+                .Include(x => x.Store);
         }
 
         public IQueryable SearchProductsQuery(string filter, int pageIndex, int pageSize)
@@ -70,8 +71,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
                 .OrderBy(x => x.Code)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .Include(x => x.ProductStores)
-                .ThenInclude(x => x.Store);
+                .Include(x => x.Store);
         }
 
         public async ValueTask<int> SearchProductsCountAsync(string filter)
@@ -85,8 +85,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
         {
             return _products
                 .AsNoTracking()
-                .Include(p => p.ProductStores)
-                .ThenInclude(x => x.Store)
+                .Include(x => x.Store)
                 .Where(p => productIds.Any(id => p.ProductId == id));
         }
     }

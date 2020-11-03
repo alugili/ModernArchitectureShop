@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -34,10 +33,9 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.AddOrUpdateProduc
                 throw new NotImplementedException($"Could not find the Product-({command.ProductId})");
             }
 
-            var quantityAllStores = product.ProductStores.Sum(x => x.Quantity);
+            var quantityAllStores = product.Quantity;
 
             // update Product todo!
-
             return new AddOrUpdateProductStoreResponse
             {
                 ProductId = product.ProductId,

@@ -6,8 +6,6 @@
     <Company>bassam.ml</Company>
     <Product>BlazorUI</Product>
     <UserSecretsId>35ceb6b0-e61d-45c5-9378-eea5e09a9742</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

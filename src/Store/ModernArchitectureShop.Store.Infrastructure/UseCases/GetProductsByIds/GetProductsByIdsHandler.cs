@@ -2,8 +2,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ModernArchitectureShop.Store.Application.Persistence;
-using ModernArchitectureShop.Store.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
 {
@@ -21,14 +21,13 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
                             {
                                 Id = x.ProductId,
                                 Code = x.Code,
-                                Stores = x.ProductStores.Select(i => new GetProductsByIdsResponse.ProductStoreResult
+                                Store =  new GetProductsByIdsResponse.ProductStoreResult
                                 {
-                                    StoreId = i.Store.StoreId,
-                                    Name = i.Store.Name,
-                                    Location = i.Store.Location,
-                                    CanPurchase = i.CanPurchase,
-                                    Quantity = i.Quantity
-                                })
+                                    StoreId = x.Store.StoreId,
+                                    Name = x.Store.Name,
+                                    CanPurchase = x.CanPurchase,
+                                    Quantity = x.Quantity,
+                                }
                             }).ToListAsync(cancellationToken);
 
             var response = new GetProductsByIdsResponse

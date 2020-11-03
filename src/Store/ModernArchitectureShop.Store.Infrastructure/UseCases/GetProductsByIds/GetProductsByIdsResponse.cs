@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ModernArchitectureShop.Store.Infrastructure.Dto;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
 {
@@ -13,7 +14,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
 
             public string Code { get; set; } = string.Empty;
 
-            public IEnumerable<ProductStoreResult> Stores { get; set; } = new ProductStoreResult[0];
+            public ProductStoreResult Store { get; set; } = new ProductStoreResult();
         }
 
         public class ProductStoreResult
@@ -23,6 +24,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProductsByIds
             public string Location { get; set; } = string.Empty;
             public int Quantity { get; set; }
             public bool CanPurchase { get; set; }
+            public StoreDto Store { get; set; }
         }
     }
 }

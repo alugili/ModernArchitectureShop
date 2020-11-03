@@ -11,7 +11,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.ServiceCollection
             using var scope = webHost.Services.CreateScope();
             var services = scope.ServiceProvider;
             var itemRepository = services.GetRequiredService<T>();
-            itemRepository.CreateDatabase();
+            itemRepository.SeedDatabase();
 
             return webHost;
         }
