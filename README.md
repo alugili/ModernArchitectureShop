@@ -3,6 +3,8 @@
 Modern Architecture Shop
 ======================
 
+<img src="./docs/Modern_Architecture_Shop_Architectural_view.png" width="600"> 
+
 Modern Architecture Shop is a clean-lightweight.NET microservices application, showcasing the use of [Dapr](https://dapr.io/) to build microservices-based applications. It is a simple online shop with all the core components that make up such a system, for example, a frontend for users authentication, product catalog, and basket and payment
 processing, etc.
 
