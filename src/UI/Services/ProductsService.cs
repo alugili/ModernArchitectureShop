@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ModernArchitectureShop.BlazorUI.Services
+namespace ModernArchitectureShop.ShopUI.Services
 {
     public class ProductsService
     {

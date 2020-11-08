@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 
-namespace ModernArchitectureShop.BlazorUI.Pages
+namespace ModernArchitectureShop.ShopUI.Pages
 {
     public class RegisterModel : PageModel
     {

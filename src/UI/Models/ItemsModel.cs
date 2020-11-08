@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace ModernArchitectureShop.BlazorUI.Models
+namespace ModernArchitectureShop.ShopUI.Models
 {
     public class ItemsModel
     {

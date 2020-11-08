@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using ModernArchitectureShop.BlazorUI.Models;
+using ModernArchitectureShop.ShopUI.Models;
 
-namespace ModernArchitectureShop.BlazorUI.Services
+namespace ModernArchitectureShop.ShopUI.Services
 {
     public class BasketsService
     {

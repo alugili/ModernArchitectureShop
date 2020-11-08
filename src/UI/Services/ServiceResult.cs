@@ -1,4 +1,4 @@
-namespace ModernArchitectureShop.BlazorUI.Services
+namespace ModernArchitectureShop.ShopUI.Services
 {
     public class ServiceResult<T>
     {

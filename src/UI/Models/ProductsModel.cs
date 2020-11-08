@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ModernArchitectureShop.BlazorUI.Models
+namespace ModernArchitectureShop.ShopUI.Models
 {
     public class ProductsModel
     {

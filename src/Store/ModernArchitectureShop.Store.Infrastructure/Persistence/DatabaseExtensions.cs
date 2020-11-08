@@ -20,7 +20,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
 
             catch (Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger<BlazorUI.Program>>();
+                var logger = services.GetRequiredService<ILogger<ShopUI.Program>>();
                 logger.LogError(ex, ex.StackTrace);
             }
 

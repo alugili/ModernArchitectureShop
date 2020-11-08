@@ -7,13 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.IdentityModel.Logging;
-using ModernArchitectureShop.BlazorUI.DaprClients;
-using ModernArchitectureShop.BlazorUI.Services;
+using ModernArchitectureShop.ShopUI.DaprClients;
+using ModernArchitectureShop.ShopUI.Services;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
-namespace ModernArchitectureShop.BlazorUI
+namespace ModernArchitectureShop.ShopUI
 {
     public class Startup
     {
@@ -68,7 +67,7 @@ namespace ModernArchitectureShop.BlazorUI
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = Configuration.GetValue<string>("IDENTITY_AUTHORITY");
-                    options.ClientId = "BlazorUI";
+                    options.ClientId = "shopui";
                     options.ClientSecret = "secret";
                     options.RequireHttpsMetadata = false;
 

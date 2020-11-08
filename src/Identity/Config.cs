@@ -30,8 +30,8 @@ namespace IdentityServer
             {
                     new Client
                     {
-                        ClientId = "BlazorUI",
-                        ClientName = "BlazorUI",
+                        ClientId = "shopui",
+                        ClientName = "shopui",
                         ClientSecrets = {new Secret("secret".Sha256())},
                         AllowedGrantTypes = GrantTypes.Code,
                         RequirePkce = true,

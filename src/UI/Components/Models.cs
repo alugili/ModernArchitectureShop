@@ -1,4 +1,4 @@
-namespace ModernArchitectureShop.BlazorUI.Components
+namespace ModernArchitectureShop.ShopUI.Components
 {
     public class KeyValueModel
     {

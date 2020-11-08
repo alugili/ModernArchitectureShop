@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace ModernArchitectureShop.BlazorUI.Services
+namespace ModernArchitectureShop.ShopUI.Services
 {
     public class IdentityService
     {

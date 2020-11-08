@@ -33,8 +33,8 @@ services:
     - protocol: http
       port: 5020
       
-- name: modernarchitectureshop-blazorui
-  project: src/UI/ModernArchitectureShop.BlazorUI.csproj
+- name: modernarchitectureshop-shopui
+  project: src/UI/ModernArchitectureShop.ShopUI.csproj
   bindings:
     - protocol: http
       port: 5010

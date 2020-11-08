@@ -7,10 +7,10 @@ using Dapr.Client;
 using Dapr.Client.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using ModernArchitectureShop.BlazorUI.Models;
-using ModernArchitectureShop.BlazorUI.Services;
+using ModernArchitectureShop.ShopUI.Models;
+using ModernArchitectureShop.ShopUI.Services;
 
-namespace ModernArchitectureShop.BlazorUI.DaprClients
+namespace ModernArchitectureShop.ShopUI.DaprClients
 {
 
     /// <summary>

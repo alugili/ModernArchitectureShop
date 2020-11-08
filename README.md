@@ -110,7 +110,7 @@ Users - Dapr Interaction
 
 State: todo
 
-### BlazorUI-Frontend
+### shopui-Frontend
 
 This is the application user interface offering direct user interaction with the system and is responsible for managing the shop. It is programmed in Blazor, and all data is fetched via a REST API endpoint.
 
@@ -191,9 +191,9 @@ The WebAPI stuff.
 *Note!*<br>
 StoreApi and the BasketApi assemblies are mixing the Infrastructure and the WebAPI and the Application Logic. In the next version, I will separate them according to the clean architecture principles.
 
-### ModernArchitectureShop.BlazorUI Service
+### ModernArchitectureShop.ShopUI Service
 
-In the ModernArchitectureShop.BlazorUI.Startup.cs I have registered all services, and I have added the HTTP clients to the services.
+In the ModernArchitectureShop.ShopUI.Startup.cs I have registered all services, and I have added the HTTP clients to the services.
 
 #### HTTP Clients
 
@@ -214,7 +214,7 @@ The WebApi for the Store.
 
 #### Controllers
 
-ProductsController.cs loads the products from the store service and forward them to the BlazorUI as follows:
+ProductsController.cs loads the products from the store service and forward them to the shopui as follows:
 
 ```cs
 public async Task<IActionResult> GetProducts([FromQuery]
@@ -351,7 +351,7 @@ public async Task<GetItemsCommandResponse> Handle(GetItemsCommand command, Cance
 }
 ```
 
-The above items are loaded and return it to the BlazorUI so that it can
+The above items are loaded and return it to the shopui so that it can
 display them.
 
 Summary

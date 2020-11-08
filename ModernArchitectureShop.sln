@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Stor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{42D6E17C-BD7A-4499-94F0-13889869F7E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.BlazorUI", "src\UI\ModernArchitectureShop.BlazorUI.csproj", "{7809F651-BBA9-4EA1-948B-A7D9C41413A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.ShopUI", "src\UI\ModernArchitectureShop.ShopUI.csproj", "{7809F651-BBA9-4EA1-948B-A7D9C41413A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernArchitectureShop.Basket.Infrastructure", "src\Basket\ModernArchitectureShop.Basket.Infrastructure\ModernArchitectureShop.Basket.Infrastructure.csproj", "{18656BFC-B70A-4074-B9EC-E600BC54679B}"
 EndProject

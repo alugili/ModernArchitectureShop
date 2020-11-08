@@ -47,7 +47,7 @@ namespace ModernArchitectureShop.BasketApi
             {
                 options.AddPolicy("CorsPolicy",
                     builder =>
-                        builder.WithOrigins(Configuration.GetValue<string>("BLAZOR_UI"))
+                        builder.WithOrigins(Configuration.GetValue<string>("SHOP_UI"))
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());

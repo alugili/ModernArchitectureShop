@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\UI\ModernArchitectureShop.BlazorUI.csproj" />
+    <ProjectReference Include="..\..\UI\ModernArchitectureShop.ShopUI.csproj" />
   </ItemGroup>
 
 </Project>

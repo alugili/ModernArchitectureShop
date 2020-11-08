@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ModernArchitectureShop.BlazorUI.Pages
+namespace ModernArchitectureShop.ShopUI.Pages
 {
     public class LogoutModel : PageModel
     {

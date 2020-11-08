@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "BlazorUI": {
+    "shopui": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

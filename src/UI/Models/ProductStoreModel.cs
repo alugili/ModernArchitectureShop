@@ -1,6 +1,6 @@
 using System;
 
-namespace ModernArchitectureShop.BlazorUI.Models
+namespace ModernArchitectureShop.ShopUI.Models
 {
     public class ProductStoreModel
     {

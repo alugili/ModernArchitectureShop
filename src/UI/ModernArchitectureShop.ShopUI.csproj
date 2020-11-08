@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Authors>Bassam Alugili</Authors>
     <Company>bassam.ml</Company>
-    <Product>BlazorUI</Product>
+    <Product>shopui</Product>
     <UserSecretsId>35ceb6b0-e61d-45c5-9378-eea5e09a9742</UserSecretsId>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -16,10 +16,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0-rc.2.20475.17" />
-    <PackageReference Include="Microsoft.Tye.Extensions.Configuration" Version="0.4.0-alpha.20371.1" />
+    <PackageReference Include="Microsoft.Tye.Extensions.Configuration" Version="0.5.0-alpha.20555.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Dapr.AspNetCore" Version="0.11.0-preview02" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.1-dev-00188" />
   </ItemGroup>
 
   <ItemGroup>
