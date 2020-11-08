@@ -24,5 +24,6 @@
 
   <ItemGroup>
       <None Include="wwwroot\images\MyProduct.png" />
+      <None Include="wwwroot\images\CSharpCornerLogo.png" />
   </ItemGroup>
 </Project>

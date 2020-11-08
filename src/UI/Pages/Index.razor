@@ -3,7 +3,7 @@
 @inject AuthenticationStateProvider AuthState
 @inject IConfiguration Configuration
 
-<p>Welcome in Modern Architecture Shop.</p>
+<h1>Welcome in Modern Architecture Shop.</h1>
 
 <AuthorizeView>
   <Authorized>
@@ -11,33 +11,26 @@
   </Authorized>
 
   <NotAuthorized>
-    <div>
-      <a href=@GetRegisterUrl() target="_parent">Register</a>
+    <div style="color:white; font-size: large" >
+      Please login or register!<br/>
+      Dummy User: bob <br />
+      Dummy Password: bob <br />
     </div>
   </NotAuthorized>
 </AuthorizeView>
-
 @code
-{
-    private string _username = "Anonymous User";
+{ private string _username = "Anonymous User";
 
-    protected override async Task OnInitializedAsync()
-    {
-      var state = await AuthState.GetAuthenticationStateAsync();
+      protected override async Task OnInitializedAsync()
+      {
+        var state = await AuthState.GetAuthenticationStateAsync();
 
-      _username =
-        state.User.Claims
-          .Where(c => c.Type.Equals("name"))
-          .Select(c => c.Value)
-          .FirstOrDefault() ?? string.Empty;
+        _username =
+          state.User.Claims
+            .Where(c => c.Type.Equals("name"))
+            .Select(c => c.Value)
+            .FirstOrDefault() ?? string.Empty;
 
-      await base.OnInitializedAsync();
-    }
-
-    private string GetRegisterUrl()
-    {
-      var identityUrl = Configuration.GetValue<string>("IDENTITY_AUTHORITY");
-       const string  registerRoute = "/identity/account/register";
-      return identityUrl + registerRoute;
-    }
+        await base.OnInitializedAsync();
+      }
 }
