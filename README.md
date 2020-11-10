@@ -9,13 +9,13 @@ Open Invitation: Any developer is welcome to join our team! Just send me a reque
  
 **The application UI**  
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopMainWindow.JPG">
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Products.JPG">
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Basket.JPG">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopMainWindow.JPG" width="600">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Products.JPG" width="600">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Basket.JPG" width="600">
  
 The implemented application architect is still based on the classic Microservices architectural style; we have a collection of DDD-services, which are working together to build the system.  
  
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png" width="600">
  
 The diagram above is created with Draw.io. Draw.io is a free online diagram software.  
  
@@ -35,7 +35,7 @@ In this version, I have done more clean architecture and clean code stuff:
 
 In the example below, you can see that the Store application contains the business logic abstraction.
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Persistence_Abstraction_Store.JPG">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Persistence_Abstraction_Store.JPG" width="300">
 
 The framework's references moved to the infrastructure assembly. If you remember in, pervious article, our main goal was to make the infrastructure depending on the application.
  
@@ -63,7 +63,7 @@ The event is fired when the payment failed. This event is used to remove the fai
  
 **ModernArchitectureShop.ShopUI**  
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopUI.JPG">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopUI.JPG" width="300">
  
 As you see in the image above, I have selected ProductsService and ProductsDaprClient, these two classes are equivalent, both are calling the Store API, but they are using two different approaches, the Product API is using HTTPClient to call the Store API and the other one is using DaprCilent.  
 
@@ -246,11 +246,13 @@ else
 
 **How can you test the modern shop?**
   
-**Required**
+**Required**   
+
 https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-preview Visual Studio 2019
 https://www.docker.com/products/docker-desktop Docker Desktop
 
-**First Apporach with Visual Studio**
+**First Apporach with Visual Studio**   
+
 Build and Start the Shop
 
 1. Install tye
@@ -263,38 +265,38 @@ Build and Start the Shop
  
 4. Set the Startup projects as shown below
  
-[start up projects](https://github.com/alugili/ModernArchitectureShop/blob/master/docs/Startup_Projects.JPG)
+<img src="https://github.com/alugili/ModernArchitectureShop/blob/master/docs/Startup_Projects.JPG" width="600">
  
-5. PRESS **F5** and enjoy it!
+5. PRESS **F5** and enjoy it!   
  
-**The second apporach run the shop with Dapr**
+**The second apporach run the shop with Dapr**   
 Alternatively, to Visual Studio 2019
  
-1. Install Tye
+1. Install Tye   
 `dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
 2. Start tye-min.yaml in the console
 `tye run tye-min.yaml`
 
-3. Install Dapr
+3. Install Dapr   
 `powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"`
 
-4. Execute dapr_start.ps1 in the PowerShell
+4. Execute dapr_start.ps1 in the PowerShell    
 `./dapr_start.ps1`
 
 **Third appoch run it with Tye**
 
-1. Tye install
+1. Tye install    
  
-This will install the newest available build from our CI.
+This will install the newest available build from our CI.    
 
 `dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
-If you already have a build installed and you want to update, replace install with update
+If you already have a build installed and you want to update, replace install with update    
 `dotnet tool update -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
-2. Execute the tye command
-`tye run`
+2. Execute the tye command     
+`tye run`   
 
 **Summary**  
 
