@@ -3,7 +3,7 @@
 
 Modern Architecture Shop - Autoscaler
 ======================
-Modern Architecture Shop is a clean-lightweight .NET Microservices application, demonstrate the use of **Dapr** to build Microservices-based applications.
+Modern Architecture Shop is a clean-lightweight .NET Microservices application, demonstrating the use of **Dapr** to build Microservices-based applications.
  
 Open Invitation: Any developer is welcome to join our team! Just send me a request.
  
@@ -59,7 +59,7 @@ The event is fired when the payment has been successful. This event is responsib
  
 **PaymentFailed Event**  
 
-The event is fired when the payment failed. This event is used to remove the failed order data and to reactive the buy state in the Basket service.
+The event is fired when the payment fails. This event is used to remove the failed order data and to reactive the buy state in the Basket service.
  
 **ModernArchitectureShop.ShopUI**  
 
