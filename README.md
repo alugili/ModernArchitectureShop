@@ -67,7 +67,7 @@ The event is fired when the payment failed. This event is used to remove the fai
  
 As you see in the image above, I have selected ProductsService and ProductsDaprClient, these two classes are equivalent, both are calling the Store API, but they are using two different approaches, the Product API is using HTTPClient to call the Store API and the other one is using DaprCilent.  
 
-`
+```cs
 public class ProductsService    
 {    
     private readonly HttpClient _storeHttpClient;    
@@ -147,9 +147,9 @@ public class ProductsService
         };    
     }    
 }
-`   
+```
 
-`
+```cs
 public class ProductsDaprClient    
 {    
     private readonly DaprClient _daprClient;    
@@ -206,10 +206,11 @@ public class ProductsDaprClient
         public int PageSize { get; set; } = 10;    
     }    
 }
-`  
+```
+
 You can get the products with Dapr as following:   
 
-`
+```cs
 // Do it with Dapr  
 try    
 {    
@@ -241,7 +242,7 @@ else
   _errorMessage = $"Error: {response.Error}";    
   _productsModel = new ProductsModel();    
 }
-`
+```
 
 **How can you test the modern shop?**
   
