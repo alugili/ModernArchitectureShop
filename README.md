@@ -251,7 +251,7 @@ else
 https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-preview Visual Studio 2019
 https://www.docker.com/products/docker-desktop Docker Desktop
 
-**First Apporach with Visual Studio**   
+**First Approach with Visual Studio**   
 
 Build and Start the Shop
 
@@ -269,7 +269,7 @@ Build and Start the Shop
  
 5. PRESS **F5** and enjoy it!   
  
-**The second apporach run the shop with Dapr**   
+**The Second Approach run the Shop with Dapr**   
 Alternatively, to Visual Studio 2019
  
 1. Install Tye   
@@ -284,7 +284,7 @@ Alternatively, to Visual Studio 2019
 4. Execute dapr_start.ps1 in the PowerShell    
 `./dapr_start.ps1`
 
-**Third appoch run it with Tye**
+**Third Approach run it with Tye**
 
 1. Tye install    
  
