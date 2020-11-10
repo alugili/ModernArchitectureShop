@@ -7,14 +7,16 @@ Modern Architecture Shop is a clean-lightweight .NET Microservices application, 
  
 Open Invitation: Any developer is welcome to join our team! Just send me a request.
  
-The application UI
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopMainWindow.JPG" width="800">
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Products.JPG" width="800">
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Basket.JPG" width="800">
+The application UI</br>
+
+
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopMainWindow.JPG">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Products.JPG">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Basket.JPG">
  
 The implemented application architect is still based on the classic Microservices architectural style; we have a collection of DDD-services, which are working together to build the system.
  
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png" width="800">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png">
  
 The diagram above is created with Draw.io. Draw.io is a free online diagram software.
  
@@ -33,7 +35,7 @@ In this version, I have done more clean architecture and clean code stuff:
 
 In the example below, you can see that the Store application contains the business logic abstraction.
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Persistence_Abstraction_Store.JPG" width="800">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Persistence_Abstraction_Store.JPG">
 
 The framework's references moved to the infrastructure assembly. If you remember in, pervious article, our main goal was to make the infrastructure depending on the application.
  
@@ -56,7 +58,7 @@ The event is fired when the payment failed. This event is used to remove the fai
  
 ModernArchitectureShop.ShopUI
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopUI.JPG" width="800">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopUI.JPG">
  
 As you see in the image above, I have selected ProductsService and ProductsDaprClient, these two classes are equivalent, both are calling the Store API, but they are using two different approaches, the Product API is using HTTPClient to call the Store API and the other one is using DaprCilent. 
 public class ProductsService    
@@ -137,7 +139,8 @@ public class ProductsService
             Error = string.Empty    
         };    
     }    
-}    
+}   
+
 public class ProductsDaprClient    
 {    
     private readonly DaprClient _daprClient;    
@@ -193,8 +196,10 @@ public class ProductsDaprClient
     
         public int PageSize { get; set; } = 10;    
     }    
-}    
+}
+
 You can get the products with Dapr as following: 
+
 // Do it with Dapr  
 try    
 {    
@@ -225,17 +230,23 @@ else
 {    
   _errorMessage = $"Error: {response.Error}";    
   _productsModel = new ProductsModel();    
-}   
+}
+
 How can you test the modern shop?
+  
 Required
 https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-preview Visual Studio 2019
 https://www.docker.com/products/docker-desktop Docker Desktop
+
 First Apporach with Visual Studio
 Build and Start the Shop
+
 1. Install tye
 dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
+
 2. Start tye-min.yaml in console
 tye run tye-min.yaml
+
 3. Open the solution file “ModernArchitectureShop.sln” with latest Visual Studio 2019 preview.
  
 4. Set the Startup projects as shown below
@@ -249,20 +260,29 @@ Alternatively, to Visual Studio 2019
  
 1. Install Tye
 dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
+
 2. Start tye-min.yaml in the console
 tye run tye-min.yaml
+
 3. Install Dapr
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
+
 4. Execute dapr_start.ps1 in the PowerShell
 ./dapr_start.ps1
+
 Third appoch run it with Tye
+
 1. Tye install
  
 This will install the newest available build from our CI.
+
 dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
+
 If you already have a build installed and you want to update, replace install with update
 dotnet tool update -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
+
 2. Execute the tye command
 tye run
+
 Summary
 Modern Architecture Shop is a clean-lightweight .NET and scalable application. Keep your eye on the Road Map (watch it on GitHub). The next version will contain a minimal feature set so that the user can add products to the basket and pay it. Recommendation service and all other AI services or features, I provide them later.
