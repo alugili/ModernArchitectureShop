@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
       <TargetFramework>net5.0</TargetFramework>
       <LangVersion>8</LangVersion>
@@ -15,9 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" /><PackageReference Include="Serilog" Version="2.10.1-dev-01256" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" /><PackageReference Include="Serilog" Version="2.10.1-dev-01256" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.1-dev-00188" />
   </ItemGroup>
 

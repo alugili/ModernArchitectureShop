@@ -1,7 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Net.Mime;
-using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using ModernArchitectureShop.Store.Application.Persistence;
