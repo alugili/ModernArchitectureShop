@@ -1,368 +1,303 @@
 # [Quick Start](https://github.com/alugili/ModernArchitectureShop/wiki/QuickStart)
+# [Modern Architecture Shop Part I(First Article)](https://github.com/alugili/ModernArchitectureShop/wiki/Modern-Architecture-Shop-Article-Part-I)
 
-Modern Architecture Shop
+Modern Architecture Shop - Autoscaler
 ======================
-
-<img src="./docs/Modern_Architecture_Shop_Architectural_view_1.png" width="800"> 
-
-Modern Architecture Shop is a clean-lightweight.NET microservices application, showcasing the use of [Dapr](https://dapr.io/) to build microservices-based applications. It is a simple online shop with all the core components that make up such a system, for example, a frontend for users authentication, product catalog, and basket and payment
-processing, etc.
-
-[Dapr](https://dapr.io/) is an event-driven, portable runtime for building microservices on edge and cloud. This project intended to show how you can make a clean microservices application with Dapr. 
-
-The project design decisions, balancing between realism and a simple demo showcase, but in the context of a real working application, you have to take some other design decisions which fit better to your functional and non-functional requirements.
-
-The backend microservices are written in C# (however, it's worth noting that Dapr is language independent), and the frontend is a Blazor.
-All APIs are REST & HTTP & gRPC based.
-
-**Tech Stacks**
-
-<img src="./docs/images/logos/media/image3.png" width="50"> <img src="./docs/images/logos/media/image1.png" width="50">  <img src="./docs/images/logos/media/image4.png" width="50"> <img src="./docs/images/logos/media/image5.png" width="50"> <img src="./docs/images/logos/media/image6.png" width="50"> <img src="./docs/images/logos/media/image7.png" width="50"> <img src="./docs/images/logos/media/image8.png" width="50"> <img src="./docs/images/logos/media/image9.jpeg" width="50"> <img src="./docs/images/logos/media/image10.png" width="50">
-
-Demo
-----
-
-<img src="./docs/images/readme/media/image1.png" width="600"> 
-<img src="./docs/images/readme/media/image2.png" width="600"> 
-<img src="./docs/images/readme/media/image3.png" width="600"> 
-
-
-
-## [Getting Started](https://github.com/alugili/ModernArchitectureShop/blob/master/docs/Getting_Started.md) 
-
-
-
-This project is related to a series of C\#Corner articles: 
-----------------------------------------------------------
-
--   Modern Architecture Shop (Clean Architecture and Microservices), Part I (Done)
-    This article is about the current application architecture and what we can do to make the project architecture clean.
-
--   Modern Architecture Shop (Clean Architecture in the Microservices, DDD), Part II (Future)
-    This article shows you how to separate the infrastructure from the application. In other words, make the infrastructure dependent on the application.
-
--   Modern Architecture Shop Fixing the tech problems (Future-article)
-    Logging/Debugging/Testing is essential to create a successful: Zipkin, Serilog, Seq in our shop.
-    And extending the services, Payment Services, and more UI.
-
--   Modern Architecture Shop Dapr Pure (Future)
-    In this article, we will use Dapr in-depth.
-
-The final goal of this project is to make a clean microservices application that can be deployed to the Kubernetes platform and run on Dapr runtime with and without Tye options.
-
-The first showcase is using Dapr in a very simple way (No: State Management, Actors, etc.).
-
-Obviously, this means we have to do everything by ourselves, for example, if you add a product to the basket, then you have to send a domain event which can be procced in the store service and make the product as reserved.
-
-Also, you have to send the data as an aggregate(Transaction), and if any error is occurring during the data processing, then you have to roll back the data.
-
-Finally, I will implement the same services with Dapr(State Management, Actors, Communication, etc.). After that, you can compare the two solutions, and I will show you how Dapr can simplify the problems and making the development process more comfortable.
-
-### Store Service
-
-This service represents the Store. The current implementation is very minimal; With this service, you can add/remove/update products to/from/in any store or add/remove a new store.
-
-API routes:
-
-```
-/api/products GET All products
-```
-
-The service contains all products. Each registered user can add/remove items to/from his shopping cart(Basket Service). Admin users can add/remove products (still in progress) to/from the stores.
-
-Store - Dapr Interaction
-
-Pub/Sub: Subscribes to the store-queue topic to receive new notification from the basket service.
-State. Stores: next version
-Actor: next version
-Bindings: next version
-
-### Basket service
-
-provides a basket service to the Store.
-
-API routes:
-
-```
-/api/item/{itemJson} Post a new item and store it in the user basket
-/api/item/{Id} Delete the item with the given Id from the basket
-/api/items Get all items from the basket for the logged-in user
-```
-
-The service is responsible for maintaining the user's shopping carts and persisting them. Submitting a cart will validate the cart contents and turn it into an order item, which is sent to the Payment service for further processing.
-
-Cart - Dapr Interaction
-
-Pub/Sub: The basket service pushes shopping carts entities to the
-store-queue topic and to the payment topic to complete the order.
-State. Stores: next version
-Actor: next version
-Bindings: next version
-Service Invocation: next version
-
-### Users Management Service
-
-provides a simple user management service to the Modern Store. Only registered users can use the Shop to place orders etc.
-
-The service generates the bearer token.
-
-Users - Dapr Interaction
-
-State: todo
-
-### shopui-Frontend
-
-This is the application user interface offering direct user interaction with the system and is responsible for managing the shop. It is programmed in Blazor, and all data is fetched via a REST API endpoint.
-
-### Frontend host
-
-Blazor Server.
-
-Clean Architecture
-------------------
-
-Clean Architecture is the key to Loosely-Coupled-Application. It allows you completely to decouple the application from the infrastructure.
-
-<p align="center">
-  <br>Loosely-Coupled-Application<br>
-<img src="./docs/images/readme/media/image5.png" width="70"> <img src="./docs/images/readme/media/image4.jpeg" Width="200">
-</p>
-
-**Clean Architecture Separates**
-
--   User Interface
--   Database
--   Use Cases
--   Domain
-
-<p align="center">
-  <br>Clean Architecture Circle Diagram from Uncle bob book<br>
-<img src="./docs/images/readme/media/image6.jpeg" width="600"> 
-</p>
-
-### Benefits
-
--   Independent of Database
--   Independent of Frameworks
--   Effective testable
--   Independent of any external agency
--   All business logic is in use cases
-
-### Clean architecture can solve below-listed problems
-
--   Decisions are taken too early
--   It's hard to change,
--   It's centered around frameworks
--   It's centered around the database
--   We focus on technical aspects 
--   It's hard to find things
--   Business logic is spread everywhere
--   Heavy tests
-
-ModernArchitectureShop architecture
------------------------------------
-
-<p align="center">
-  <img src="./docs/images/readme/media/image1.png" width="600">
-</p>
-
-<p align="center">
-  <br>Architecture Overview<br>
-<img src="./docs/images/readme/media/image7.png" width="600">
-</p>
-
-Each domain service divided into four parts:
-
-![](./docs/images/readme/media/image8.png)
-
-.Domain</br>
-It contains only the POCOs and the related domain events.
-
-.Application</br>
-It contains the Uses Cases, Interfaces for the infrastructure, and other
-business logic stuff.
-
-.Infrastructure</br>
-It contains Infrastructure stuff like databases etc.
-
-.Api</br>
-The WebAPI stuff.
-
-*Note!*<br>
-StoreApi and the BasketApi assemblies are mixing the Infrastructure and the WebAPI and the Application Logic. In the next version, I will separate them according to the clean architecture principles.
-
-### ModernArchitectureShop.ShopUI Service
-
-In the ModernArchitectureShop.ShopUI.Startup.cs I have registered all services, and I have added the HTTP clients to the services.
-
-#### HTTP Clients
-
-IdentityService.cs</br>
-Is responsible for the login/logout
-
-ProductService.cs</br>
-Retrieves all products from the Store and display them the
-Products.razor
-
-BasketProductService.cs</br>
-It manages the basket, for example, adding or removing items to/from the
-basket.
-
-### ModernArchitectureShop.StoreApi Service
-
-The WebApi for the Store.
-
-#### Controllers
-
-ProductsController.cs loads the products from the store service and forward them to the shopui as follows:
+Modern Architecture Shop is a clean-lightweight .NET Microservices application, demonstrating the use of **Dapr** to build Microservices-based applications.
+ 
+Open Invitation: Any developer is welcome to join our team! Just send me a request.
+ 
+**The application UI**  
+
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopMainWindow.JPG" width="600">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Products.JPG" width="600">
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Basket.JPG" width="600">
+ 
+The implemented application architect is still based on the classic Microservices architectural style; we have a collection of DDD-services, which are working together to build the system.  
+ 
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png" width="600">
+ 
+The diagram above is created with Draw.io. Draw.io is a free online diagram software.  
+ 
+**Roadmap**  
+
+- Finishing the Order and Payment services.
+- The first challenge is scaling the application out. I give an example which provides Proof of the Concept for containers scaling and testing the system with Chaos Monkey Tests.
+- Changing the services to Actors with a scaling concept.
+- Finally, using KEDA. KEDA is a Kubernetes-based Event-Driven Autoscaler (Horizontal Pod Autoscaler)
+
+**Modern Architecture Shop**  
+
+In this version, I have done more clean architecture and clean code stuff:
+- I have separated the application from the Infrastructure.
+- Use Cases are moved into the application.
+- The Persistence abstraction moved to the application.
+
+In the example below, you can see that the Store application contains the business logic abstraction.
+
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Persistence_Abstraction_Store.JPG" width="300">
+
+The framework's references moved to the infrastructure assembly. If you remember in, pervious article, our main goal was to make the infrastructure depending on the application.
+ 
+In addition, I have added the Orders Domain Events. These events are working together on the use cases to build a single coherent system.
+ 
+**ProcessOrder Event**  
+
+The event is fired when the user clicks on the buy button.
+ 
+**PayOrder Event**  
+
+This event creates the order so that it can be sent to the Payment Service. After that, the payment can succeed or fail.
+ 
+**PrdocutsSold Event**  
+
+The event is fired when the payment is successful. This event helps to update the products availability in the Store.
+ 
+**PaymentConfirmed Event**  
+
+The event is fired when the payment has been successful. This event is responsible to remove the processed order and basket information.
+ 
+**PaymentFailed Event**  
+
+The event is fired when the payment fails. This event is used to remove the failed order data and to reactive the buy state in the Basket service.
+ 
+**ModernArchitectureShop.ShopUI**  
+
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopUI.JPG" width="300">
+ 
+As you see in the image above, I have selected ProductsService and ProductsDaprClient, these two classes are equivalent, both are calling the Store API, but they are using two different approaches, the Product API is using HTTPClient to call the Store API and the other one is using DaprCilent.  
 
 ```cs
-public async Task<IActionResult> GetProducts([FromQuery]
-GetProductsCommand command)
-{
-  var result = await _mediator.Send(command);
-  return Ok(result);
+public class ProductsService    
+{    
+    private readonly HttpClient _storeHttpClient;    
+    private readonly IHttpContextAccessor _httpContextAccessor;    
+    
+    public ProductsService(HttpClient storeHttpClient, IHttpContextAccessor httpContextAccessor)    
+    {    
+        _storeHttpClient = storeHttpClient ?? throw new ArgumentNullException(nameof(storeHttpClient));    
+        _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));    
+    }    
+    
+    public async Task AttachAccessTokenToHeader()    
+    {    
+        var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");    
+        if (accessToken != null)    
+        {    
+            var auth = _storeHttpClient.DefaultRequestHeaders.Authorization?.Parameter;    
+            if (auth == null)    
+                _storeHttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);    
+        }    
+    }    
+    
+    public async Task<ServiceResult<string>> SearchProducts(string url)    
+    {    
+        await AttachAccessTokenToHeader();    
+    
+        HttpResponseMessage response;    
+        try    
+        {    
+            response = await _storeHttpClient.GetAsync(url);    
+            response.EnsureSuccessStatusCode();    
+        }    
+        catch (HttpRequestException e)    
+        {    
+            return new ServiceResult<string>    
+            {    
+                Content = null!,    
+                StatusCode = 500, // Server Error!    
+                Error = e.Message    
+            };    
+        }    
+    
+        return new ServiceResult<string>    
+        {    
+            Content = await response.Content.ReadAsStringAsync(),    
+            StatusCode = (int)response.StatusCode,    
+            Error = string.Empty    
+        };    
+    
+    }    
+    
+    public async Task<ServiceResult<string>> GetProductsAsync(string url)    
+    {    
+        await AttachAccessTokenToHeader();    
+    
+        HttpResponseMessage response;    
+        try    
+        {    
+            response = await _storeHttpClient.GetAsync(url);    
+            response.EnsureSuccessStatusCode();    
+        }    
+        catch (HttpRequestException e)    
+        {    
+            return new ServiceResult<string>    
+            {    
+                Content = null!,    
+                StatusCode = 500, // Server Error!    
+                Error = e.Message    
+            };    
+        }    
+    
+        return new ServiceResult<string>    
+        {    
+            Content =  await response.Content.ReadAsStringAsync(),    
+            StatusCode = (int)response.StatusCode,    
+            Error = string.Empty    
+        };    
+    }    
 }
 ```
 
-The MediatR design pattern is used to reduce the dependencies between objects. 
-
-As shown below, the GetProductsHanlder called from the mediator.
-
-![](./docs/images/readme/media/image9.png)
-
 ```cs
-public async Task<GetProductsCommandResponse>
-Handle(GetProductsCommand command, CancellationToken cancellationToken)
-{
-  var query = _dbContext.Set<Product>();
-
-  var totalOfProducts = await query.CountAsync(cancellationToken);
-  var products = await query.AsNoTracking()
-    .OrderBy(x => x.Code)
-    .Skip((command.PageIndex - 1) \* command.PageSize)
-    .Take(command.PageSize)
-    .Include(x => x.ProductStores)
-    .ThenInclude(x => x.Store)
-    .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-    .ToListAsync(cancellationToken);
-
-   var result = new GetProductsCommandResponse
-   {
-    Products = products,
-    TotalOfProducts = totalOfProducts
-   };
-
-  return result;
+public class ProductsDaprClient    
+{    
+    private readonly DaprClient _daprClient;    
+    
+    public ProductsDaprClient(DaprClient daprClient)    
+    {    
+        _daprClient = daprClient;    
+    }    
+    
+    public async Task<GetProductsResponse> GetProductsAsync(    
+        string url,    
+        GetProductsCommand getProductsCommand,    
+        CancellationToken cancellationToken)    
+    {    
+        return await this._daprClient.    
+                  InvokeMethodAsync<GetProductsCommand, GetProductsResponse> ("storeapi",  url, getProductsCommand,    
+                  new HTTPExtension { Verb = HTTPVerb.Get },    
+                  cancellationToken);    
+    }    
+    
+    public async Task<GetProductsResponse> SearchProductsAsync(    
+        string url,    
+        SearchProductsCommand searchProductsCommand,    
+        CancellationToken cancellationToken)    
+    {    
+        return await this._daprClient.    
+            InvokeMethodAsync<SearchProductsCommand, GetProductsResponse>    
+            ("storeapi",    
+                url,    
+                searchProductsCommand,    
+                new HTTPExtension { Verb = HTTPVerb.Get },    
+                cancellationToken);    
+    }    
+    
+    public class GetProductsCommand    
+    {    
+        public int PageIndex { get; set; } = 1;    
+    
+        public int PageSize { get; set; } = 10;    
+    }    
+    
+    public class GetProductsResponse    
+    {    
+        public int TotalOfProducts { get; set; }    
+        public IEnumerable<ProductModel> Products { get; set; } = new ProductModel[0];    
+    }    
+    
+    public class SearchProductsCommand    
+    {    
+        public string Filter { get; set; } = string.Empty;    
+    
+        public int PageIndex { get; set; } = 1;    
+    
+        public int PageSize { get; set; } = 10;    
+    }    
 }
 ```
 
-The data is displayed in the products.razor as follows:
+You can get the products with Dapr as following:   
 
 ```cs
-protected override async Task OnParametersSetAsync()
-{
-  var response = await ProductService.GetProductsAsync(ProcessUrl());
-
-  if (response.StatusCode == (int) System.Net.HttpStatusCode.OK)
-  {
-    _productsModel =JsonConvert.DeserializeObject<ProductsModel>(response.Content);
-  }
-  else
-  {
-    _errorMessage = $"Error: {response.Error}";
-    _productsModel = new ProductsModel();
-  }
+// Do it with Dapr  
+try    
+{    
+  ProductsDaprClient.GetProductsResponse products =    
+    await ProductsDaprClient.GetProductsAsync("api/products",    
+      new ProductsDaprClient.GetProductsCommand { PageIndex = Page, PageSize = _pageSize },    
+      new CancellationToken());    
+    
+  _productsModel = new ProductsModel { Products = products.Products.ToList(), TotalOfProducts = products.TotalOfProducts };    
+}    
+catch (Exception e)    
+{    
+  // Todo just for Developers!    
+  _errorMessage = $"Error: {e.Message}";    
+  _productsModel = new ProductsModel(); ;    
+}`
+    
+`// Alternatively, do it with HTTP classic    
+var response = await ProductsService.GetProductsAsync(ProcessUrl());    
+    
+if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)    
+{    
+  _productsModel = JsonSerializer    
+                                 .Deserialize<ProductsModel>(response.Content,    
+                                                            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });    
+}    
+else    
+{    
+  _errorMessage = $"Error: {response.Error}";    
+  _productsModel = new ProductsModel();    
 }
 ```
 
-The response above contains the products and the count. Finally, the products are displayed, as shown below.
+**How can you test the modern shop?**
+  
+**Required**   
 
-```
-<div class="row mt-4">
+https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-preview Visual Studio 2019
+https://www.docker.com/products/docker-desktop Docker Desktop
 
-@foreach (var product in _productsModel.Products)
+**First Approach with Visual Studio**   
 
-{ .....
-```
+Build and Start the Shop
 
-### ModernArchitectureShop.BasketApi
+1. Install tye
+`dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
-It contains tow controllers: ItemController.cs and ItemsController.cs
+2. Start tye-min.yaml in console
+`tye run tye-min.yaml`
 
-ItemController creates and deletes items to/from the basket.
+3. Open the solution file **ModernArchitectureShop.sln** with latest Visual Studio 2019 preview.
+ 
+4. Set the Startup projects as shown below
+ 
+<img src="https://github.com/alugili/ModernArchitectureShop/blob/master/docs/Startup_Projects.JPG" width="600">
+ 
+5. PRESS **F5** and enjoy it!   
+ 
+**The Second Approach run the Shop with Dapr**   
+Alternatively, to Visual Studio 2019
+ 
+1. Install Tye   
+`dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
-ItemsController retrieves items from the database.
+2. Start tye-min.yaml in the console
+`tye run tye-min.yaml`
 
-Again, I have used here MediatR:
+3. Install Dapr   
+`powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"`
 
-```cs
-\\Application\\UsesCases\\AddItemHandler
+4. Execute dapr_start.ps1 in the PowerShell    
+`./dapr_start.ps1`
 
-public async Task<ItemDto> Handle(AddItemCommand command, CancellationToken cancellationToken)
-{
-  var itemFromCommand = _mapper.Map<Item>(command);
-  var items = _dbContext.Set<Item>();
+**Third Approach run it with Tye**
 
-  var itemFromDb = await items.SingleOrDefaultAsync(x => x.ItemId ==  command.ItemId, cancellationToken: cancellationToken);
+1. Tye install    
+ 
+This will install the newest available build from our CI.    
 
-  if (itemFromDb != null)
-  {
-    _mapper.Map(itemFromCommand, itemFromDb);
-    items.Update(itemFromDb);
-  }
-  else
-  {
-    await _dbContext.Items.AddAsync(itemFromCommand, cancellationToken);
-  }
+`dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
-  await _dbContext.SaveChangesAsync(cancellationToken);
-  await _itemCreatedNotificationHandler.Handle(new ItemCreatedMessage(), cancellationToken);
+If you already have a build installed and you want to update, replace install with update    
+`dotnet tool update -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
 
-  return _mapper.Map<ItemDto>(itemFromCommand);
-}
-```
+2. Execute the tye command     
+`tye run`   
 
-Once the items are added to the database, the ItemCreatedMessage.cs (Dapr) message is being published to the Store. We need this message, for example, to update the reserved items.
+**Summary**  
 
-```cs
-\\Application\\UsesCases\\GetItemsHandler
-
-public async Task<GetItemsCommandResponse> Handle(GetItemsCommand command, CancellationToken cancellationToken)
-{
-  var query = _dbContext.Set<Item>();
-
-  var totalOfItems = await query.Where(i => i.Username == command.Username).CountAsync(cancellationToken);
-  var items = await query.AsNoTracking()
-    .OrderBy(x => x.Code)
-    .Skip((command.PageIndex - 1) \* command.PageSize)
-    .Take(command.PageSize)
-    .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
-    .Where(i => i.Username == command.Username)
-    .ToListAsync(cancellationToken);
-
-  var result = new GetItemsCommandResponse
-  {
-    Items = items,
-    TotalOfItems = totalOfItems,
-  };
-
- return result;
-}
-```
-
-The above items are loaded and return it to the shopui so that it can
-display them.
-
-Summary
--------
-
-ModernArchitectureShop is a modern light microservices application. We have seen that the current implementation is not ideal, and it needs some cleanups. In the next article, I will decouple the application from the infrastructure, and I will extend the project.
-
-***Tye Dashboard***
-
-<img src="./docs/images/readme/media/image10.png" width="600">
-
-Zipkin
-
-<img src="./docs/images/readme/media/image11.png" width="600">
+Modern Architecture Shop is a clean-lightweight .NET and scalable application. Keep your eye on the Road Map (watch it on GitHub). The next version will contain a minimal feature set so that the user can add products to the basket and pay it. Recommendation service and all other AI services or features, I provide them later.
