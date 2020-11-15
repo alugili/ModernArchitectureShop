@@ -6,6 +6,7 @@ namespace ModernArchitectureShop.Basket.Domain
     {
         public Guid ItemId { get; set; }
         public Guid StoreId { get; set; }
+        public Guid ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public double Price { get; set; }
