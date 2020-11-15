@@ -93,7 +93,17 @@ namespace ModernArchitectureShop.ShopUI.Services
             };
 
         }
-        public async Task<ServiceResult<string>> GetItemsAsync(string url)
+        public async Task<ServiceResult<string>> GetBasketItemsAsync(string url)
+        {
+            return await GetAsync(url);
+        }
+
+        public async Task<ServiceResult<string>> BasketTotalPrice(string url)
+        {
+            return await GetAsync(url);
+        }
+
+        private async Task<ServiceResult<string>> GetAsync(string url)
         {
             await AttachAccessTokenToHeader();
 
@@ -107,7 +117,7 @@ namespace ModernArchitectureShop.ShopUI.Services
             {
                 return new ServiceResult<string>
                 {
-                    Content = null!,
+                    Content = string.Empty!,
                     StatusCode = 500, // Server Error!
                     Error = e.Message
                 };
@@ -116,10 +126,9 @@ namespace ModernArchitectureShop.ShopUI.Services
             return new ServiceResult<string>
             {
                 Content = await response.Content.ReadAsStringAsync(),
-                StatusCode = (int)response.StatusCode,
+                StatusCode = (int) response.StatusCode,
                 Error = string.Empty
             };
         }
-
     }
 }

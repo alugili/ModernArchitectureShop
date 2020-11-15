@@ -42,7 +42,7 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
 
         public void Remove(Item item)
         {
-             _items.Remove(item);
+            _items.Remove(item);
         }
 
         public void Update(Item item)
@@ -63,7 +63,11 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
         public async ValueTask<int> TotalCountAsync(string username, CancellationToken cancellationToken)
         {
             return await _items.Where(i => i.Username == username).CountAsync(cancellationToken);
+        }
 
+        public async ValueTask<double> TotalPriceAsync(string username, CancellationToken cancellationToken)
+        {
+           return await _items.Where(i => i.Username == username).SumAsync(x => x.Price, cancellationToken);
         }
     }
 }

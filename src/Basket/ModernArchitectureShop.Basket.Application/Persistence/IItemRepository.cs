@@ -25,5 +25,7 @@ namespace ModernArchitectureShop.Basket.Application.Persistence
                                               CancellationToken cancellationToken);
 
         ValueTask<int> TotalCountAsync(string username, CancellationToken cancellationToken);
+
+        ValueTask<double> TotalPriceAsync(string username, CancellationToken cancellationToken);
     }
 }

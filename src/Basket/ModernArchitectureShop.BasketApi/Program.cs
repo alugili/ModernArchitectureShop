@@ -17,6 +17,7 @@ namespace ModernArchitectureShop.BasketApi
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();
+
             try
             {
                 Log.Information($"Starting up Basket API");

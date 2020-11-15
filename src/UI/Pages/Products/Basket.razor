@@ -4,6 +4,8 @@
 @using ModernArchitectureShop.ShopUI.Models
 @using ModernArchitectureShop.ShopUI.Services
 @using System.Diagnostics
+@using Newtonsoft.Json
+@using JsonSerializer = System.Text.Json.JsonSerializer
 @inject NavigationManager NavigationManager
 @inject BasketsService BasketsService
 @inject AuthenticationStateProvider AuthState
@@ -65,11 +67,10 @@ else
                 <h5 class="mt-0">@item.Name</h5>
                 <div>Category: @item.Code</div>
                 <div>Location: Todo</div>
-                <div>Price: <span class="font-weight-bold" style="color: red;">$@item.Price.ToString("0.##")</span></div>
+                <div>Price: <span class="font-weight-bold" style="color: brown;">$@item.Price.ToString("0.##")</span></div>
                 <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
                   <div>Available: <span class="font-weight-bold" style="color: green;">Todo</span></div>
                 </div>
-
                 <div>
                   <button class="button" @onclick="@(async () => {
                                                                   if (item != null)
@@ -111,6 +112,20 @@ else
       </ul>
     </nav>
   </div>
+  <div style="align-content: center; margin: 15px;">
+    <label style="font-size : 20px;">
+      Total Price:
+      <span class="font-weight-bold" style="color: green;">
+        @(_totalprice.ToString("0.##"))
+      </span>
+    </label>
+    <br />
+    <button class="button"
+            style="    color: white; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
+            @onclick="@(async () => { await BuyItemsAsync(); })">
+      Buy
+    </button>
+  </div>
 }
 
 @code {
@@ -119,8 +134,9 @@ else
 
   private const int PageSize = 9;
   private string _errorMessage = string.Empty;
+  private double _totalprice;
 
-  private ItemsModel? _itemsModel = new ItemsModel();
+  private ItemsModel _itemsModel = new ItemsModel();
   private string _username = "Anonymous User";
 
   protected override async Task OnInitializedAsync()
@@ -128,22 +144,32 @@ else
     _errorMessage = string.Empty;
 
     var state = await AuthState.GetAuthenticationStateAsync();
-    _username =
-    state.User.Claims
-      .Where(c => c.Type.Equals("name"))
-      .Select(c => c.Value)
-      .FirstOrDefault() ?? string.Empty;
+    _username = state.User.Claims
+                  .Where(c => c.Type.Equals("name"))
+                  .Select(c => c.Value)
+                  .FirstOrDefault() ?? string.Empty;
 
     await base.OnInitializedAsync();
   }
 
   protected override async Task OnParametersSetAsync()
   {
-    var response = await BasketsService.GetItemsAsync(ProcessUrl());
+    await BasketItems();
+    await TotalPriceAsync();
+  }
+
+  private async Task BasketItems()
+  {
+    var response = await BasketsService.GetBasketItemsAsync(ProcessUrl());
 
     if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
     {
-      _itemsModel = JsonSerializer.Deserialize<ItemsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+      _itemsModel = JsonSerializer
+                                  .Deserialize<ItemsModel>(
+                                              response.Content, new JsonSerializerOptions
+                                              {
+                                                PropertyNameCaseInsensitive = true
+                                              });
     }
     else
     {
@@ -152,7 +178,7 @@ else
     }
   }
 
-  private async Task RemoveProductFromBasketAsync(ItemModel itemModel)
+  private async ValueTask RemoveProductFromBasketAsync(ItemModel itemModel)
   {
     var id = itemModel.ItemId;
     Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
@@ -162,6 +188,25 @@ else
     var response = await BasketsService.RemoveItemAsync($"api/item/{id}");
 
     if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
+    {
+      _errorMessage = $"Error: {response.Error}";
+      _itemsModel = new ItemsModel();
+    }
+
+    await BasketItems();
+    await TotalPriceAsync();
+  }
+
+  private async ValueTask TotalPriceAsync()
+  {
+    var response = await BasketsService.BasketTotalPrice($"api/items/totalprice?Username={_username}");
+
+    if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+    {
+      var priceTemplate = new { totalPrice = 0.0d };
+      _totalprice = JsonConvert.DeserializeAnonymousType(response.Content, priceTemplate).totalPrice;
+    }
+    else
     {
       _errorMessage = $"Error: {response.Error}";
       _itemsModel = new ItemsModel();
@@ -176,5 +221,10 @@ else
 
     var url = $"api/items?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
     return url;
+  }
+
+  private async Task BuyItemsAsync()
+  {
+    throw new NotImplementedException();
   }
 }
