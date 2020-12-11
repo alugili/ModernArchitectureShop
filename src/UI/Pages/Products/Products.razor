@@ -125,14 +125,14 @@ else
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        @for (var i = 1; i <= Math.Round((double)_productsModel.TotalOfProducts / _pageSize); i++)
+        @for (var i = 1; i <= Math.Ceiling((double)_productsModel.TotalOfProducts / PageSize); i++)
         {
           <li class="page-item">
             <a class="page-link" href="/products/@i">@i</a>
           </li>
         }
         <li class="page-item">
-          <a class="page-link" href="/products/@(Math.Round((double) _productsModel.TotalOfProducts / _pageSize))" aria-label="Last">
+          <a class="page-link" href="/products/@Math.Ceiling((double) _productsModel.TotalOfProducts / PageSize)" aria-label="Last">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
@@ -145,7 +145,7 @@ else
   [Parameter]
   public int Page { get; set; } = 1;
 
-  private readonly int _pageSize = 9;
+  private const int PageSize = 9;
   private string _errorMessage = string.Empty;
   private string _username = "Anonymous User";
 
@@ -236,7 +236,7 @@ else
     //  }
 
     // Do it with HTTP classic
-    var response = await ProductsService.SearchProducts(ProcessUrl(e.Value?.ToString()));
+    var response = await ProductsService.SearchProductsAsync(ProcessUrl(e.Value?.ToString()));
 
       if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
       {
@@ -259,9 +259,9 @@ else
     var queryFilter = filter;
 
     if (queryFilter != string.Empty)
-      return $"api/products/search-products?Filter={filter}&PageIndex={Page}&PageSize={_pageSize}";
+      return $"api/products/search-products?Filter={filter}&PageIndex={Page}&PageSize={PageSize}";
 
-    var url = $"api/products?PageIndex={Page}&PageSize={_pageSize}";
+    var url = $"api/products?PageIndex={Page}&PageSize={PageSize}";
     return url;
   }
 }

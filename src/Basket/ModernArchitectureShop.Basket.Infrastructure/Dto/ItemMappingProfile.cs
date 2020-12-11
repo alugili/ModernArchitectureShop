@@ -9,11 +9,8 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Dto
     {
         public ItemMappingProfile()
         {
-            CreateMap<Item, ItemDto>()
-                .ForMember(dest => dest.ItemId, opt => opt.MapFrom(src => (Guid)src.ItemId));
-
-            CreateMap<AddItemCommand, Item>()
-                .ForMember(dest => dest.ItemId, arg => arg.MapFrom(src => (Guid)src.ItemId));
+            CreateMap<Item, ItemDto>();
+            CreateMap<AddItemCommand, Item>();
         }
     }
 }

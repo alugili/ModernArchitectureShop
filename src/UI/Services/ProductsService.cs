@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -18,20 +17,9 @@ namespace ModernArchitectureShop.ShopUI.Services
 
         }
 
-        public async Task AttachAccessTokenToHeader()
+        public async Task<ServiceResult<string>> SearchProductsAsync(string url)
         {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-            if (accessToken != null)
-            {
-                var auth = _storeHttpClient.DefaultRequestHeaders.Authorization?.Parameter;
-                if (auth == null)
-                    _storeHttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-            }
-        }
-
-        public async Task<ServiceResult<string>> SearchProducts(string url)
-        {
-            await AttachAccessTokenToHeader();
+            await TokenProvider.AttachAccessTokenToHeader(_storeHttpClient, _httpContextAccessor);
 
             HttpResponseMessage response;
             try
@@ -60,7 +48,7 @@ namespace ModernArchitectureShop.ShopUI.Services
 
         public async Task<ServiceResult<string>> GetProductsAsync(string url)
         {
-            await AttachAccessTokenToHeader();
+            await TokenProvider.AttachAccessTokenToHeader(_storeHttpClient, _httpContextAccessor);
 
             HttpResponseMessage response;
             try

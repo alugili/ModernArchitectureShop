@@ -19,6 +19,7 @@ namespace ModernArchitectureShop.Basket.Infrastructure.ServiceCollection
             services
                 .AddHttpContextAccessor()
                 .AddCustomDbContext(configuration.GetConnectionString("SqlConnection"))
+                .AddTransient<IBasketRepository, BasketRepository>()
                 .AddTransient<IItemRepository, ItemRepository>()
                 .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddMediatR(Assembly.GetExecutingAssembly())

@@ -37,9 +37,9 @@ namespace ModernArchitectureShop.OrderApi
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ModernArchitectureShop HTTP Basket Api",
+                    Title = "ModernArchitectureShop HTTP Order Api",
                     Version = "v1",
-                    Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
+                    Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservices sample",
                 });
             });
 

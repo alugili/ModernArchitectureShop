@@ -11,220 +11,220 @@
 @inject AuthenticationStateProvider AuthState
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    .button {
-      cursor: pointer;
-      outline: none;
-      color: #fff;
-      background-color: #4CAF50;
-      border: none;
-      margin: 3px;
-      -ms-border-radius: 7px;
-      border-radius: 7px;
-      box-shadow: 0 5px #999;
-    }
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .button {
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            margin: 3px;
+            -ms-border-radius: 7px;
+            border-radius: 7px;
+            box-shadow: 0 5px #999;
+        }
 
-      .button:hover {
-        background-color: #3e8e41
-      }
+            .button:hover {
+                background-color: #3e8e41
+            }
 
-      .button:active {
-        background-color: #3e8e41;
-        box-shadow: 0 3px #666;
-        -ms-transform: translateY(4px);
-        -webkit-transform: translateY(4px);
-        transform: translateY(4px);
-      }
-  </style>
+            .button:active {
+                background-color: #3e8e41;
+                box-shadow: 0 3px #666;
+                -ms-transform: translateY(4px);
+                -webkit-transform: translateY(4px);
+                transform: translateY(4px);
+            }
+    </style>
 </head>
 
 <h6 style="color: red">@_errorMessage</h6>
 
 @{
-  Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
+    Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
 }
 
 @if (_itemsModel.TotalOfItems <= 0)
 {
-  <div class="text-center">
-    <h6 style="color: blue">"Basket is empty! Please add some Products to buy.</h6>
-  </div>
+    <div class="text-center">
+        <h6 style="color: blue">"Basket is empty! Please add some Products to buy.</h6>
+    </div>
 }
 else
 {
-  <div class="row mt-4">
-    @foreach (var item in _itemsModel.Items)
-    {
-      <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-body">
-            <div class="media">
-              <div class="media-body">
-                <div>
-                  <img src="@item.ImageUrl" alt="..." width="120" height="60" style="float:right">
-                </div>
-                <h5 class="mt-0">@item.Name</h5>
-                <div>Category: @item.Code</div>
-                <div>Location: Todo</div>
-                <div>Price: <span class="font-weight-bold" style="color: brown;">$@item.Price.ToString("0.##")</span></div>
-                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
-                  <div>Available: <span class="font-weight-bold" style="color: green;">Todo</span></div>
-                </div>
-                <div>
-                  <button class="button" @onclick="@(async () => {
-                                                                  if (item != null)
-                                                                     {
-                                                                        await RemoveProductFromBasketAsync(item);
-                                                                     }
-                                                                   })">
-                    ❌
-                  </button>
-                </div>
-                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    }
-  </div>
-  <div class="d-flex justify-content-center">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="/items/1" aria-label="First">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        @for (var i = 1; i <= Math.Round((double)_itemsModel!.TotalOfItems / PageSize); i++)
+    <div class="row mt-4">
+        @foreach (var item in _itemsModel.Items)
         {
-          <li class="page-item">
-            <a class="page-link" href="/items/@i">@i</a>
-          </li>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <div>
+                                    <img src="@item.ImageUrl" alt="..." width="120" height="60" style="float:right">
+                                </div>
+                                <h5 class="mt-0">@item.Name</h5>
+                                <div>Category: @item.Code</div>
+                                <div>Location: Todo</div>
+                                <div>Price: <span class="font-weight-bold" style="color: brown;">$@item.Price.ToString("0.##")</span></div>
+                                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
+                                    <div>Available: <span class="font-weight-bold" style="color: green;">Todo</span></div>
+                                </div>
+                                <div>
+                                    <button class="button" @onclick="@(async () => {
+                                                                                       if (item != null)
+                                                                                       {
+                                                                                           await RemoveProductFromBasketAsync(item);
+                                                                                       }
+                                                                                   })">
+                                        ❌
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center" style="margin: 15px 0 0;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-        <li class="page-item">
-          <a class="page-link" href="/items/@Math.Round((double) _itemsModel.TotalOfItems / PageSize)" aria-label="Last">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <div style="align-content: center; margin: 15px;">
-    <label style="font-size : 20px;">
-      Total Price:
-      <span class="font-weight-bold" style="color: green;">
-        @(_totalprice.ToString("0.##"))
-      </span>
-    </label>
-    <br />
-    <button class="button"
-            style="    color: white; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
-            @onclick="@(async () => { await BuyItemsAsync(); })">
-      Buy
-    </button>
-  </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/items/1" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (var i = 1; i <= Math.Ceiling((double)_itemsModel!.TotalOfItems / PageSize); i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="/items/@i">@i</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/items/@Math.Ceiling((double) _itemsModel.TotalOfItems / PageSize)" aria-label="Last">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div style="align-content: center; margin: 15px;">
+        <label style="font-size : 20px;">
+            Total Price:
+            <span class="font-weight-bold" style="color: green;">
+                @(_totalprice.ToString("0.##"))
+            </span>
+        </label>
+        <br />
+        <button class="button"
+                style="    color: white; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
+                @onclick="@(async () => { await BuyItemsAsync(); })">
+            Buy
+        </button>
+    </div>
 }
 
 @code {
-  [Parameter]
-  public int Page { get; set; } = 1;
+    [Parameter]
+    public int Page { get; set; } = 1;
 
-  private const int PageSize = 9;
-  private string _errorMessage = string.Empty;
-  private double _totalprice;
+    private const int PageSize = 9;
+    private string _errorMessage = string.Empty;
+    private double _totalprice;
 
-  private ItemsModel _itemsModel = new ItemsModel();
-  private string _username = "Anonymous User";
+    private ItemsModel _itemsModel = new ItemsModel();
+    private string _username = "Anonymous User";
 
-  protected override async Task OnInitializedAsync()
-  {
-    _errorMessage = string.Empty;
-
-    var state = await AuthState.GetAuthenticationStateAsync();
-    _username = state.User.Claims
-                  .Where(c => c.Type.Equals("name"))
-                  .Select(c => c.Value)
-                  .FirstOrDefault() ?? string.Empty;
-
-    await base.OnInitializedAsync();
-  }
-
-  protected override async Task OnParametersSetAsync()
-  {
-    await BasketItems();
-    await TotalPriceAsync();
-  }
-
-  private async Task BasketItems()
-  {
-    var response = await BasketsService.GetBasketItemsAsync(ProcessUrl());
-
-    if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+    protected override async Task OnInitializedAsync()
     {
-      _itemsModel = JsonSerializer
-                                  .Deserialize<ItemsModel>(
-                                              response.Content, new JsonSerializerOptions
-                                              {
-                                                PropertyNameCaseInsensitive = true
-                                              });
-    }
-    else
-    {
-      _errorMessage = $"Error: {response.Error}";
-      _itemsModel = new ItemsModel();
-    }
-  }
+        _errorMessage = string.Empty;
 
-  private async ValueTask RemoveProductFromBasketAsync(ItemModel itemModel)
-  {
-    var id = itemModel.ItemId;
-    Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
+        var state = await AuthState.GetAuthenticationStateAsync();
+        _username = state.User.Claims
+                          .Where(c => c.Type.Equals("name"))
+                          .Select(c => c.Value)
+                          .FirstOrDefault() ?? string.Empty;
 
-    _itemsModel.Items.Remove(itemModel);
-
-    var response = await BasketsService.RemoveItemAsync($"api/item/{id}");
-
-    if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
-    {
-      _errorMessage = $"Error: {response.Error}";
-      _itemsModel = new ItemsModel();
+        await base.OnInitializedAsync();
     }
 
-    await BasketItems();
-    await TotalPriceAsync();
-  }
-
-  private async ValueTask TotalPriceAsync()
-  {
-    var response = await BasketsService.BasketTotalPrice($"api/items/totalprice?Username={_username}");
-
-    if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+    protected override async Task OnParametersSetAsync()
     {
-      var priceTemplate = new { totalPrice = 0.0d };
-      _totalprice = JsonConvert.DeserializeAnonymousType(response.Content, priceTemplate).totalPrice;
+        await BasketItems();
+        await TotalPriceAsync();
     }
-    else
+
+    private async Task BasketItems()
     {
-      _errorMessage = $"Error: {response.Error}";
-      _itemsModel = new ItemsModel();
+        var response = await BasketsService.GetBasketItemsAsync(ProcessUrl());
+
+        if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+        {
+            _itemsModel = JsonSerializer
+                                            .Deserialize<ItemsModel>(
+                                                        response.Content, new JsonSerializerOptions
+                                                    {
+                                                        PropertyNameCaseInsensitive = true
+                                                    });
+        }
+        else
+        {
+            _errorMessage = $"Error: {response.Error}";
+            _itemsModel = new ItemsModel();
+        }
     }
-  }
 
-  private string ProcessUrl()
-  {
-    // todo
-    if (Page == 0)
-      Page = 1;
+    private async ValueTask RemoveProductFromBasketAsync(ItemModel itemModel)
+    {
+        var id = itemModel.ItemId;
+        Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
 
-    var url = $"api/items?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
-    return url;
-  }
+        _itemsModel.Items.Remove(itemModel);
 
-  private async Task BuyItemsAsync()
-  {
-    throw new NotImplementedException();
-  }
+        var response = await BasketsService.RemoveItemAsync($"api/item/{id}");
+
+        if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
+        {
+            _errorMessage = $"Error: {response.Error}";
+            _itemsModel = new ItemsModel();
+        }
+
+        await BasketItems();
+        await TotalPriceAsync();
+    }
+
+    private async ValueTask TotalPriceAsync()
+    {
+        var response = await BasketsService.BasketTotalPrice($"api/items/totalprice?Username={_username}");
+
+        if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+        {
+            var priceTemplate = new { totalPrice = 0.0d };
+            _totalprice = JsonConvert.DeserializeAnonymousType(response.Content, priceTemplate).totalPrice;
+        }
+        else
+        {
+            _errorMessage = $"Error: {response.Error}";
+            _itemsModel = new ItemsModel();
+        }
+    }
+
+    private string ProcessUrl()
+    {
+        // todo
+        if (Page == 0)
+            Page = 1;
+
+        var url = $"api/items?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
+        return url;
+    }
+
+    private async Task BuyItemsAsync()
+    {
+        @*    var response = await BasketsService.PlaceOrder($"api/order/totalprice?Username={_username}");
+        *@  }
 }

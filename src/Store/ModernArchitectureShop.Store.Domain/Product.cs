@@ -13,6 +13,7 @@ namespace ModernArchitectureShop.Store.Domain
         public int Quantity { get; set; }
         public bool CanPurchase { get; set; }
 
+        [ForeignKey("Store")]
         public Guid StoreId { get; set; }
         public Store Store { get; set; }
     }

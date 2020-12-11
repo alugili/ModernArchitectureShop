@@ -1,6 +1,6 @@
 namespace ModernArchitectureShop.Order.Domain
 {
-    public enum Status
+    public enum State
     {
         Received,
         Processing,

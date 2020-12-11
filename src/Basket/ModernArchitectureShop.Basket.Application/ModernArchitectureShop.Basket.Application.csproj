@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>9</LangVersion>
     <AssemblyName>ModernArchitectureShop.Basket.Application</AssemblyName>
     <Nullable>enable</Nullable>
   </PropertyGroup>

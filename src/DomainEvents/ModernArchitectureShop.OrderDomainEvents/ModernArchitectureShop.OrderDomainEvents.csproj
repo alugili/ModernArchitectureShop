@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>9</LangVersion>
     <AssemblyName>ModernArchitectureShop.OrderDomainEvents</AssemblyName>
     <RootNamespace>ModernArchitectureShop.OrderDomainEvents</RootNamespace>
   </PropertyGroup>

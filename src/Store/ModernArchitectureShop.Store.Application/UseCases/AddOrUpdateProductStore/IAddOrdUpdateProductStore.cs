@@ -4,9 +4,9 @@ namespace ModernArchitectureShop.Store.Application.UseCases.AddOrUpdateProductSt
 {
     public interface IAddOrdUpdateProductStore
     {
-        public Guid ProductId { get; set; }
-        public Guid StoreId { get; set; }
-        public int Quantity { get; set; }
-        public bool CanPurchase { get; set; }
+        public Guid ProductId { get; }
+        public Guid StoreId { get; }
+        public int Quantity { get; }
+        public bool CanPurchase { get; }
     }
 }

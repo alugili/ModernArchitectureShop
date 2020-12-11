@@ -9,8 +9,8 @@ using ModernArchitectureShop.Basket.Infrastructure.Dapr.Publishers.Messages;
 namespace ModernArchitectureShop.Basket.Infrastructure.Dapr.Publishers
 {
     public class BasketItemNotificationHandler
-        : INotificationHandler<BasketItemCreatedMessage>
-        , INotificationHandler<BasketItemUpdatedMessage>
+        : INotificationHandler<ItemCreatedMessage>
+        , INotificationHandler<ItemUpdatedMessage>
         , INotificationHandler<BasketItemDeletedMessage>
     {
         private readonly ILogger<BasketItemNotificationHandler> _logger;
@@ -22,16 +22,16 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Dapr.Publishers
             _daprClient = daprClient;
         }
 
-        public async Task Handle(BasketItemCreatedMessage basketItemCreatedMessage, CancellationToken cancellationToken)
+        public async Task Handle(ItemCreatedMessage itemCreatedMessage, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Publishing the message {nameof(basketItemCreatedMessage)}: {JsonSerializer.Serialize(basketItemCreatedMessage)}");
-            await _daprClient.PublishEventAsync("messagebus","ProductCreated", basketItemCreatedMessage, cancellationToken);
+            _logger.LogInformation($"Publishing the message {nameof(itemCreatedMessage)}: {JsonSerializer.Serialize(itemCreatedMessage)}");
+            await _daprClient.PublishEventAsync("messagebus","ProductCreated", itemCreatedMessage, cancellationToken);
         }
 
-        public async Task Handle(BasketItemUpdatedMessage basketItemUpdatedMessage, CancellationToken cancellationToken)
+        public async Task Handle(ItemUpdatedMessage itemUpdatedMessage, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Publishing the message {nameof(basketItemUpdatedMessage)}: {JsonSerializer.Serialize(basketItemUpdatedMessage)}");
-            await _daprClient.PublishEventAsync("messagebus","ProductUpdated", basketItemUpdatedMessage, cancellationToken);
+            _logger.LogInformation($"Publishing the message {nameof(itemUpdatedMessage)}: {JsonSerializer.Serialize(itemUpdatedMessage)}");
+            await _daprClient.PublishEventAsync("messagebus","ProductUpdated", itemUpdatedMessage, cancellationToken);
         }
 
         public async Task Handle(BasketItemDeletedMessage basketItemDeletedMessage, CancellationToken cancellationToken)

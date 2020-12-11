@@ -4,6 +4,6 @@ namespace ModernArchitectureShop.Store.Application.UseCases.DeleteProduct
 {
     public interface IDeleteProduct
     {
-        public Guid ProductId { get; set; }
+        public Guid ProductId { get; }
     }
 }

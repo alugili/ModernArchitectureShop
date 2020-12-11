@@ -30,7 +30,7 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
             return await _basketDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async ValueTask<Item?> GetAsync(Guid id, CancellationToken cancellationToken)
+        public async ValueTask<Item?> GetSingleOrDefault(Guid id, CancellationToken cancellationToken)
         {
             return await _items.SingleOrDefaultAsync(x => x.ItemId == id, cancellationToken: cancellationToken);
         }
@@ -53,21 +53,27 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
         public async ValueTask<ICollection<Item>> GetAsync(string username, int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             return await _items.AsNoTracking()
+                         .Include(i => i.Basket)
                          .OrderBy(x => x.Code)
                          .Skip((pageIndex - 1) * pageSize)
                          .Take(pageSize)
-                         .Where(i => i.Username == username)
+                         .Where(i => i.Basket.Username == username)
                          .ToListAsync(cancellationToken);
         }
 
         public async ValueTask<int> TotalCountAsync(string username, CancellationToken cancellationToken)
         {
-            return await _items.Where(i => i.Username == username).CountAsync(cancellationToken);
+            return await _items.Include(i => i.Basket).Where(i => i.Basket.Username == username).CountAsync(cancellationToken);
         }
 
         public async ValueTask<double> TotalPriceAsync(string username, CancellationToken cancellationToken)
         {
-           return await _items.Where(i => i.Username == username).SumAsync(x => x.Price, cancellationToken);
+            return await _items.Include(i => i.Basket).Where(i => i.Basket.Username == username).SumAsync(x => x.Price, cancellationToken);
+        }
+
+        public void Dispose()
+        {
+            _basketDbContext.Dispose();
         }
     }
 }

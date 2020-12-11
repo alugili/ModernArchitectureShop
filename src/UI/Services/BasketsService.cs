@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text;
@@ -19,21 +18,11 @@ namespace ModernArchitectureShop.ShopUI.Services
             _basketHttpClient = basketHttpClient ?? throw new ArgumentNullException(nameof(basketHttpClient));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
-
-        public async Task AttachAccessTokenToHeader()
-        {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-            if (accessToken != null)
-            {
-                var auth = _basketHttpClient.DefaultRequestHeaders.Authorization?.Parameter;
-                if (auth == null)
-                    _basketHttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-            }
-        }
+        
 
         public async Task<ServiceResult<string>> AddItemAsync(string url, ItemModel itemModel)
         {
-            await AttachAccessTokenToHeader();
+            await TokenProvider.AttachAccessTokenToHeader(_basketHttpClient, _httpContextAccessor);
 
             HttpResponseMessage response;
             try
@@ -67,7 +56,7 @@ namespace ModernArchitectureShop.ShopUI.Services
 
         public async Task<ServiceResult<string>> RemoveItemAsync(string url)
         {
-            await AttachAccessTokenToHeader();
+            await TokenProvider.AttachAccessTokenToHeader(_basketHttpClient, _httpContextAccessor);
 
             HttpResponseMessage response;
             try
@@ -93,19 +82,20 @@ namespace ModernArchitectureShop.ShopUI.Services
             };
 
         }
+
         public async Task<ServiceResult<string>> GetBasketItemsAsync(string url)
         {
-            return await GetAsync(url);
+            return await GetAsyncCore(url);
         }
 
         public async Task<ServiceResult<string>> BasketTotalPrice(string url)
         {
-            return await GetAsync(url);
+            return await GetAsyncCore(url);
         }
 
-        private async Task<ServiceResult<string>> GetAsync(string url)
+        private async Task<ServiceResult<string>> GetAsyncCore(string url)
         {
-            await AttachAccessTokenToHeader();
+            await TokenProvider.AttachAccessTokenToHeader(_basketHttpClient, _httpContextAccessor);
 
             HttpResponseMessage response;
             try

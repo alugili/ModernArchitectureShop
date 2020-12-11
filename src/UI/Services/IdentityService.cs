@@ -34,10 +34,6 @@ namespace ModernArchitectureShop.ShopUI.Services
             return jsonIdentities;
         }
 
-        /// <summary>
-        /// Gets user claims from the current httpcontext
-        /// </summary>
-        /// <returns></returns>
         public async Task<string> GetAppUserClaimsJson()
         {
             var authState = await _authState.GetAuthenticationStateAsync();

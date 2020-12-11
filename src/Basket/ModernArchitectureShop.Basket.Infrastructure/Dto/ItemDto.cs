@@ -2,16 +2,27 @@ using System;
 
 namespace ModernArchitectureShop.Basket.Infrastructure.Dto
 {
-    public class ItemDto
+    public sealed class ItemDto
     {
-        public Guid ItemId { get; set; }
-        public Guid StoreId { get; set; }
-        public Guid ProductId { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Code { get; set; } = string.Empty;
-        public double? Price { get; set; }
-        public string Username { get; set; } = string.Empty;
-        public string ImageUrl { get; set; } = string.Empty;
-        public StoreDto Store { get; set; } = new StoreDto();
+        public ItemDto(Guid itemId, Guid storeId, Guid productId, string name, string code, double price, string imageUrl, Guid basketId)
+        {
+            ItemId = itemId;
+            StoreId = storeId;
+            ProductId = productId;
+            Name = name;
+            Code = code;
+            Price = price;
+            ImageUrl = imageUrl;
+            BasketId = basketId;
+        }
+
+        public Guid ItemId { get; private set; }
+        public Guid StoreId { get; private set; }
+        public Guid ProductId { get; private set; }
+        public string Name { get; private set; }
+        public string Code { get; private set; }
+        public double Price { get; private set; }
+        public string ImageUrl { get; private set; }
+        public Guid BasketId { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModernArchitectureShop.Basket.Domain
 {
@@ -10,7 +11,10 @@ namespace ModernArchitectureShop.Basket.Domain
         public string Name { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public double Price { get; set; }
-        public string Username { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
+
+        [ForeignKey("Basket")]
+        public Guid BasketId { get; set; }
+        public Basket Basket { get; set; }
     }
 }

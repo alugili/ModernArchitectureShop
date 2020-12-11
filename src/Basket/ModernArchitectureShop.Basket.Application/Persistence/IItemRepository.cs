@@ -6,7 +6,7 @@ using ModernArchitectureShop.Basket.Domain;
 
 namespace ModernArchitectureShop.Basket.Application.Persistence
 {
-    public interface IItemRepository
+    public interface IItemRepository : IDisposable
     {
         void CreateDatabase();
 
@@ -16,7 +16,7 @@ namespace ModernArchitectureShop.Basket.Application.Persistence
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
-        ValueTask<Item?> GetAsync(Guid id, CancellationToken cancellationToken);
+        ValueTask<Item?> GetSingleOrDefault(Guid id, CancellationToken cancellationToken);
 
         ValueTask AddAsync(Item item, CancellationToken cancellationToken);
 

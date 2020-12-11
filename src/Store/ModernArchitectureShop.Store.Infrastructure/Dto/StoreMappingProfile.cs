@@ -12,6 +12,9 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dto
 
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId));
+
+            CreateMap<Address, AddressDto>()
+                .ForMember(dest => dest.AddressId, opt => opt.MapFrom(src => src.AddressId));
         }
     }
 }

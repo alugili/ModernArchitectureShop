@@ -39,7 +39,7 @@ namespace ModernArchitectureShop.BasketApi
                 {
                     Title = "ModernArchitectureShop HTTP Basket Api",
                     Version = "v1",
-                    Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
+                    Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservices sample",
                 });
             });
 

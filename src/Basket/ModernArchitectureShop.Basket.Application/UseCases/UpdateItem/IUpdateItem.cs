@@ -4,7 +4,7 @@ namespace ModernArchitectureShop.Basket.Application.UseCases.UpdateItem
 {
     public interface IUpdateItem
     {
-        public Guid ProductId { get; set; }
-        public string NewProductName { get; set; }
+        public Guid ProductId { get; }
+        public string NewProductName { get; }
     }
 }

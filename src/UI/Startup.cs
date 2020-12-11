@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Microsoft.IdentityModel.Logging;
 using ModernArchitectureShop.ShopUI.DaprClients;
@@ -32,7 +31,7 @@ namespace ModernArchitectureShop.ShopUI
                        .AllowAnyHeader();
             }));
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
 
             var storeApiURL = Configuration.GetValue<string>("STORE_URL");
             var storeApiName = Configuration.GetValue<string>("STORE_NAME");
@@ -125,12 +124,11 @@ namespace ModernArchitectureShop.ShopUI
             }
 
             app.UseStaticFiles();
-
             app.UseCookiePolicy();
 
             //app.UseHttpsRedirection();
             app.UseRouting();
-            
+
             app.UseCookiePolicy(new CookiePolicyOptions
             {
                 // workaround IdentityServer4
