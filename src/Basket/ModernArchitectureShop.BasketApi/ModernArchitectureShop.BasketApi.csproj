@@ -3,7 +3,6 @@
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>9</LangVersion>
     <Authors>Bassam Alugili</Authors>
-    <LangVersion>9</LangVersion>
     <Company>bassam.ml</Company>
     <Product>BasketApi</Product>
     <UserSecretsId>dbee1895-603e-45e5-80ba-1d8aaaefbf8f</UserSecretsId>

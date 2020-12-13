@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Dapr.Client;
 using MediatR;
+using ModernArchitectureShop.Order.Application.Persistence;
 using ModernArchitectureShop.Order.Domain;
-using ModernArchitectureShop.Order.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
 {
@@ -13,10 +13,10 @@ namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
     {
         private readonly IMapper _mapper;
         private readonly DaprClient _daprClient;
-        private readonly OrderRepository _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
 
-        public PlaceOrderHandler(DaprClient daprClient, OrderRepository orderRepository, IMapper mapper )
+        public PlaceOrderHandler(DaprClient daprClient, IOrderRepository orderRepository, IMapper mapper)
         {
             _mapper = mapper;
             _daprClient = daprClient;
@@ -25,16 +25,16 @@ namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
 
         public async Task<bool> Handle(PlaceOrderCommand command, CancellationToken cancellationToken)
         {
-            var isOrderExits = await _orderRepository.GetAsync(command.Username, command.OrderId, cancellationToken) != null;
+            var isOrderExits = await _orderRepository.GetActiveAsync(command.Username, cancellationToken) != null;
 
             if (isOrderExits)
             {
-                throw new InvalidOperationException($"your order still im process:  {command.OrderId}");
+                throw new InvalidOperationException("your order still im process.");
             }
 
             var orderFromCommand = _mapper.Map<Domain.Order>(command);
 
-            orderFromCommand.State = State.Received;
+            orderFromCommand.State = State.Processing;
 
             await _orderRepository.AddAsync(orderFromCommand, cancellationToken);
             var numberOfWrittenData = await _orderRepository.SaveChangesAsync(cancellationToken);

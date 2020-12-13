@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ModernArchitectureShop.Order.Application.Persistence;
+using ModernArchitectureShop.Order.Domain;
 
 namespace ModernArchitectureShop.Order.Infrastructure.Persistence
 {
@@ -44,28 +44,28 @@ namespace ModernArchitectureShop.Order.Infrastructure.Persistence
             _orders.Update(order);
         }
 
-        public async ValueTask<ICollection<Domain.Order>> GetAsync(string username, Guid storeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async ValueTask<ICollection<Domain.Order>> GetAsync(string username, int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             return await _orders.AsNoTracking()
                          .OrderBy(x => x.CreationDate)
                          .Skip((pageIndex - 1) * pageSize)
                          .Take(pageSize)
                          .Where(i => i.Username == username)
-                         .Where(i => i.StoreId == storeId)
                          .ToListAsync(cancellationToken);
         }
 
-        public async ValueTask<Domain.Order?> GetAsync(string username, Guid storeId, CancellationToken cancellationToken)
+        public async ValueTask<Domain.Order?> GetActiveAsync(string username, CancellationToken cancellationToken)
         {
-            return await _orders.SingleOrDefaultAsync(x => x.Username == username &&
-                                                           x.StoreId == storeId, cancellationToken: cancellationToken);
+            return await _orders.SingleOrDefaultAsync(x =>
+                                                           x.Username == username &&
+                                                           x.State == State.Processing,
+                                                           cancellationToken: cancellationToken);
         }
 
 
-        public async ValueTask<int> CountAsync(string username, Guid storeId, CancellationToken cancellationToken)
+        public async ValueTask<int> CountAsync(string username, CancellationToken cancellationToken)
         {
-            return await _orders.Where(i => i.Username == username && i.StoreId == storeId).CountAsync(cancellationToken);
-
+            return await _orders.Where(i => i.Username == username).CountAsync(cancellationToken);
         }
     }
 }

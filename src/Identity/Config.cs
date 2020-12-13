@@ -9,6 +9,10 @@ namespace IdentityServer
 {
     public static class Config
     {
+        private const string _storeApi = "storeapi";
+        private const string _basketApi = "basketapi";
+        private const string _orderApi = "orderapi";
+
         public static IEnumerable<IdentityResource> Ids =>
             new List<IdentityResource>
             {
@@ -21,8 +25,9 @@ namespace IdentityServer
             new List<ApiResource>
             {
                     // By assigning the user claim to the api resource, we are instructing Identity Server to include that claim in Access tokens for this resource.
-                    new ApiResource("storeapi", "Store API", new []{ JwtClaimTypes.Name, JwtClaimTypes.Email }),
-                    new ApiResource("basketapi", "Basket API",new []{ JwtClaimTypes.Name, JwtClaimTypes.Email })
+                    new ApiResource(_storeApi, "Store API", new []{ JwtClaimTypes.Name, JwtClaimTypes.Email }),
+                    new ApiResource(_basketApi, "Basket API",new []{ JwtClaimTypes.Name, JwtClaimTypes.Email }),
+                    new ApiResource(_orderApi, "Order API",new []{ JwtClaimTypes.Name, JwtClaimTypes.Email })
             };
 
         public static IEnumerable<Client> Clients =>
@@ -56,8 +61,9 @@ namespace IdentityServer
                             "profile",
                             "email",
                             "offline_access",
-                            "storeapi",
-                            "basketapi"
+                            _storeApi,
+                            _basketApi,
+                            _orderApi
                         },
 
                         // include the refresh token

@@ -12,11 +12,10 @@ namespace ModernArchitectureShop.OrderApi.Controllers
     public class OrderController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> CreateItem([FromBody] PlaceOrderCommand command, [FromServices] IMediator mediator)
+        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand command, [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Ok(result);
         }
-
     }
 }

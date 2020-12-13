@@ -6,11 +6,8 @@ namespace ModernArchitectureShop.Order.Application.UseCases.OrderManagement
 {
     public interface IPlaceOrder
     {
-        public Guid OrderId { get; }
-        public Guid StoreId { get; }
-        public ICollection<Domain.Order>? Items { get; }
         public string Username { get; }
-        public State State { get; }
+        public ICollection<Item> Items { get; }
         public DateTimeOffset CreationDate { get; }
     }
 }

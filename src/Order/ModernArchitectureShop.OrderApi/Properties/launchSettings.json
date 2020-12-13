@@ -1,14 +1,14 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "BasketApi": {
+    "OrderApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5040",
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     }
   }

@@ -8,6 +8,7 @@
 @using JsonSerializer = System.Text.Json.JsonSerializer
 @inject NavigationManager NavigationManager
 @inject BasketsService BasketsService
+@inject OrderService OrderService
 @inject AuthenticationStateProvider AuthState
 
 <head>
@@ -145,9 +146,9 @@ else
 
         var state = await AuthState.GetAuthenticationStateAsync();
         _username = state.User.Claims
-                          .Where(c => c.Type.Equals("name"))
-                          .Select(c => c.Value)
-                          .FirstOrDefault() ?? string.Empty;
+                                  .Where(c => c.Type.Equals("name"))
+                                  .Select(c => c.Value)
+                                  .FirstOrDefault() ?? string.Empty;
 
         await base.OnInitializedAsync();
     }
@@ -165,11 +166,11 @@ else
         if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
         {
             _itemsModel = JsonSerializer
-                                            .Deserialize<ItemsModel>(
-                                                        response.Content, new JsonSerializerOptions
-                                                    {
-                                                        PropertyNameCaseInsensitive = true
-                                                    });
+                                                    .Deserialize<ItemsModel>(
+                                                                response.Content, new JsonSerializerOptions
+                                                            {
+                                                                PropertyNameCaseInsensitive = true
+                                                            });
         }
         else
         {
@@ -225,6 +226,6 @@ else
 
     private async Task BuyItemsAsync()
     {
-        @*    var response = await BasketsService.PlaceOrder($"api/order/totalprice?Username={_username}");
-        *@  }
+        var response = await OrderService.PlaceOrderAsync($"api/order/",_username, _itemsModel);
+    }
 }

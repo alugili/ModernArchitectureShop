@@ -17,7 +17,7 @@ namespace ModernArchitectureShop.Order.Infrastructure.ServiceCollection
             services
                 .AddHttpContextAccessor()
                 .AddCustomDbContext(configuration.GetConnectionString("SqlConnection"))
-                .AddTransient<IOrderRepository, IOrderRepository>() // todo
+                .AddTransient<IOrderRepository, OrderRepository>()
                 .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddMediatR(Assembly.GetExecutingAssembly())
                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())

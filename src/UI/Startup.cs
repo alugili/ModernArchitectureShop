@@ -54,6 +54,16 @@ namespace ModernArchitectureShop.ShopUI
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
 
+            var orderApiURL  = Configuration.GetValue<string>("ORDER_URL");
+            var orderApiName  = Configuration.GetValue<string>("ORDER_NAME");
+
+            services.AddHttpClient(orderApiName, client =>
+            {
+                client.BaseAddress = new Uri(orderApiURL);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+            });
+
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
             services.AddAuthentication(options =>
@@ -80,8 +90,9 @@ namespace ModernArchitectureShop.ShopUI
                     options.UseTokenLifetime = true;
 
                     //Scope for accessing API
-                    options.Scope.Add(storeApiName); //invalid scope for client
-                    options.Scope.Add(basketApiName); //invalid scope for client
+                    options.Scope.Add(storeApiName);
+                    options.Scope.Add(basketApiName);
+                    options.Scope.Add(orderApiName);
                     options.UsePkce = true;
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
@@ -95,6 +106,11 @@ namespace ModernArchitectureShop.ShopUI
             services.AddHttpClient<BasketsService>(client =>
             {
                 client.BaseAddress = new Uri(basketApiURL);
+            });
+
+            services.AddHttpClient<OrderService>(client =>
+            {
+                client.BaseAddress = new Uri(orderApiURL);
             });
 
             services.AddScoped<IdentityService, IdentityService>();

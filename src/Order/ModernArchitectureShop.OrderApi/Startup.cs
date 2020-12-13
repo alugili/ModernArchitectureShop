@@ -33,15 +33,15 @@ namespace ModernArchitectureShop.OrderApi
 
             services.AddInfrastructure(Configuration);
 
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "ModernArchitectureShop HTTP Order Api",
-                    Version = "v1",
-                    Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservices sample",
-                });
-            });
+            //services.AddSwaggerGen(options =>
+            //{
+            //    options.SwaggerDoc("v1", new OpenApiInfo
+            //    {
+            //        Title = "ModernArchitectureShop HTTP Order Api",
+            //        Version = "v1",
+            //        Description = "The Store Microservice HTTP API. This is a Data-Driven/CRUD microservices sample",
+            //    });
+            //});
 
             services.AddCors(options =>
             {
@@ -76,10 +76,10 @@ namespace ModernArchitectureShop.OrderApi
 
             //app.UseHttpsRedirection();
 
-            app.UseSwagger().UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ModernArchitectureShop.BasketApi V1");
-            });
+            //app.UseSwagger().UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ModernArchitectureShop.BasketApi V1");
+            //});
 
             app.UseCors("CorsPolicy");
 

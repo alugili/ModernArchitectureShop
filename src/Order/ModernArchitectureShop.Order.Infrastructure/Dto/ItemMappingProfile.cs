@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 
 namespace ModernArchitectureShop.Order.Infrastructure.Dto
@@ -7,11 +6,8 @@ namespace ModernArchitectureShop.Order.Infrastructure.Dto
     {
         public OrderMappingProfile()
         {
-            CreateMap<Order.Domain.Order, OrderDto>()
-                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => (Guid)src.OrderId));
-
-            CreateMap<Order.Domain.Item, ItemDto>()
-                .ForMember(dest => dest.ItemId, opt => opt.MapFrom(src => (Guid)src.ItemId));
+            CreateMap<Order.Domain.Order, OrderDto>();
+            CreateMap<Order.Domain.Item, ItemDto>();
         }
     }
 }

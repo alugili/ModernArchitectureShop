@@ -1,15 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using ModernArchitectureShop.ShopUI.Models;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ModernArchitectureShop.ShopUI.Services
 {
     public class OrderService
     {
+        record TempDataHolder(string Username, ICollection<ItemModel> Items, DateTimeOffset CreationDate);
+
         private readonly HttpClient _orderHttpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -19,14 +23,16 @@ namespace ModernArchitectureShop.ShopUI.Services
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        public async Task<ServiceResult<string>> PlaceOrderAsync(string url, ItemModel itemModel)
+        public async Task<ServiceResult<string>> PlaceOrderAsync(string url, string username, ItemsModel itemsModes)
         {
             await TokenProvider.AttachAccessTokenToHeader(_orderHttpClient, _httpContextAccessor);
 
             HttpResponseMessage response;
             try
             {
-                var json = JsonSerializer.Serialize(itemModel);
+                var items = new TempDataHolder(username, itemsModes.Items, DateTimeOffset.UtcNow);
+
+                var json = JsonSerializer.Serialize(items);
 
                 //Needed to setup the body of the request
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
