@@ -11,8 +11,6 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
                 options => options.UseSqlServer(connectionString,
                     providerOptions => providerOptions.EnableRetryOnFailure()));
                 
-
-
             return services;
         }
     }

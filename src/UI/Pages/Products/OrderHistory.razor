@@ -1,5 +1,5 @@
-@page "/orders"
-@page "/orders/{Page:int}"
+@page "/orderhistory"
+@page "/orderhistory/{Page:int}"
 @using System.Text.Json
 @using ModernArchitectureShop.ShopUI.Models
 @using ModernArchitectureShop.ShopUI.Services
@@ -8,7 +8,6 @@
 @using JsonSerializer = System.Text.Json.JsonSerializer
 @inject NavigationManager NavigationManager
 @inject OrderService OrderService
-@inject BasketsService BasketService
 @inject AuthenticationStateProvider AuthState
 
 <div class="container">
@@ -51,4 +50,6 @@
     public string Email { get; set; }
     public string Role { get; set; }
   }
+
 }
+
