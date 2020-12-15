@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapr.Client;
-using Dapr.Client.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using ModernArchitectureShop.ShopUI.Models;
@@ -12,7 +11,6 @@ using ModernArchitectureShop.ShopUI.Services;
 
 namespace ModernArchitectureShop.ShopUI.DaprClients
 {
-
     /// <summary>
     /// This class is alternative for <see cref="ProductsService"/>.
     /// </summary>
@@ -35,7 +33,7 @@ namespace ModernArchitectureShop.ShopUI.DaprClients
                       ("storeapi",
              url,
                       getProductsCommand,
-                      new HTTPExtension { Verb = HTTPVerb.Get },
+                      HttpInvocationOptions.UsingGet(),
                       cancellationToken);
         }
 
@@ -49,7 +47,7 @@ namespace ModernArchitectureShop.ShopUI.DaprClients
                 ("storeapi",
                     url,
                     searchProductsCommand,
-                    new HTTPExtension { Verb = HTTPVerb.Get },
+                    HttpInvocationOptions.UsingGet(),
                     cancellationToken);
         }
 

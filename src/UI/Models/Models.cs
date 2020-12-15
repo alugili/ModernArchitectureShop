@@ -1,4 +1,4 @@
-namespace ModernArchitectureShop.ShopUI.Components
+namespace ModernArchitectureShop.ShopUI.Models
 {
     public class KeyValueModel
     {

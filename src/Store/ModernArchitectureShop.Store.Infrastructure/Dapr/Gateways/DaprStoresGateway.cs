@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Dapr.Client;
-using Dapr.Client.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ModernArchitectureShop.Store.Infrastructure.UseCases.GetProducts;
@@ -15,12 +14,6 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dapr.Gateways
         private readonly ILogger<DaprStoresGateway> _logger;
         private readonly DaprClient _daprClient;
         private readonly IConfiguration _configuration;
-
-
-        private HTTPExtension HttpExtension => new HTTPExtension
-        {
-            Verb = HTTPVerb.Post
-        };
 
         public DaprStoresGateway(ILogger<DaprStoresGateway> logger, DaprClient daprClient, IConfiguration configuration)
         {
@@ -40,7 +33,7 @@ namespace ModernArchitectureShop.Store.Infrastructure.Dapr.Gateways
                                          (StoreAppId,
                                         "api/dapr/products/",
                                           command,
-                                          HttpExtension,
+                                          HttpInvocationOptions.UsingPost(),
                                           cancellationToken);
 
     }
