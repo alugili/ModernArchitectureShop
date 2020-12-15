@@ -137,6 +137,86 @@ app {
     top: 0.5rem;
   }
 
+
+.checked {
+  color: orange;
+}
+
+.fa-star {
+  cursor: pointer;
+}
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+.card-columns .card:hover .card-img {
+  opacity: 1;
+  -webkit-transform-style: preserve-3d;
+}
+
+.card-columns .card-body {
+  height: 50px;
+  font-family: 'Nunito', sans-serif;
+  background: #fbfafd;
+}
+
+.card-columns .card-img {
+  height: 250px;
+  vertical-align: bottom;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  opacity: .8;
+}
+
+.modal .card-img {
+  height: 250px;
+  vertical-align: bottom;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.card-columns .card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
+}
+
+.card-footer {
+  background: #fbfafd;
+}
+
+
+a.navbar-brand {
+  white-space: normal;
+  font-family: 'Yellowtail', cursive;
+  font-size: xx-large;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #252152;
+  border-color: #252152;
+}
+
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #e9a8a6;
+    border-color: #e9a8a6;
+  }
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
 @media (max-width: 767.98px) {
   .main .top-row:not(.auth) {
     display: none;
