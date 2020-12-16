@@ -2,17 +2,12 @@
 
 html, body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #1e88e5;
+  background-color: lightsalmon;
+  color: brown;
 }
 
-a, .btn-link {
-  color: #ffffff;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+h1 {
+  color: brown;
 }
 
 app {
@@ -32,9 +27,9 @@ app {
 }
 
   .main .top-row {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
-    border-bottom: 1px solid #1861ac;
+    border-bottom: 1px solid maroon;
     justify-content: flex-end;
+    font-weight: bold;
   }
 
     .main .top-row > a, .main .top-row .btn-link {
@@ -47,67 +42,64 @@ app {
       text-overflow: ellipsis;
     }
 
-.sidebar {
-  background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+.sidebar .top-row {
+  background-color: maroon;
 }
 
-  .sidebar .top-row {
-    background-color: #1e88e5;
+.sidebar .navbar-brand {
+  font-size: 1.1rem;
+}
+
+.sidebar .oi {
+  width: 2rem;
+  font-size: 1.1rem;
+  vertical-align: text-top;
+  top: -2px;
+}
+
+.sidebar .nav-item {
+  font-size: 0.9rem;
+  padding-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+  .sidebar .nav-item:first-of-type {
+    padding-top: 1rem;
   }
 
-  .sidebar .navbar-brand {
-    font-size: 1.1rem;
+  .sidebar .nav-item:last-of-type {
+    padding-bottom: 1rem;
   }
 
-  .sidebar .oi {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
+  .sidebar .nav-item a {
+    color: maroon;
+    border-radius: 4px;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
   }
 
-  .sidebar .nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-  }
-
-    .sidebar .nav-item:first-of-type {
-      padding-top: 1rem;
+    .sidebar .nav-item a.active {
+      background-color: brown;
+      color: white;
     }
 
-    .sidebar .nav-item:last-of-type {
-      padding-bottom: 1rem;
+    .sidebar .nav-item a:hover {
+      background-color: brown;
+      color: white;
     }
-
-    .sidebar .nav-item a {
-      color: #6495ed;
-      border-radius: 4px;
-      height: 3rem;
-      display: flex;
-      align-items: center;
-      line-height: 3rem;
-    }
-
-      .sidebar .nav-item a.active {
-        background-color: rgba(255,255,255,0.25);
-        color: white;
-      }
-
-      .sidebar .nav-item a:hover {
-        background-color: rgba(255,255,255,0.1);
-        color: white;
-      }
 
 .content {
   padding-top: 1.1rem;
 }
 
 .navbar-toggler {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: darkslategrey;
 }
 
 .valid.modified:not([type=checkbox]) {
-  outline: 1px solid #26b050;
+  outline: 1px solid darkmagenta;
 }
 
 .invalid {
@@ -121,7 +113,7 @@ app {
 #blazor-error-ui {
   background: lightyellow;
   bottom: 0;
-  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -1px 2px darkorange;
   display: none;
   left: 0;
   padding: 0.6rem 1.25rem 0.7rem 1.25rem;
@@ -137,26 +129,19 @@ app {
     top: 0.5rem;
   }
 
-
-.checked {
-  color: orange;
+.card-columns .card {
+  background: lightpink;
 }
 
-.fa-star {
-  cursor: pointer;
-}
-
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-.card-columns .card:hover .card-img {
-  opacity: 1;
-  -webkit-transform-style: preserve-3d;
-}
+  .card-columns .card:hover .card-img {
+    opacity: 1;
+    -webkit-transform-style: preserve-3d;
+  }
 
 .card-columns .card-body {
   height: 50px;
   font-family: 'Nunito', sans-serif;
-  background: #fbfafd;
+  background: lightblue;
 }
 
 .card-columns .card-img {
@@ -171,20 +156,20 @@ for details on configuring this project to bundle and minify static web assets. 
 .modal .card-img {
   height: 250px;
   vertical-align: bottom;
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .card-columns .card:hover {
   transform: scale(1.01);
   box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
+  background: coral;
 }
 
 .card-footer {
-  background: #fbfafd;
+  background: lightcyan;
 }
-
 
 a.navbar-brand {
   white-space: normal;
@@ -194,28 +179,12 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #252152;
-  border-color: #252152;
-}
-
-  .btn-primary:hover {
-    color: #fff;
-    background-color: #e9a8a6;
-    border-color: #e9a8a6;
-  }
-
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
 
 @media (max-width: 767.98px) {
   .main .top-row:not(.auth) {
@@ -261,4 +230,28 @@ a {
     /* Never collapse the sidebar for wide screens */
     display: block;
   }
+}
+
+.addbutton.button {
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  margin: 3px;
+  -ms-border-radius: 7px;
+  border-radius: 7px;
+  box-shadow: 0 5px #999;
+}
+
+.addbutton:hover {
+  background-color: #3e8e41
+}
+
+.addbutton:active {
+  background-color: #3e8e41;
+  box-shadow: 0 3px #666;
+  -ms-transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
 }

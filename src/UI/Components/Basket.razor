@@ -1,50 +1,13 @@
 @page "/items"
 @page "/items/{Page:int}"
-@using System.Text.Json
-@using ModernArchitectureShop.ShopUI.Models
 @using ModernArchitectureShop.ShopUI.Services
-@using System.Diagnostics
-@using Newtonsoft.Json
-@using JsonSerializer = System.Text.Json.JsonSerializer
 @inject NavigationManager NavigationManager
 @inject BasketsService BasketsService
 @inject OrderService OrderService
 @inject AuthenticationStateProvider AuthState
+@inject NavigationManager UriHelper
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .button {
-            cursor: pointer;
-            outline: none;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            margin: 3px;
-            -ms-border-radius: 7px;
-            border-radius: 7px;
-            box-shadow: 0 5px #999;
-        }
-
-            .button:hover {
-                background-color: #3e8e41
-            }
-
-            .button:active {
-                background-color: #3e8e41;
-                box-shadow: 0 3px #666;
-                -ms-transform: translateY(4px);
-                -webkit-transform: translateY(4px);
-                transform: translateY(4px);
-            }
-    </style>
-</head>
-
-<h6 style="color: red">@_errorMessage</h6>
-
-@{
-    Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
-}
+<h6 class="validation-message">@_errorMessage</h6>
 
 @if (_itemsModel.TotalOfItems <= 0)
 {
@@ -73,12 +36,12 @@ else
                                     <div>Available: <span class="font-weight-bold" style="color: green;">Todo</span></div>
                                 </div>
                                 <div>
-                                    <button class="button" @onclick="@(async () => {
-                                                                                       if (item != null)
-                                                                                       {
-                                                                                           await RemoveProductFromBasketAsync(item);
-                                                                                       }
-                                                                                   })">
+                                    <button class="addbutton" @onclick="@(async () => {
+                                                                                         if (item != null)
+                                                                                          {
+                                                                                              await RemoveProductFromBasketAsync(item);
+                                                                                          }
+                                                                                      })">
                                         ❌
                                     </button>
                                 </div>
@@ -117,115 +80,14 @@ else
         <label style="font-size : 20px;">
             Total Price:
             <span class="font-weight-bold" style="color: green;">
-                @(_totalprice.ToString("0.##"))
+                @(_totalPrice.ToString("0.##"))
             </span>
         </label>
         <br />
         <button class="button"
-                style="    color: white; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
-                @onclick="@(async () => { await BuyItemsAsync(); })">
+                style="color: darkcyan; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
+                @onclick="@(async () => { await BuyItemsAsync(); UriHelper.NavigateTo("orders");})">
             Buy
         </button>
     </div>
-}
-
-@code {
-    [Parameter]
-    public int Page { get; set; } = 1;
-
-    private const int PageSize = 9;
-    private string _errorMessage = string.Empty;
-    private double _totalprice;
-
-    private ItemsModel _itemsModel = new ItemsModel();
-    private string _username = "Anonymous User";
-
-    protected override async Task OnInitializedAsync()
-    {
-        _errorMessage = string.Empty;
-
-        var state = await AuthState.GetAuthenticationStateAsync();
-        _username = state.User.Claims
-                                  .Where(c => c.Type.Equals("name"))
-                                  .Select(c => c.Value)
-                                  .FirstOrDefault() ?? string.Empty;
-
-        await base.OnInitializedAsync();
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        await BasketItems();
-        await TotalPriceAsync();
-    }
-
-    private async Task BasketItems()
-    {
-        var response = await BasketsService.GetBasketItemsAsync(ProcessUrl());
-
-        if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
-        {
-            _itemsModel = JsonSerializer
-                                                    .Deserialize<ItemsModel>(
-                                                                response.Content, new JsonSerializerOptions
-                                                            {
-                                                                PropertyNameCaseInsensitive = true
-                                                            });
-        }
-        else
-        {
-            _errorMessage = $"Error: {response.Error}";
-            _itemsModel = new ItemsModel();
-        }
-    }
-
-    private async ValueTask RemoveProductFromBasketAsync(ItemModel itemModel)
-    {
-        var id = itemModel.ItemId;
-        Debug.Assert(_itemsModel != null, nameof(_itemsModel) + " != null");
-
-        _itemsModel.Items.Remove(itemModel);
-
-        var response = await BasketsService.RemoveItemAsync($"api/item/{id}");
-
-        if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
-        {
-            _errorMessage = $"Error: {response.Error}";
-            _itemsModel = new ItemsModel();
-        }
-
-        await BasketItems();
-        await TotalPriceAsync();
-    }
-
-    private async ValueTask TotalPriceAsync()
-    {
-        var response = await BasketsService.BasketTotalPrice($"api/items/totalprice?Username={_username}");
-
-        if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
-        {
-            var priceTemplate = new { totalPrice = 0.0d };
-            _totalprice = JsonConvert.DeserializeAnonymousType(response.Content, priceTemplate).totalPrice;
-        }
-        else
-        {
-            _errorMessage = $"Error: {response.Error}";
-            _itemsModel = new ItemsModel();
-        }
-    }
-
-    private string ProcessUrl()
-    {
-        // todo
-        if (Page == 0)
-            Page = 1;
-
-        var url = $"api/items?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
-        return url;
-    }
-
-    private async Task BuyItemsAsync()
-    {
-        var response = await OrderService.PlaceOrderAsync($"api/order/",_username, _itemsModel);
-    }
 }

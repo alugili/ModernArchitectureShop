@@ -1,6 +1,5 @@
 @page "/products"
 @page "/products/{Page:int}"
-@using System.Text.Json
 @using ModernArchitectureShop.ShopUI.Models
 @using ModernArchitectureShop.ShopUI.Services
 @using AutoMapper
@@ -11,36 +10,7 @@
 @inject BasketsService BasketsService
 @inject AuthenticationStateProvider AuthState
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    .button {
-      cursor: pointer;
-      outline: none;
-      color: #fff;
-      background-color: #4CAF50;
-      border: none;
-      margin: 3px;
-      -ms-border-radius: 7px;
-      border-radius: 7px;
-      box-shadow: 0 5px #999;
-    }
-
-      .button:hover {
-        background-color: #3e8e41
-      }
-
-      .button:active {
-        background-color: #3e8e41;
-        box-shadow: 0 3px #666;
-        -ms-transform: translateY(4px);
-        -webkit-transform: translateY(4px);
-        transform: translateY(4px);
-      }
-  </style>
-</head>
-
-<h6 style="color: red">@_errorMessage</h6>
+<h6 class="validation-message">@_errorMessage</h6>
 
 <div class="clearfix">
   <div class="float-right">
@@ -72,7 +42,7 @@ else
         </div>
         <div class="card-footer">
           <div>Category: @product.Code - Location: Germany</div>
-          <div>Price: <span class="font-weight-bold" style="color: green;">$@product?.Price.ToString("0.##")</span></div>
+          <div>Price: <span class="font-weight-bold" style="color: green;">$@product.Price.ToString("0.##")</span></div>
           <div>
             <label>
               Quantity:
@@ -82,15 +52,15 @@ else
 
           <div>
             <p align="center">
-             <button class="button" @onclick="@(async () => { var config = new MapperConfiguration( cfg =>
+             <button class="addbutton" @onclick="@(async () => { var config = new MapperConfiguration( cfg =>
                                               {
                                                 cfg.CreateMap<ProductModel, ItemModel>() .ForMember( x => x.ItemId, map => map.MapFrom(o => o.ProductId) );
                                               });
-                                                              var mapper = new Mapper(config);
-                                                              var itemModel = mapper.Map<ItemModel>(product);
-                                                              itemModel.Username = _username;
-                                                              itemModel.StoreId = Guid.Empty;
-                                                              await AddProductToBasketAsync(itemModel); })">
+                                                 var mapper = new Mapper(config);
+                                                 var itemModel = mapper.Map<ItemModel>(product);
+                                                 itemModel.Username = _username;
+                                                 itemModel.StoreId = Guid.Empty;
+                                                 await AddProductToBasketAsync(itemModel); })">
               ➕
             </button>
             </p>
@@ -122,129 +92,4 @@ else
       </ul>
     </nav>
   </div>
-}
-
-@code {
-  [Parameter]
-  public int Page { get; set; } = 1;
-
-  private const int PageSize = 9;
-  private string _errorMessage = string.Empty;
-  private string _username = "Anonymous User";
-
-
-  ProductsModel? _productsModel = new ProductsModel();
-
-  protected override async Task OnInitializedAsync()
-  {
-    _errorMessage = string.Empty;
-
-    var state = await AuthState.GetAuthenticationStateAsync();
-    _username =
-      state.User.Claims
-        .Where(c => c.Type.Equals("name"))
-        .Select(c => c.Value)
-        .FirstOrDefault() ?? string.Empty;
-
-    await base.OnInitializedAsync();
-  }
-
-  protected override async Task OnParametersSetAsync()
-  {
-    // Do it with Dapr
-    //try
-    //{
-    //  ProductsDaprClient.GetProductsResponse products =
-    //    await ProductsDaprClient.GetProductsAsync("api/products",
-    //      new ProductsDaprClient.GetProductsCommand { PageIndex = Page, PageSize = _pageSize },
-    //      new CancellationToken());
-
-    //  _productsModel = new ProductsModel { Products = products.Products.ToList(), TotalOfProducts = products.TotalOfProducts };
-    //}
-    //catch (Exception e)
-    //{
-    //  // Todo just for Developers!
-    //  _errorMessage = $"Error: {e.Message}";
-    //  _productsModel = new ProductsModel();;
-    //}
-
-    // Do it with HTTP classic
-    var response = await ProductsService.GetProductsAsync(ProcessUrl());
-
-    if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
-    {
-      _productsModel = JsonSerializer
-                                     .Deserialize<ProductsModel>(response.Content,
-                                                                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-    }
-    else
-    {
-      _errorMessage = $"Error: {response.Error}";
-      _productsModel = new ProductsModel();
-    }
-  }
-
-  async Task AddProductToBasketAsync(ItemModel itemModel)
-  {
-    var response = await BasketsService.AddItemAsync($"api/item/", itemModel);
-
-    if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
-    {
-      _errorMessage = $"Error: {response.Error}";
-      _productsModel = new ProductsModel();
-    }
-  }
-
-  async Task Search(ChangeEventArgs e)
-  {
-    await Task.Run(async () =>
-    {
-      NavigationManager.NavigateTo($"/products/{Page = 1}");
-
-    // Do it with Dapr
-    //try
-    //  {
-    //    var products =
-    //      await ProductsDaprClient.SearchProductsAsync("api/products/search-products",
-    //        new ProductsDaprClient.SearchProductsCommand { Filter = e.Value.ToString(), PageIndex = Page, PageSize = _pageSize },
-    //        new CancellationToken());
-
-    //    _productsModel = new ProductsModel { Products = products.Products.ToList(), TotalOfProducts = products.TotalOfProducts };
-    //  }
-    //  catch (Exception e)
-    //  {
-    //  // Todo just for Developers!
-    //  _errorMessage = $"Error: {e.Message}";
-    //    _productsModel = new ProductsModel(); ;
-    //  }
-
-    // Do it with HTTP classic
-    var response = await ProductsService.SearchProductsAsync(ProcessUrl(e.Value?.ToString()));
-
-      if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
-      {
-        _productsModel = JsonSerializer.Deserialize<ProductsModel>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-      }
-      else
-      {
-        _errorMessage = $"Error: {response.Error}";
-        _productsModel = new ProductsModel();
-      }
-    });
-  }
-
-  private string ProcessUrl(string filter = "")
-  {
-    // todo
-    if (Page == 0)
-      Page = 1;
-
-    var queryFilter = filter;
-
-    if (queryFilter != string.Empty)
-      return $"api/products/search-products?Filter={filter}&PageIndex={Page}&PageSize={PageSize}";
-
-    var url = $"api/products?PageIndex={Page}&PageSize={PageSize}";
-    return url;
-  }
 }
