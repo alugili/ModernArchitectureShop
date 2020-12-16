@@ -227,7 +227,6 @@ a.navbar-brand {
   }
 
   .sidebar .collapse {
-    /* Never collapse the sidebar for wide screens */
     display: block;
   }
 }
@@ -235,11 +234,8 @@ a.navbar-brand {
 .addbutton.button {
   cursor: pointer;
   outline: none;
-  color: #fff;
-  background-color: #4CAF50;
   border: none;
   margin: 3px;
-  -ms-border-radius: 7px;
   border-radius: 7px;
   box-shadow: 0 5px #999;
 }
