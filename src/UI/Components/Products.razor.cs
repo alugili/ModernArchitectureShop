@@ -1,8 +1,12 @@
+#nullable disable
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using ModernArchitectureShop.ShopUI.DaprClients;
 using ModernArchitectureShop.ShopUI.Models;
+using ModernArchitectureShop.ShopUI.Services;
 
 namespace ModernArchitectureShop.ShopUI.Components
 {
@@ -14,15 +18,29 @@ namespace ModernArchitectureShop.ShopUI.Components
 
         private string _errorMessage = string.Empty;
         private string _username = "Anonymous User";
-        private ProductsModel? _productsModel = new ProductsModel();
+        private ProductsModel _productsModel = new ProductsModel();
         private string _queryFilter = string.Empty;
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        private ProductsService ProductsService { get; set; }
+
+        [Inject]
+        private ProductsDaprClient ProductsDaprClient { get; set; }
+
+        [Inject]
+        private BasketsService BasketsService { get; set; }
+
+        [Inject]
+        private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             Page = 1;
 
-            var state = await AuthState.GetAuthenticationStateAsync();
+            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             _username =
               state.User.Claims
                 .Where(c => c.Type.Equals("name"))
@@ -126,5 +144,4 @@ namespace ModernArchitectureShop.ShopUI.Components
             return url;
         }
     }
-
 }

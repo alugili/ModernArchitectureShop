@@ -1,48 +1,106 @@
 @page "/orders"
-@using ModernArchitectureShop.ShopUI.Services
 @inject NavigationManager NavigationManager
-@inject OrderService OrderService
-@inject BasketsService BasketService
-@inject AuthenticationStateProvider AuthState
 
 <div class="container">
-  <h3 class="p-3 text-center">Blazor WebAssembly - Display a list of items</h3>
-  <table class="table table-striped table-bordered">
+  <h3 class="p-3 text-center">Orders List</h3>
+
+  <table class="table table-bordered">
     <thead>
     <tr>
+      <th>Image</th>
       <th>Name</th>
-      <th>Email</th>
-      <th>Role</th>
+      <th>Price</th>
+      <th>Delete</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var user in users)
+    @foreach (var itemModel in _itemsModel!.Items)
     {
+
       <tr>
-        <td>@user.FirstName @user.LastName</td>
-        <td>@user.Email</td>
-        <td>@user.Role</td>
+        <td>
+          <img src="@itemModel.ImageUrl" alt="..." width="50" height="30">
+        </td>
+        <td>@itemModel.Name</td>
+        <td style="text-align: right">@itemModel.Price.ToString("0.##") </td>
+        <td>
+          <div>
+            <button class="addbutton" @onclick="@(async () =>
+                                                {
+                                                  await RemoveProductFromBasketAsync(itemModel);
+                                                })">
+              ❌
+            </button>
+          </div>
+        </td>
       </tr>
     }
     </tbody>
+    <tfoot>
+    <tr>
+      <td style="text-align: right" colspan="3">Total Cost: @_itemsModel.Items.Sum(x=>x.Price).ToString("0.##")</td>
+    </tr>
+    </tfoot>
   </table>
+
+  <div class="creditCardForm">
+    <div class="heading">
+        <h1>Confirm Purchase</h1>
+    </div>
+    <div class="payment">
+        <form>
+            <div class="form-group owner">
+                <label for="owner">Owner</label>
+                <input type="text" class="form-control" id="owner">
+            </div>
+            <div class="form-group CVV">
+                <label for="cvv">CVV</label>
+                <input type="text" class="form-control" id="cvv">
+            </div>
+            <div class="form-group" id="card-number-field">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" class="form-control" id="cardNumber">
+            </div>
+            <div class="form-group" id="expiration-date">
+                <label>Expiration Date</label>
+                <select>
+                    <option value="01">January</option>
+                    <option value="02">February </option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <select>
+                    <option value="16"> 2016</option>
+                    <option value="17"> 2017</option>
+                    <option value="18"> 2018</option>
+                    <option value="19"> 2019</option>
+                    <option value="20"> 2020</option>
+                    <option value="21"> 2021</option>
+                </select>
+            </div>
+            <div class="form-group" id="credit_cards">
+                <img src="/images/creditcards/visa.png" id="visa">
+                <img src="/images/creditcards/mastercard.png" id="mastercard">
+                <img src="/images/creditcards/amex.png" id="amex">
+            </div>
+            <div class="form-group" id="pay-now">
+              <button class="button"
+                      style="color:white ; background-color: lightseagreen; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
+                      @onclick="@(async () => { await BuyItemsAsync();})">
+                Pay now!
+              </button>
+            </div>
+        </form>
+    </div>
 </div>
 
-@code {
-  private IEnumerable<User> users = new[] {
-    new User { Id = 1, FirstName = "Frank", LastName = "Murphy", Email = "frank.murphy@test.com", Role = "User" },
-    new User { Id = 2, FirstName = "Vic", LastName = "Reynolds", Email = "vic.reynolds@test.com", Role = "Admin" },
-    new User { Id = 3, FirstName = "Gina", LastName = "Jabowski", Email = "gina.jabowski@test.com", Role = "Admin" },
-    new User { Id = 4, FirstName = "Jessi", LastName = "Glaser", Email = "jessi.glaser@test.com", Role = "User" },
-    new User { Id = 5, FirstName = "Jay", LastName = "Bilzerian", Email = "jay.bilzerian@test.com", Role = "User" }
-  };
 
-  private class User
-  {
-    public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Role { get; set; }
-  }
-}
+</div>

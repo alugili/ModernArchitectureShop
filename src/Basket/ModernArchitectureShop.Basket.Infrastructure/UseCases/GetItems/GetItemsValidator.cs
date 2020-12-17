@@ -6,10 +6,9 @@ namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.GetItems
     {
         public GetItemsValidator()
         {
-            RuleFor(x => x.PageIndex)
-                .GreaterThan(0);
-            RuleFor(x => x.PageSize)
-                .GreaterThan(0);
+            RuleFor(x => x.Username)
+                .NotEmpty()
+                .NotNull();
         }
     }
 }

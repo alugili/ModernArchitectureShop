@@ -1,11 +1,6 @@
 @page "/items"
 @page "/items/{Page:int}"
-@using ModernArchitectureShop.ShopUI.Services
 @inject NavigationManager NavigationManager
-@inject BasketsService BasketsService
-@inject OrderService OrderService
-@inject AuthenticationStateProvider AuthState
-@inject NavigationManager UriHelper
 
 <h6 class="validation-message">@_errorMessage</h6>
 
@@ -86,7 +81,7 @@ else
         <br />
         <button class="button"
                 style="color:white ; background-color: lightseagreen; font-weight: bold; font-size : 20px;width: 100%;height: 70px;"
-                @onclick="@( () => { UriHelper.NavigateTo("orders");})">
+                @onclick="@( () => { NavigationManager.NavigateTo("orders");})">
             Buy
         </button>
     </div>

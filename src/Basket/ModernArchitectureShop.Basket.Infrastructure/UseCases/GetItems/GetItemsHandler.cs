@@ -21,12 +21,11 @@ namespace ModernArchitectureShop.Basket.Infrastructure.UseCases.GetItems
 
         public async Task<GetItemsResponse> Handle(GetItemsCommand command, CancellationToken cancellationToken)
         {
-            var items = await _itemRepository.GetAsync(command.Username, command.PageIndex, command.PageSize, cancellationToken);
+            var items = await _itemRepository.GetAsync(command.Username, cancellationToken);
 
             return new GetItemsResponse
             {
-                Items = _mapper.Map<List<ItemDto>>(items),
-                TotalOfItems = await _itemRepository.TotalCountAsync(command.Username, cancellationToken)
+                Items = _mapper.Map<IEnumerable<ItemDto>>(items),
             };
         }
     }

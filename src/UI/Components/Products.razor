@@ -1,14 +1,7 @@
 @page "/products"
 @page "/products/{Page:int}"
 @using ModernArchitectureShop.ShopUI.Models
-@using ModernArchitectureShop.ShopUI.Services
 @using AutoMapper
-@using ModernArchitectureShop.ShopUI.DaprClients
-@inject NavigationManager NavigationManager
-@inject ProductsService ProductsService
-@inject ProductsDaprClient ProductsDaprClient
-@inject BasketsService BasketsService
-@inject AuthenticationStateProvider AuthState
 
 <h6 class="validation-message">@_errorMessage</h6>
 
@@ -47,7 +40,7 @@ else
             <label>
               Quantity:
             </label>
-            <input type="number" min="1" max="99" value=@product?.Quantity class="form-control"  style="width: 60px;"/>
+            <input type="number" min="1" max="99" value=@product.Quantity class="form-control"  style="width: 60px;"/>
           </div>
 
           <div>

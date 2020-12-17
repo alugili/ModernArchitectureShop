@@ -1,8 +1,11 @@
+#nullable disable
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using ModernArchitectureShop.ShopUI.Models;
+using ModernArchitectureShop.ShopUI.Services;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -20,11 +23,17 @@ namespace ModernArchitectureShop.ShopUI.Components
         private ItemsModel _itemsModel = new ItemsModel();
         private string _username = "Anonymous User";
 
+        [Inject]
+        private BasketsService BasketsService { get; set; }
+
+        [Inject]
+        private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             _errorMessage = string.Empty;
 
-            var state = await AuthState.GetAuthenticationStateAsync();
+            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             _username = state.User.Claims
                                           .Where(c => c.Type.Equals("name"))
                                           .Select(c => c.Value)
@@ -37,13 +46,14 @@ namespace ModernArchitectureShop.ShopUI.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            await BasketItems();
+            await BasketItemsPage();
             await TotalPriceAsync();
         }
 
-        private async Task BasketItems()
+        private async ValueTask BasketItemsPage()
         {
-            var response = await BasketsService.GetBasketItemsAsync(ProcessUrl());
+            var url = $"api/items/getitemspage?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
+            var response = await BasketsService.GetBasketItemsAsync(url);
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {
@@ -66,7 +76,7 @@ namespace ModernArchitectureShop.ShopUI.Components
 
             _itemsModel.Items.Remove(itemModel);
 
-            var response = await BasketsService.RemoveItemAsync($"api/item/{id}");
+            var response = await BasketsService!.RemoveItemAsync($"api/item/{id}");
 
             if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
             {
@@ -74,13 +84,13 @@ namespace ModernArchitectureShop.ShopUI.Components
                 _itemsModel = new ItemsModel();
             }
 
-            await BasketItems();
+            await BasketItemsPage();
             await TotalPriceAsync();
         }
 
         private async ValueTask TotalPriceAsync()
         {
-            var response = await BasketsService.BasketTotalPrice($"api/items/totalprice?Username={_username}");
+            var response = await BasketsService!.BasketTotalPrice($"api/items/totalprice?Username={_username}");
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {
@@ -92,17 +102,6 @@ namespace ModernArchitectureShop.ShopUI.Components
                 _errorMessage = $"Error: {response.Error}";
                 _itemsModel = new ItemsModel();
             }
-        }
-
-        private string ProcessUrl()
-        {
-            var url = $"api/items?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
-            return url;
-        }
-
-        private async Task BuyItemsAsync()
-        {
-            var response = await OrderService.PlaceOrderAsync($"api/order/", _username, _itemsModel);
         }
     }
 }

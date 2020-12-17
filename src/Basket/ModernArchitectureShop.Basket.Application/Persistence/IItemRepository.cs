@@ -20,9 +20,11 @@ namespace ModernArchitectureShop.Basket.Application.Persistence
 
         ValueTask AddAsync(Item item, CancellationToken cancellationToken);
 
-        ValueTask<ICollection<Item>> GetAsync(string username,
-                                              int pageIndex, int pageSize,
-                                              CancellationToken cancellationToken);
+        ValueTask<ICollection<Item>> GetAsync(string commandUsername, CancellationToken cancellationToken);
+
+        ValueTask<ICollection<Item>> GetPageAsync(string username,
+                                                  int pageIndex, int pageSize,
+                                                  CancellationToken cancellationToken);
 
         ValueTask<int> TotalCountAsync(string username, CancellationToken cancellationToken);
 

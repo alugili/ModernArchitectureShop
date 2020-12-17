@@ -50,7 +50,16 @@ namespace ModernArchitectureShop.Basket.Infrastructure.Persistence
             _items.Update(item);
         }
 
-        public async ValueTask<ICollection<Item>> GetAsync(string username, int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public async ValueTask<ICollection<Item>> GetAsync(string username, CancellationToken cancellationToken)
+        {
+            return await _items.AsNoTracking()
+                .Include(i => i.Basket)
+                .OrderBy(x => x.Code)
+                .Where(i => i.Basket.Username == username)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async ValueTask<ICollection<Item>> GetPageAsync(string username, int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             return await _items.AsNoTracking()
                          .Include(i => i.Basket)

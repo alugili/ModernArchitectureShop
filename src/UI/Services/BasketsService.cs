@@ -18,7 +18,6 @@ namespace ModernArchitectureShop.ShopUI.Services
             _basketHttpClient = basketHttpClient ?? throw new ArgumentNullException(nameof(basketHttpClient));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
-        
 
         public async Task<ServiceResult<string>> AddItemAsync(string url, ItemModel itemModel)
         {
