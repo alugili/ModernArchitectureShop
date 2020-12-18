@@ -54,8 +54,8 @@ namespace ModernArchitectureShop.ShopUI
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
 
-            var orderApiURL  = Configuration.GetValue<string>("ORDER_URL");
-            var orderApiName  = Configuration.GetValue<string>("ORDER_NAME");
+            var orderApiURL = Configuration.GetValue<string>("ORDER_URL");
+            var orderApiName = Configuration.GetValue<string>("ORDER_NAME");
 
             services.AddHttpClient(orderApiName, client =>
             {
@@ -97,21 +97,22 @@ namespace ModernArchitectureShop.ShopUI
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
                 });
+            
+            // todo user the interface IHttpClientService
+            services.AddHttpClient<ProductHttpClientService, ProductHttpClientService>(client =>
+             {
+                 client.BaseAddress = new Uri(storeApiURL);
+             });
 
-            services.AddHttpClient<ProductsService>(client =>
-            {
-                client.BaseAddress = new Uri(storeApiURL);
-            });
-
-            services.AddHttpClient<BasketsService>(client =>
+            services.AddHttpClient<BasketHttpClientService, BasketHttpClientService>(client =>
             {
                 client.BaseAddress = new Uri(basketApiURL);
             });
 
-            services.AddHttpClient<OrderService>(client =>
-            {
-                client.BaseAddress = new Uri(orderApiURL);
-            });
+            services.AddHttpClient<OrderHttpClientService, OrderHttpClientService>(client =>
+             {
+                 client.BaseAddress = new Uri(orderApiURL);
+             });
 
             services.AddScoped<IdentityService, IdentityService>();
             services.AddScoped<ProductsDaprClient>();

@@ -21,12 +21,12 @@ namespace ModernArchitectureShop.Store.Application.Persistence
 
         ValueTask<int> CountAsync(CancellationToken cancellationToken);
 
-        IQueryable GetProductsQuery(int pageIndex, int pageSize);
+        ValueTask<IList<Product>> GetProductsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
 
-        IQueryable SearchProductsQuery(string filter, int pageIndex, int pageSize);
+        ValueTask<IList<Product>> SearchProductsAsync(string filter, int pageIndex, int pageSize, CancellationToken cancellationToken);
 
         ValueTask<int> SearchProductsCountAsync(string filter);
 
-        IQueryable<Product> GetByIdsQuery(IEnumerable<Guid> commandProductIds);
+        ValueTask<IList<Product>> GetByIdsAsync(IEnumerable<Guid> commandProductIds, CancellationToken cancellationToken);
     }
 }

@@ -1,6 +1,6 @@
 namespace ModernArchitectureShop.ShopUI.Services
 {
-    public class ServiceResult<T>
+    public class HttpClientServiceResult<T>
     {
         public int StatusCode { get; set; }
 

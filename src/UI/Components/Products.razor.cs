@@ -25,13 +25,13 @@ namespace ModernArchitectureShop.ShopUI.Components
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private ProductsService ProductsService { get; set; }
+        private ProductHttpClientService ProductHttpClientService { get; set; }
 
         [Inject]
         private ProductsDaprClient ProductsDaprClient { get; set; }
 
         [Inject]
-        private BasketsService BasketsService { get; set; }
+        private BasketHttpClientService BasketHttpClientService { get; set; }
 
         [Inject]
         private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -70,13 +70,16 @@ namespace ModernArchitectureShop.ShopUI.Components
             //}
 
             // Do it with HTTP classic
-            var response = await ProductsService.GetProductsAsync(ProcessUrl());
+            var response = await ProductHttpClientService.GetAsync(ProcessUrl());
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {
                 _productsModel = JsonSerializer
                                                .Deserialize<ProductsModel>(response.Content,
-                                                                          new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                                                                          new JsonSerializerOptions
+                                                                          {
+                                                                              PropertyNameCaseInsensitive = true
+                                                                          });
             }
             else
             {
@@ -87,7 +90,7 @@ namespace ModernArchitectureShop.ShopUI.Components
 
         async Task AddProductToBasketAsync(ItemModel itemModel)
         {
-            var response = await BasketsService.AddItemAsync($"api/item/", itemModel);
+            var response = await BasketHttpClientService.AddAsync($"api/item/", itemModel);
 
             if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
             {
@@ -121,7 +124,7 @@ namespace ModernArchitectureShop.ShopUI.Components
 
                 _queryFilter = e.Value?.ToString() ?? string.Empty;
                 // Do it with HTTP classic
-                var response = await ProductsService.SearchProductsAsync(ProcessUrl());
+                var response = await ProductHttpClientService.GetAsync(ProcessUrl());
 
                 if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
                 {

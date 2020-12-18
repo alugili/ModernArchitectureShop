@@ -13,14 +13,12 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
     {
         private readonly StoreDbContext _storeDbContext;
         private readonly DbSet<Product> _products;
-        private readonly DbSet<Domain.Store> _stores;
 
 
         public ProductRepository(StoreDbContext storeDbContext)
         {
             _storeDbContext = storeDbContext;
             _products = _storeDbContext.Set<Product>();
-            _stores = _storeDbContext.Set<Domain.Store>();
         }
 
         public void Remove(Product product)
@@ -53,25 +51,30 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
             return await _products.CountAsync(cancellationToken);
         }
 
-        public IQueryable GetProductsQuery(int pageIndex, int pageSize)
+        public async ValueTask<IList<Product>> GetProductsAsync(int pageIndex, int pageSize, CancellationToken cancellation)
         {
-            return _products
-                .AsNoTracking()
-                .OrderBy(x => x.Code)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .Include(x => x.Store);
+            return await _products
+                                   .AsNoTracking()
+                                   .OrderBy(x => x.Code)
+                                   .Skip((pageIndex - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .Include(x => x.Store)
+                                   .ToListAsync(cancellation);
         }
 
-        public IQueryable SearchProductsQuery(string filter, int pageIndex, int pageSize)
+        public async ValueTask<IList<Product>> SearchProductsAsync(string filter,
+                                                                   int pageIndex,
+                                                                   int pageSize,
+                                                                   CancellationToken cancellation)
         {
-            return _products
-                .AsNoTracking()
-                .Where(x => x.Name.Contains(filter) || x.Code.Contains(filter))
-                .OrderBy(x => x.Code)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .Include(x => x.Store);
+            return await _products
+                                  .AsNoTracking()
+                                  .Where(x => x.Name.Contains(filter) || x.Code.Contains(filter))
+                                  .OrderBy(x => x.Code)
+                                  .Skip((pageIndex - 1) * pageSize)
+                                  .Take(pageSize)
+                                  .Include(x => x.Store)
+                                 .ToListAsync(cancellation);
         }
 
         public async ValueTask<int> SearchProductsCountAsync(string filter)
@@ -81,12 +84,14 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
                 .Where(x => x.Name.Contains(filter) || x.Code.Contains(filter)).CountAsync();
         }
 
-        public IQueryable<Product> GetByIdsQuery(IEnumerable<Guid> productIds)
+        public async ValueTask<IList<Product>> GetByIdsAsync(IEnumerable<Guid> productIds, CancellationToken cancellationToken)
         {
-            return _products
-                .AsNoTracking()
-                .Include(x => x.Store)
-                .Where(p => productIds.Any(id => p.ProductId == id));
+            return await _products
+                             .AsNoTracking()
+                             .Include(x => x.Store)
+                             .Where(p => productIds.Any(id => p.ProductId == id))
+                             .ToListAsync(cancellationToken);
+
         }
     }
 }

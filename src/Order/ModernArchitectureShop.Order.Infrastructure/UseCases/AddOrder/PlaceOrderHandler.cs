@@ -25,7 +25,7 @@ namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
 
         public async Task<bool> Handle(PlaceOrderCommand command, CancellationToken cancellationToken)
         {
-            var isOrderExits = await _orderRepository.GetActiveAsync(command.Username, cancellationToken) != null;
+            var isOrderExits = await _orderRepository.GetProcessingAsync(command.Username, cancellationToken) != null;
 
             if (isOrderExits)
             {

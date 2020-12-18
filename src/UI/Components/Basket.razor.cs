@@ -24,7 +24,7 @@ namespace ModernArchitectureShop.ShopUI.Components
         private string _username = "Anonymous User";
 
         [Inject]
-        private BasketsService BasketsService { get; set; }
+        private BasketHttpClientService BasketHttpClientService { get; set; }
 
         [Inject]
         private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -53,7 +53,7 @@ namespace ModernArchitectureShop.ShopUI.Components
         private async ValueTask BasketItemsPage()
         {
             var url = $"api/items/getitemspage?PageIndex={Page}&PageSize={PageSize}&Username={_username}";
-            var response = await BasketsService.GetBasketItemsAsync(url);
+            var response = await BasketHttpClientService.GetAsync(url);
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {
@@ -76,7 +76,7 @@ namespace ModernArchitectureShop.ShopUI.Components
 
             _itemsModel.Items.Remove(itemModel);
 
-            var response = await BasketsService!.RemoveItemAsync($"api/item/{id}");
+            var response = await BasketHttpClientService!.RemoveAsync($"api/item/{id}");
 
             if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
             {
@@ -90,7 +90,7 @@ namespace ModernArchitectureShop.ShopUI.Components
 
         private async ValueTask TotalPriceAsync()
         {
-            var response = await BasketsService!.BasketTotalPrice($"api/items/totalprice?Username={_username}");
+            var response = await BasketHttpClientService!.GetAsync($"api/items/totalprice?Username={_username}");
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {

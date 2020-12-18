@@ -54,7 +54,7 @@ namespace ModernArchitectureShop.Order.Infrastructure.Persistence
                          .ToListAsync(cancellationToken);
         }
 
-        public async ValueTask<Domain.Order?> GetActiveAsync(string username, CancellationToken cancellationToken)
+        public async ValueTask<Domain.Order?> GetProcessingAsync(string username, CancellationToken cancellationToken)
         {
             return await _orders.SingleOrDefaultAsync(x =>
                                                            x.Username == username &&
@@ -62,6 +62,14 @@ namespace ModernArchitectureShop.Order.Infrastructure.Persistence
                                                            cancellationToken: cancellationToken);
         }
 
+        public async ValueTask<IList<Domain.Order>> GetCompletedAsync(string username, CancellationToken cancellationToken)
+        {
+          return await _orders.Where(o =>
+                                                o.Username == username &&
+                                                o.State == State.Completed
+                                     ).ToListAsync(cancellationToken);
+
+        }
 
         public async ValueTask<int> CountAsync(string username, CancellationToken cancellationToken)
         {

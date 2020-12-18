@@ -12,7 +12,7 @@ using ModernArchitectureShop.ShopUI.Services;
 namespace ModernArchitectureShop.ShopUI.DaprClients
 {
     /// <summary>
-    /// This class is alternative for <see cref="ProductsService"/>.
+    /// This class is alternative for <see cref="ProductHttpClientService"/>.
     /// </summary>
     public class ProductsDaprClient
     {

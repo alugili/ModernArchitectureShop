@@ -1,11 +1,10 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using ModernArchitectureShop.Store.Application.Persistence;
 using ModernArchitectureShop.Store.Infrastructure.Dto;
-using ModernArchitectureShop.Store.Infrastructure.Persistence;
 
 namespace ModernArchitectureShop.Store.Infrastructure.UseCases.SearchProducts
 {
@@ -25,15 +24,16 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.SearchProducts
             var totalOfProducts = await _productRepository.SearchProductsCountAsync(command.Filter);
 
             var products =
-                        await _productRepository
-                                .SearchProductsQuery(command.Filter, command.PageIndex, command.PageSize)
-                                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-                                .ToListAsync(cancellationToken);
-
+                await _productRepository
+                           .SearchProductsAsync(
+                                                command.Filter,
+                                                command.PageIndex,
+                                                command.PageSize,
+                                                cancellationToken);
 
             var result = new SearchProductsResponse
             {
-                Products = products,
+                Products = _mapper.Map<IEnumerable<ProductDto>>(products),
                 TotalOfProducts = totalOfProducts
             };
 

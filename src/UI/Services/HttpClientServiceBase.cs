@@ -1,27 +1,28 @@
-using System;
-using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using ModernArchitectureShop.ShopUI.Models;
 
 namespace ModernArchitectureShop.ShopUI.Services
 {
-    public class BasketsService
+    public abstract class HttpClientServiceBase : IHttpClientService
     {
-        private readonly HttpClient _basketHttpClient;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public BasketsService(HttpClient basketHttpClient, IHttpContextAccessor httpContextAccessor)
+        protected HttpClientServiceBase(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
-            _basketHttpClient = basketHttpClient ?? throw new ArgumentNullException(nameof(basketHttpClient));
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            HttpClient = httpClient;
+            HttpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ServiceResult<string>> AddItemAsync(string url, ItemModel itemModel)
+        public HttpClient HttpClient { get; }
+
+        public IHttpContextAccessor HttpContextAccessor { get; }
+
+
+        public async Task<HttpClientServiceResult<string>> AddAsync(string url, ItemModel itemModel)
         {
-            await TokenProvider.AttachAccessTokenToHeader(_basketHttpClient, _httpContextAccessor);
+            await TokenProvider.AttachAccessTokenToHeader(HttpClient, HttpContextAccessor);
 
             HttpResponseMessage response;
             try
@@ -31,12 +32,12 @@ namespace ModernArchitectureShop.ShopUI.Services
                 //Needed to setup the body of the request
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                response = await _basketHttpClient.PostAsync(url, data);
+                response = await HttpClient.PostAsync(url, data);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
             {
-                return new ServiceResult<string>
+                return new HttpClientServiceResult<string>
                 {
                     Content = null!,
                     StatusCode = 500, // Server Error!
@@ -44,7 +45,7 @@ namespace ModernArchitectureShop.ShopUI.Services
                 };
             }
 
-            return new ServiceResult<string>
+            return new HttpClientServiceResult<string>
             {
                 Content = null!,
                 StatusCode = (int)response.StatusCode,
@@ -53,19 +54,19 @@ namespace ModernArchitectureShop.ShopUI.Services
 
         }
 
-        public async Task<ServiceResult<string>> RemoveItemAsync(string url)
+        public async Task<HttpClientServiceResult<string>> RemoveAsync(string url)
         {
-            await TokenProvider.AttachAccessTokenToHeader(_basketHttpClient, _httpContextAccessor);
+            await TokenProvider.AttachAccessTokenToHeader(HttpClient, HttpContextAccessor);
 
             HttpResponseMessage response;
             try
             {
-                response = await _basketHttpClient.DeleteAsync(url);
+                response = await HttpClient.DeleteAsync(url);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
             {
-                return new ServiceResult<string>
+                return new HttpClientServiceResult<string>
                 {
                     Content = null!,
                     StatusCode = 500, // Server Error!
@@ -73,7 +74,7 @@ namespace ModernArchitectureShop.ShopUI.Services
                 };
             }
 
-            return new ServiceResult<string>
+            return new HttpClientServiceResult<string>
             {
                 Content = null!,
                 StatusCode = (int)response.StatusCode,
@@ -82,29 +83,19 @@ namespace ModernArchitectureShop.ShopUI.Services
 
         }
 
-        public async Task<ServiceResult<string>> GetBasketItemsAsync(string url)
+        public async Task<HttpClientServiceResult<string>> GetAsync(string url)
         {
-            return await GetAsyncCore(url);
-        }
-
-        public async Task<ServiceResult<string>> BasketTotalPrice(string url)
-        {
-            return await GetAsyncCore(url);
-        }
-
-        private async Task<ServiceResult<string>> GetAsyncCore(string url)
-        {
-            await TokenProvider.AttachAccessTokenToHeader(_basketHttpClient, _httpContextAccessor);
+            await TokenProvider.AttachAccessTokenToHeader(HttpClient, HttpContextAccessor);
 
             HttpResponseMessage response;
             try
             {
-                response = await _basketHttpClient.GetAsync(url);
+                response = await HttpClient.GetAsync(url);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
             {
-                return new ServiceResult<string>
+                return new HttpClientServiceResult<string>
                 {
                     Content = string.Empty!,
                     StatusCode = 500, // Server Error!
@@ -112,10 +103,10 @@ namespace ModernArchitectureShop.ShopUI.Services
                 };
             }
 
-            return new ServiceResult<string>
+            return new HttpClientServiceResult<string>
             {
                 Content = await response.Content.ReadAsStringAsync(),
-                StatusCode = (int) response.StatusCode,
+                StatusCode = (int)response.StatusCode,
                 Error = string.Empty
             };
         }

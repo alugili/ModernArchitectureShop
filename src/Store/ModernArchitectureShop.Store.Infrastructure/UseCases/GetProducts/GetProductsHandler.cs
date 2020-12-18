@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,14 +25,11 @@ namespace ModernArchitectureShop.Store.Infrastructure.UseCases.GetProducts
         {
             var totalOfProducts = await _productRepository.CountAsync(cancellationToken);
 
-            var products = await _productRepository.
-                GetProductsQuery(command.PageIndex, command.PageSize)
-                                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-                                .ToListAsync(cancellationToken);
+            var products = await _productRepository.GetProductsAsync(command.PageIndex, command.PageSize, cancellationToken);
 
             var result = new GetProductsResponse
             {
-                Products = products,
+                Products = _mapper.Map<IEnumerable<ProductDto>>(products),
                 TotalOfProducts = totalOfProducts
             };
 

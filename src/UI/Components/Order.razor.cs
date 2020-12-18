@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -11,15 +10,15 @@ namespace ModernArchitectureShop.ShopUI.Components
 {
     public partial class Order
     {
-        private string? _errorMessage =string.Empty;
-        private string? _username =string.Empty;
-        private ItemsModel? _itemsModel = new ItemsModel();
+        private string _errorMessage =string.Empty;
+        private string _username =string.Empty;
+        private ItemsModel _itemsModel = new ItemsModel();
 
         [Inject]
-        private BasketsService? BasketsService { get; set; }
+        private BasketHttpClientService? BasketsService { get; set; }
 
         [Inject]
-        private OrderService? OrderService { get; set; }
+        private OrderHttpClientService? OrderService { get; set; }
 
         [Inject]
         private AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
@@ -41,7 +40,7 @@ namespace ModernArchitectureShop.ShopUI.Components
         private async ValueTask BasketItems()
         {
             var url = $"api/items?Username={_username}";
-            var response = await this.BasketsService!.GetBasketItemsAsync(url);
+            var response = await this.BasketsService!.GetAsync(url);
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {
@@ -64,7 +63,7 @@ namespace ModernArchitectureShop.ShopUI.Components
 
             _itemsModel!.Items.Remove(itemModel);
 
-            var response = await BasketsService!.RemoveItemAsync($"api/item/{id}");
+            var response = await BasketsService!.RemoveAsync($"api/item/{id}");
 
             if (response.StatusCode != (int)System.Net.HttpStatusCode.OK)
             {
