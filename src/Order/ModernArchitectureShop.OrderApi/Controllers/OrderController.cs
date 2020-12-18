@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement;
+using ModernArchitectureShop.Order.Infrastructure.UseCases.AddOrder;
 
 namespace ModernArchitectureShop.OrderApi.Controllers
 {

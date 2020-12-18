@@ -21,7 +21,7 @@ namespace ModernArchitectureShop.BasketApi.Controllers
         }
 
         [HttpGet("getitemspage")]
-        public async Task<IActionResult> GetÎtemsPage([FromQuery] GetItemsPageCommand command, [FromServices] IMediator mediator)
+        public async Task<IActionResult> GetItemsPage([FromQuery] GetItemsPageCommand command, [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Ok(result);

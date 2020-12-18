@@ -64,10 +64,12 @@ namespace ModernArchitectureShop.Order.Infrastructure.Persistence
 
         public async ValueTask<IList<Domain.Order>> GetCompletedAsync(string username, CancellationToken cancellationToken)
         {
-          return await _orders.Where(o =>
-                                                o.Username == username &&
-                                                o.State == State.Completed
-                                     ).ToListAsync(cancellationToken);
+          return await _orders.Include(o=>o.Items)
+                              .Where(o =>
+                                               o.Username == username &&
+                                               o.State == State.Completed
+                                     )
+                              .ToListAsync(cancellationToken);
 
         }
 

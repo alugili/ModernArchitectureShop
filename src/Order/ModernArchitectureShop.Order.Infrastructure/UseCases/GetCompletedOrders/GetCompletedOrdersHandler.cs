@@ -6,9 +6,9 @@ using MediatR;
 using ModernArchitectureShop.Order.Application.Persistence;
 using ModernArchitectureShop.Order.Infrastructure.Dto;
 
-namespace ModernArchitectureShop.Order.Infrastructure.UseCases.GetOrders
+namespace ModernArchitectureShop.Order.Infrastructure.UseCases.GetCompletedOrders
 {
-    internal class GetCompletedOrdersHandler : IRequestHandler<GetOrdersCommand, GetOrdersResponse>
+    public class GetCompletedOrdersHandler : IRequestHandler<GetCompletedOrdersCommand, GetCompletedOrdersResponse>
     {
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
@@ -19,11 +19,11 @@ namespace ModernArchitectureShop.Order.Infrastructure.UseCases.GetOrders
             _mapper = mapper;
         }
 
-        public async Task<GetOrdersResponse> Handle(GetOrdersCommand command, CancellationToken cancellationToken)
+        public async Task<GetCompletedOrdersResponse> Handle(GetCompletedOrdersCommand command, CancellationToken cancellationToken)
         {
             var orders = await _orderRepository.GetCompletedAsync(command.Username, cancellationToken);
 
-            return new GetOrdersResponse
+            return new GetCompletedOrdersResponse
             {
                 Orders = _mapper.Map<IEnumerable<OrderDto>>(orders)
             };

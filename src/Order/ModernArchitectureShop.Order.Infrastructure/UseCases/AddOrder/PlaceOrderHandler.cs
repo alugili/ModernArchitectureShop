@@ -7,7 +7,7 @@ using MediatR;
 using ModernArchitectureShop.Order.Application.Persistence;
 using ModernArchitectureShop.Order.Domain;
 
-namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
+namespace ModernArchitectureShop.Order.Infrastructure.UseCases.AddOrder
 {
     public class PlaceOrderHandler : IRequestHandler<PlaceOrderCommand, bool>
     {

@@ -1,5 +1,5 @@
 using AutoMapper;
-using ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement;
+using ModernArchitectureShop.Order.Infrastructure.UseCases.AddOrder;
 
 namespace ModernArchitectureShop.Order.Infrastructure.Dto
 {

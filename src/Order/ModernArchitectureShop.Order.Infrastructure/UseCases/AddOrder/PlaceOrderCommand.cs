@@ -1,11 +1,11 @@
 using System;
-using MediatR;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using MediatR;
 using ModernArchitectureShop.Order.Application.UseCases.OrderManagement;
 using ModernArchitectureShop.Order.Domain;
 
-namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
+namespace ModernArchitectureShop.Order.Infrastructure.UseCases.AddOrder
 {
     public class PlaceOrderCommand : IRequest<bool>, IPlaceOrder
     {

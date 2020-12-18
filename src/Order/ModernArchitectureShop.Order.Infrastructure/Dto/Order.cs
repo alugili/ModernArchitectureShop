@@ -6,7 +6,7 @@ namespace ModernArchitectureShop.Order.Infrastructure.Dto
 {
     public class OrderDto
     {
-        public OrderDto(Guid orderId, Guid storeId, ICollection<Item>? items, string username, State state)
+        public OrderDto(Guid orderId, Guid storeId, string username, State state, ICollection<Item>? items)
         {
             OrderId = orderId;
             StoreId = storeId;
@@ -17,9 +17,10 @@ namespace ModernArchitectureShop.Order.Infrastructure.Dto
 
         public Guid OrderId { get; }
         public Guid StoreId { get; }
-        public ICollection<Item>? Items { get; }
         public string Username { get; }
         public State State { get; }
-        public DateTimeOffset CreationDate { get; } = DateTimeOffset.Now;
+        public DateTimeOffset CreationDate { get; }
+        public ICollection<Item>? Items { get; }
+
     }
 }

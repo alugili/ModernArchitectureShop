@@ -163,7 +163,5 @@ namespace ModernArchitectureShop.ShopUI
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
-
-
     }
 }

@@ -1,7 +1,6 @@
 using FluentValidation;
-using ModernArchitectureShop.Order.Domain;
 
-namespace ModernArchitectureShop.Order.Infrastructure.UseCases.OrderManagement
+namespace ModernArchitectureShop.Order.Infrastructure.UseCases.AddOrder
 {
     public class AddItemValidator : AbstractValidator<PlaceOrderCommand>
     {

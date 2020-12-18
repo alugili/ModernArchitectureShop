@@ -6,8 +6,8 @@ namespace ModernArchitectureShop.Order.Infrastructure.Dto
     {
         public OrderMappingProfile()
         {
-            CreateMap<Order.Domain.Order, OrderDto>();
-            CreateMap<Order.Domain.Item, ItemDto>();
+            CreateMap<Domain.Order, OrderDto>();
+            CreateMap<Domain.Item, ItemDto>();
         }
     }
 }
