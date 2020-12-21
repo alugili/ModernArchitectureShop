@@ -39,8 +39,9 @@ namespace ModernArchitectureShop.Store.Infrastructure.Persistence
                     ProductId = new Guid($"12345678-1234-1234-1234-1234567891{i}"),
                     Code = $"11{i}",
                     Name = $"Product{i}",
+                    Description = "This is a test product!",
                     Price = 3.14 * i,
-                    ImageUrl = $"/images/ProductImagesOriginal/Product{i-9}.png", // image files from 1..50
+                    ImageUrl = $"Product{i - 9}.png", // image files from 1..50
                     Quantity = 10,
                     Store = store
                 };

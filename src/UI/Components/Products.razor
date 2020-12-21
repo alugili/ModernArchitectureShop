@@ -28,7 +28,7 @@ else
     @foreach (var product in _productsModel.Products)
     {
       <div class="card" style="margin: 10px; padding: 10px">
-        <div class="card-img" style="background-image: url('@product.ImageUrl');">
+        <div class="card-img" style="background-image: url('/images/ProductImagesOriginal/@product.ImageUrl');">
         </div>
         <div class="card-body">
           <h5 class="card-title">@product.Name</h5>
@@ -54,7 +54,7 @@ else
                                                  itemModel.Username = _username;
                                                  itemModel.StoreId = Guid.Empty;
                                                  await AddProductToBasketAsync(itemModel); })">
-              ➕
+               <img src="images/shopping-cart.png">
             </button>
             </p>
           </div>

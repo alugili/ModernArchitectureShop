@@ -1,8 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using ModernArchitectureShop.ShopUI.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+using System.Text.Json;
+using ModernArchitectureShop.ShopUI.Models;
 
 namespace ModernArchitectureShop.ShopUI.Components
 {
@@ -10,12 +13,11 @@ namespace ModernArchitectureShop.ShopUI.Components
     {
         private string _errorMessage = string.Empty;
         private string _username = "Anonymous User";
+        private OrdersModel OrdersModel { get; set; } = new OrdersModel();
 
-        [Inject]
-        private OrderHttpClientService OrderHttpClientService { get; set; }
+        [Inject] private OrderHttpClientService OrderHttpClientService { get; set; }
 
-        [Inject]
-        private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,15 +36,19 @@ namespace ModernArchitectureShop.ShopUI.Components
         private async ValueTask CompletedOrders()
         {
             var url = $"api/orders/completedorders?Username={_username}";
-            var response = await this.OrderHttpClientService.GetAsync(url);
+            var response = await OrderHttpClientService.GetAsync(url);
 
             if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)
             {
-               
+                OrdersModel = JsonSerializer.Deserialize<OrdersModel>(response.Content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
             }
             else
             {
                 _errorMessage = $"Error: {response.Error}";
+                OrdersModel = new OrdersModel();
             }
         }
     }

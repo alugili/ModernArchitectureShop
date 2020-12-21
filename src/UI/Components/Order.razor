@@ -2,7 +2,7 @@
 @inject NavigationManager NavigationManager
 
 <div class="container">
-    <h3 class="p-3 text-center">Orders List</h3>
+    <h3 class="p-3 text-center">OrderModel List</h3>
 
     <table class="table table-bordered">
         <thead>
@@ -19,7 +19,7 @@
 
                 <tr>
                     <td>
-                        <img src="@itemModel.ImageUrl" alt="..." width="50" height="30">
+                        <img src="/images/ProductImagesOriginal/@itemModel.ImageUrl" alt="..." width="50" height="30">
                     </td>
                     <td>@itemModel.Name</td>
                     <td style="text-align: right">@itemModel.Price.ToString("0.##") </td>
@@ -101,5 +101,4 @@
             </form>
         </div>
     </div>
-
 </div>
