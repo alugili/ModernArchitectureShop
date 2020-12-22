@@ -6,9 +6,4 @@
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\UI\ModernArchitectureShop.ShopUI.csproj" />
-  </ItemGroup>
-
 </Project>
