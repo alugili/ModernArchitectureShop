@@ -11,24 +11,24 @@ Microservices Online shop is a Modern Architecture Shop that is cleanly designed
 **Login Service**  
 
 <img src="./docs/images/MicroservicesOnlineShop/Login_1.JPG" width="600">
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_2.JPG" width="600">
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_3.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/Login_2.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/Login_3.JPG" width="600">
 
 **Catalog/Product service**  
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Products_4.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/Products_4.JPG" width="600">
 
 **Basket/Card Service**  
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Basket_5.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/Basket_5.JPG" width="600">
 
 **Payment Service**  
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/PayNow_5.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/PayNow_5.JPG" width="600">
 
 **Order History**  
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/OrderHistory_5.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/OrderHistory_5.JPG" width="600">
 
 As you see, most of the views are done! One important thing is still missing, and that is the payment service. I am using Stripe API for this job.
 
@@ -45,7 +45,7 @@ Much work still open in the:
 
 I have generated the architecture dependencies with Visual Studio 2019, and I have ordered them from the bottom to the top, as seen in the figure below.
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Dependencies.png" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/Dependencies.png" width="600">
 
 Currently, I am using the fantastic tool “NDepend”  to find code and architecture problems.
 
@@ -89,14 +89,14 @@ I have tried to keep the code as I can compact and readable. The core design con
 *Classic architectural style*  
 In the classic architectural style, I am using the classic domain-driven design and microservices design. Where each domain service calling the other service directly (Web API)
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
 Classic architectural style
 
 **Highly Scalable Design**  
 
 I am using the Dapr infrastructure in this style, for example, RabbitMQ - message bus, Redis for the state management, and other Dapr stuff, which allows me to achieve the highly scalable architecture.
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
 Highly Scalable Design
 
 **How can you test the Modern Shop?**
