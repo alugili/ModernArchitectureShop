@@ -1,250 +1,105 @@
 # [Quick Start](https://github.com/alugili/ModernArchitectureShop/wiki/QuickStart)
-# [Modern Architecture Shop Part I(First Article)](https://github.com/alugili/ModernArchitectureShop/wiki/Modern-Architecture-Shop-Article-Part-I)
+# [Modern Architecture Shop Part I(Article)](https://github.com/alugili/ModernArchitectureShop/wiki/Modern-Architecture-Shop-Article-Part-I)
+# [Modern Architecture Shop Part II(Article)](https://github.com/alugili/ModernArchitectureShop/wiki/Modern-Architecture-Shop-Article-Part-II)
 
-Modern Architecture Shop - Autoscaler
+
+Microservices Online Shop
 ======================
-Modern Architecture Shop is a clean-lightweight .NET Microservices application, demonstrating the use of **Dapr** to build Microservices-based applications.
+
+Microservices Online shop is a Modern Architecture Shop that is cleanly designed and based on.NET lightweight technologies. The shop has two build variations. The first variant is the classic Microservices Architectural style. The second one is with Dapr to get the most out of its infrastructure and achieve our noble goal of building a highly scalable application with clean architecture and clean code. The shop is still in the development phase, for example, user interface, user authentication, catalog service, basket service, and order service. The work in the payment service is still in progress.
  
-Open Invitation: Any developer is welcome to join our team! Just send me a request.
- 
-**The application UI**  
+**Login Service**  
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopMainWindow.JPG" width="600">
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Products.JPG" width="600">
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Basket.JPG" width="600">
- 
-The implemented application architect is still based on the classic Microservices architectural style; we have a collection of DDD-services, which are working together to build the system.  
- 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png" width="600">
- 
-The diagram above is created with Draw.io. Draw.io is a free online diagram software.  
- 
-**Roadmap**  
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_1.JPG" width="600">
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_2.JPG" width="600">
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_3.JPG" width="600">
 
-- Finishing the Order and Payment services.
-- The first challenge is scaling the application out. I give an example which provides Proof of the Concept for containers scaling and testing the system with Chaos Monkey Tests.
-- Changing the services to Actors with a scaling concept.
-- Finally, using KEDA. KEDA is a Kubernetes-based Event-Driven Autoscaler (Horizontal Pod Autoscaler)
+**Catalog/Product service**  
 
-**Modern Architecture Shop**  
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Products_4.JPG" width="600">
 
-In this version, I have done more clean architecture and clean code stuff:
-- I have separated the application from the Infrastructure.
-- Use Cases are moved into the application.
-- The Persistence abstraction moved to the application.
+**Basket/Card Service**  
 
-In the example below, you can see that the Store application contains the business logic abstraction.
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Basket_5.JPG" width="600">
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/Persistence_Abstraction_Store.JPG" width="300">
+**Payment Service**  
 
-The framework's references moved to the infrastructure assembly. If you remember in, pervious article, our main goal was to make the infrastructure depending on the application.
- 
-In addition, I have added the Orders Domain Events. These events are working together on the use cases to build a single coherent system.
- 
-**ProcessOrder Event**  
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/PayNow_5.JPG" width="600">
 
-The event is fired when the user clicks on the buy button.
- 
-**PayOrder Event**  
+**Order History**  
 
-This event creates the order so that it can be sent to the Payment Service. After that, the payment can succeed or fail.
- 
-**PrdocutsSold Event**  
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/OrderHistory_5.JPG" width="600">
 
-The event is fired when the payment is successful. This event helps to update the products availability in the Store.
- 
-**PaymentConfirmed Event**  
+As you see, most of the views are done! One important thing is still missing, and that is the payment service. I am using Stripe API for this job.
 
-The event is fired when the payment has been successful. This event is responsible to remove the processed order and basket information.
- 
-**PaymentFailed Event**  
+You can run the shop as standalone services or on the Docker containers. Kubernetes stuff still under work. I have tried to simplify the build and start the application. To do that, you have to do it in few steps. 
 
-The event is fired when the payment fails. This event is used to remove the failed order data and to reactive the buy state in the Basket service.
- 
-**ModernArchitectureShop.ShopUI**  
+If you want to join the GitHub project development process, you are welcome to write to me please a request, and you are welcome on the board! 
+Much work still open in the:
 
-<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/ShopUI.JPG" width="300">
- 
-As you see in the image above, I have selected ProductsService and ProductsDaprClient, these two classes are equivalent, both are calling the Store API, but they are using two different approaches, the Product API is using HTTPClient to call the Store API and the other one is using DaprCilent.  
+-	Blazor UI
+-	IdentityServer 4 
+-	Kubernetes
 
-```cs
-public class ProductsService    
-{    
-    private readonly HttpClient _storeHttpClient;    
-    private readonly IHttpContextAccessor _httpContextAccessor;    
-    
-    public ProductsService(HttpClient storeHttpClient, IHttpContextAccessor httpContextAccessor)    
-    {    
-        _storeHttpClient = storeHttpClient ?? throw new ArgumentNullException(nameof(storeHttpClient));    
-        _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));    
-    }    
-    
-    public async Task AttachAccessTokenToHeader()    
-    {    
-        var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");    
-        if (accessToken != null)    
-        {    
-            var auth = _storeHttpClient.DefaultRequestHeaders.Authorization?.Parameter;    
-            if (auth == null)    
-                _storeHttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);    
-        }    
-    }    
-    
-    public async Task<ServiceResult<string>> SearchProducts(string url)    
-    {    
-        await AttachAccessTokenToHeader();    
-    
-        HttpResponseMessage response;    
-        try    
-        {    
-            response = await _storeHttpClient.GetAsync(url);    
-            response.EnsureSuccessStatusCode();    
-        }    
-        catch (HttpRequestException e)    
-        {    
-            return new ServiceResult<string>    
-            {    
-                Content = null!,    
-                StatusCode = 500, // Server Error!    
-                Error = e.Message    
-            };    
-        }    
-    
-        return new ServiceResult<string>    
-        {    
-            Content = await response.Content.ReadAsStringAsync(),    
-            StatusCode = (int)response.StatusCode,    
-            Error = string.Empty    
-        };    
-    
-    }    
-    
-    public async Task<ServiceResult<string>> GetProductsAsync(string url)    
-    {    
-        await AttachAccessTokenToHeader();    
-    
-        HttpResponseMessage response;    
-        try    
-        {    
-            response = await _storeHttpClient.GetAsync(url);    
-            response.EnsureSuccessStatusCode();    
-        }    
-        catch (HttpRequestException e)    
-        {    
-            return new ServiceResult<string>    
-            {    
-                Content = null!,    
-                StatusCode = 500, // Server Error!    
-                Error = e.Message    
-            };    
-        }    
-    
-        return new ServiceResult<string>    
-        {    
-            Content =  await response.Content.ReadAsStringAsync(),    
-            StatusCode = (int)response.StatusCode,    
-            Error = string.Empty    
-        };    
-    }    
-}
-```
+**Dependencies**  
 
-```cs
-public class ProductsDaprClient    
-{    
-    private readonly DaprClient _daprClient;    
-    
-    public ProductsDaprClient(DaprClient daprClient)    
-    {    
-        _daprClient = daprClient;    
-    }    
-    
-    public async Task<GetProductsResponse> GetProductsAsync(    
-        string url,    
-        GetProductsCommand getProductsCommand,    
-        CancellationToken cancellationToken)    
-    {    
-        return await this._daprClient.    
-                  InvokeMethodAsync<GetProductsCommand, GetProductsResponse> ("storeapi",  url, getProductsCommand,    
-                  new HTTPExtension { Verb = HTTPVerb.Get },    
-                  cancellationToken);    
-    }    
-    
-    public async Task<GetProductsResponse> SearchProductsAsync(    
-        string url,    
-        SearchProductsCommand searchProductsCommand,    
-        CancellationToken cancellationToken)    
-    {    
-        return await this._daprClient.    
-            InvokeMethodAsync<SearchProductsCommand, GetProductsResponse>    
-            ("storeapi",    
-                url,    
-                searchProductsCommand,    
-                new HTTPExtension { Verb = HTTPVerb.Get },    
-                cancellationToken);    
-    }    
-    
-    public class GetProductsCommand    
-    {    
-        public int PageIndex { get; set; } = 1;    
-    
-        public int PageSize { get; set; } = 10;    
-    }    
-    
-    public class GetProductsResponse    
-    {    
-        public int TotalOfProducts { get; set; }    
-        public IEnumerable<ProductModel> Products { get; set; } = new ProductModel[0];    
-    }    
-    
-    public class SearchProductsCommand    
-    {    
-        public string Filter { get; set; } = string.Empty;    
-    
-        public int PageIndex { get; set; } = 1;    
-    
-        public int PageSize { get; set; } = 10;    
-    }    
-}
-```
+I have generated the architecture dependencies with Visual Studio 2019, and I have ordered them from the bottom to the top, as seen in the figure below.
 
-You can get the products with Dapr as following:   
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Dependencies.png" width="600">
 
-```cs
-// Do it with Dapr  
-try    
-{    
-  ProductsDaprClient.GetProductsResponse products =    
-    await ProductsDaprClient.GetProductsAsync("api/products",    
-      new ProductsDaprClient.GetProductsCommand { PageIndex = Page, PageSize = _pageSize },    
-      new CancellationToken());    
-    
-  _productsModel = new ProductsModel { Products = products.Products.ToList(), TotalOfProducts = products.TotalOfProducts };    
-}    
-catch (Exception e)    
-{    
-  // Todo just for Developers!    
-  _errorMessage = $"Error: {e.Message}";    
-  _productsModel = new ProductsModel(); ;    
-}`
-    
-`// Alternatively, do it with HTTP classic    
-var response = await ProductsService.GetProductsAsync(ProcessUrl());    
-    
-if (response.StatusCode == (int)System.Net.HttpStatusCode.OK)    
-{    
-  _productsModel = JsonSerializer    
-                                 .Deserialize<ProductsModel>(response.Content,    
-                                                            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });    
-}    
-else    
-{    
-  _errorMessage = $"Error: {response.Error}";    
-  _productsModel = new ProductsModel();    
-}
-```
+Currently, I am using the fantastic tool “NDepend”  to find code and architecture problems.
 
-**How can you test the modern shop?**
+**Clean Architecture**
+
+Clean Architecture is the key to Loosely-Coupled-Application. It allows you to decouple the application from the infrastructure completely.
+
+**Clean Architecture Separates**  
+
+•	User Interface
+•	Database
+•	Use Cases
+•	Domain
+
+*User interface*  
+
+Store.UI is the frontend of the shop, and it contains the shop user interface stuff. 
+
+*Database*
+Each service owns its database (StoreDb, BasketDb, OrderDb, UserDb). 
+
+*Use Cases*
+I have also divided each domain service into four parts or assemblies:
+
+*Business logic interfaces - Use cases*
+It contains the business logic interfaces; for example, StoreApplication.dll contains the interfaces for the  Store service.
+
+*Infrastructure*
+It contains the implementation of the use case or business logic.
+
+*Domain*
+It contains the Domains entities or POCOs.
+
+*API*
+It contains the Web API stuff.
+
+I have tried to keep the code as I can compact and readable. The core design concept is the separation of concerns in a clean way. 
+
+**The shop Software Architecture**  
+
+*Classic architectural style*  
+In the classic architectural style, I am using the classic domain-driven design and microservices design. Where each domain service calling the other service directly (Web API)
+
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
+Classic architectural style
+
+**Highly Scalable Design**  
+
+I am using the Dapr infrastructure in this style, for example, RabbitMQ - message bus, Redis for the state management, and other Dapr stuff, which allows me to achieve the highly scalable architecture.
+
+<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
+Highly Scalable Design
+
+**How can you test the Modern Shop?**
   
 **Required**   
 
@@ -298,6 +153,8 @@ If you already have a build installed and you want to update, replace install wi
 2. Execute the tye command     
 `tye run`   
 
-**Summary**  
+**Summary**
 
-Modern Architecture Shop is a clean-lightweight .NET and scalable application. Keep your eye on the Road Map (watch it on GitHub). The next version will contain a minimal feature set so that the user can add products to the basket and pay it. Recommendation service and all other AI services or features, I provide them later.
+Modern Architecture Shop is a clean-lightweight .NET and scalable application. Keep your eye on the Road Map (watch it on GitHub). The next version contains minimal features set so that you can pay an order with a Credit Card.
+The Shop manager service is also in my plan, which allows you to manage the shop users and administrators and the shop products. Recommendation service and all other AI services or features, I provide them later.
+
