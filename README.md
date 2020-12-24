@@ -55,31 +55,37 @@ Clean Architecture is the key to Loosely-Coupled-Application. It allows you to d
 
 **Clean Architecture Separates**  
 
-•	User Interface
-•	Database
-•	Use Cases
-•	Domain
+•	User Interface  
+•	Database  
+•	Use Cases  
+•	Domain  
 
 *User interface*  
 
 Store.UI is the frontend of the shop, and it contains the shop user interface stuff. 
 
 *Database*
+
 Each service owns its database (StoreDb, BasketDb, OrderDb, UserDb). 
 
-*Use Cases*
+*Use Cases*  
+
 I have also divided each domain service into four parts or assemblies:
 
-*Business logic interfaces - Use cases*
+*Business logic interfaces - Use cases*  
+
 It contains the business logic interfaces; for example, StoreApplication.dll contains the interfaces for the  Store service.
 
-*Infrastructure*
+*Infrastructure*  
+
 It contains the implementation of the use case or business logic.
 
-*Domain*
+*Domain*  
+
 It contains the Domains entities or POCOs.
 
-*API*
+*API*  
+
 It contains the Web API stuff.
 
 I have tried to keep the code as I can compact and readable. The core design concept is the separation of concerns in a clean way. 
@@ -87,17 +93,18 @@ I have tried to keep the code as I can compact and readable. The core design con
 **The shop Software Architecture**  
 
 *Classic architectural style*  
+
 In the classic architectural style, I am using the classic domain-driven design and microservices design. Where each domain service calling the other service directly (Web API)
 
 <img src="./docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
-Classic architectural style
+   Classic architectural style  
 
 **Highly Scalable Design**  
 
 I am using the Dapr infrastructure in this style, for example, RabbitMQ - message bus, Redis for the state management, and other Dapr stuff, which allows me to achieve the highly scalable architecture.
 
-<img src="./docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
-Highly Scalable Design
+<img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png" width="600">
+   Highly Scalable Design  
 
 **How can you test the Modern Shop?**
   
@@ -106,9 +113,9 @@ Highly Scalable Design
 https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-preview Visual Studio 2019
 https://www.docker.com/products/docker-desktop Docker Desktop
 
-**First Approach with Visual Studio**   
+**First Approach with Visual Studio**  
 
-Build and Start the Shop
+Build and Start the Shop  
 
 1. Install tye
 `dotnet tool install -g Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`
