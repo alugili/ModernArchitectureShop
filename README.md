@@ -10,7 +10,7 @@ Microservices Online shop is a Modern Architecture Shop that is cleanly designed
  
 **Login Service**  
 
-<img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_1.JPG" width="600">
+<img src="./docs/images/MicroservicesOnlineShop/Login_1.JPG" width="600">
 <img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_2.JPG" width="600">
 <img src="https://github.com/alugili/ModernArchitectureShop/tree/master/docs/images/MicroservicesOnlineShop/Login_3.JPG" width="600">
 
