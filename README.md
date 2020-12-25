@@ -95,14 +95,18 @@ I have tried to keep the code as I can compact and readable. The core design con
 *Classic architectural style*  
 
 In the classic architectural style, I am using the classic domain-driven design and microservices design. Where each domain service calling the other service directly (Web API)
+
 <img src="./docs/images/Modern-Architecture-Shop-Autoscaler/CA_Diagram.png" width="600">
-   Classic architectural style  
+
+     Classic architectural style
 
 **Highly Scalable Design**  
 
 I am using the Dapr infrastructure in this style, for example, RabbitMQ - message bus, Redis for the state management, and other Dapr stuff, which allows me to achieve the highly scalable architecture.
+
 <img src="./docs/images/MicroservicesOnlineShop/ModernArchitectureShop_Dapr.jpg" width="600">
-   Highly Scalable Design  
+
+      Highly Scalable Design  
 
 **How can you test the Modern Shop?**
   
